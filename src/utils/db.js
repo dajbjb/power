@@ -9,11 +9,21 @@ import {
   deleteDoc,
   deleteField
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { state } from "../state.js";
 import { SafeStorage } from "./storage.js";
-import { showPremiumToast, triggerLocalNotification } from "./helpers.js";
+import { showPremiumToast, triggerLocalNotification, setBgSyncing } from "./helpers.js";
 
 let db = null;
+
+const OWNER_EMAIL = 'wbddwd55@gmail.com';
+
+// Never persist transient placeholder roles (e.g. 'loading') to Firestore —
+// the security rules only accept 'user' on document creation.
+function resolveRole(email, fallbackRole) {
+  if (email && email.toLowerCase() === OWNER_EMAIL) return 'admin';
+  return (fallbackRole === 'admin' || fallbackRole === 'user') ? fallbackRole : 'user';
+}
 
 // Initialize and get the Firestore instance with persistent cache support
 export function getDb() {
@@ -36,7 +46,7 @@ export function getDb() {
     }
   } else if (!db && window.firebaseConfig && window.firebaseConfig.apiKey && window.firebaseConfig.apiKey !== "YOUR_API_KEY") {
     try {
-      if (!state.app && typeof initializeApp !== 'undefined') {
+      if (!state.app) {
         state.app = initializeApp(window.firebaseConfig);
       }
       if (state.app) {
@@ -182,7 +192,7 @@ export async function uploadLocalDataToCloud(uid) {
       } catch (err) {}
     }
 
-    const role = (email && email.toLowerCase() === 'wbddwd55@gmail.com') ? 'admin' : (state.userRole || 'user');
+    const role = resolveRole(email, state.userRole);
     state.userRole = role;
 
     await setDoc(docRef, {
@@ -209,10 +219,11 @@ export async function syncUserSession(uid, isManual = false) {
   if (!state.cloudSyncEnabled && !isManual) {
     console.log("Cloud sync is disabled. Skipping user session sync.");
     const email = state.currentUser ? state.currentUser.email : "";
-    state.userRole = (email && email.toLowerCase() === 'wbddwd55@gmail.com') ? 'admin' : 'user';
+    state.userRole = resolveRole(email, state.userRole);
     return;
   }
   
+  state.isBackgroundSyncing = true;
   setBgSyncing(true, 'מסנכרן תרגילים ונתונים מהענן... ☁️');
 
   try {
@@ -228,7 +239,7 @@ export async function syncUserSession(uid, isManual = false) {
     // Determine profile and role
     const email = state.currentUser ? state.currentUser.email : "";
     const displayName = state.currentUser ? state.currentUser.displayName : "";
-    const role = (email && email.toLowerCase() === 'wbddwd55@gmail.com') ? 'admin' : (cloudData?.role || 'user');
+    const role = resolveRole(email, cloudData?.role);
     state.userRole = role;
 
     if (!cloudData) {
@@ -250,6 +261,12 @@ export async function syncUserSession(uid, isManual = false) {
 
     if (!isManual) {
       showPremiumToast("מסנכרן שינויים מהענן... ⚡", "info");
+    }
+
+    // Adopt the cloud copy of the sync preferences so they follow the user across devices
+    if (cloudData.cloudSyncToggles && typeof cloudData.cloudSyncToggles === 'object') {
+      state.cloudSyncToggles = { ...(state.cloudSyncToggles || {}), ...cloudData.cloudSyncToggles };
+      SafeStorage.setItem('aura-cloud-sync-toggles', JSON.stringify(state.cloudSyncToggles));
     }
 
     const toggles = state.cloudSyncToggles || {};
@@ -466,7 +483,10 @@ export async function syncUserSession(uid, isManual = false) {
     }
     throw error;
   } finally {
+    state.isBackgroundSyncing = false;
     setBgSyncing(false);
+    // Refresh any view that shows a "loading from cloud" placeholder
+    if (window.renderExercisePickerList) window.renderExercisePickerList();
   }
 }
 
@@ -493,7 +513,16 @@ export async function deleteSpecificCloudItem(uid, categoryKey, itemKey) {
   let updatedData;
 
   if (Array.isArray(categoryData)) {
-    updatedData = categoryData.filter(item => String(item.id) !== String(itemKey) && String(item.name).toLowerCase() !== String(itemKey).toLowerCase());
+    const target = String(itemKey).toLowerCase();
+    updatedData = categoryData.filter(item => {
+      // Plain string arrays (e.g. favoriteExercises) are matched by value
+      if (typeof item === 'string') {
+        return item.toLowerCase() !== target;
+      }
+      if (item && item.id !== undefined && String(item.id) === String(itemKey)) return false;
+      if (item && item.name !== undefined && String(item.name).toLowerCase() === target) return false;
+      return true;
+    });
   } else if (typeof categoryData === 'object') {
     updatedData = { ...categoryData };
     delete updatedData[itemKey];
@@ -524,9 +553,10 @@ export async function deleteCloudDataOnly(uid) {
   const docRef = doc(firestoreDb, "users", uid);
   const email = state.currentUser ? state.currentUser.email : "";
   const displayName = state.currentUser ? state.currentUser.displayName : "";
-  const role = (email && email.toLowerCase() === 'wbddwd55@gmail.com') ? 'admin' : (state.userRole || 'user');
 
-  // Clear data fields using deleteField(), but strictly maintain profile, email, and role!
+  // Clear data fields using deleteField(). `role` is deliberately NOT written here:
+  // merge:true already preserves it, and recomputing it from state.userRole demoted
+  // any admin whose role had not finished resolving yet.
   await setDoc(docRef, {
     workoutHistory: deleteField(),
     activeWorkout: deleteField(),
@@ -539,7 +569,6 @@ export async function deleteCloudDataOnly(uid) {
     displaySettings: deleteField(),
     email,
     displayName,
-    role,
     updatedAt: Date.now()
   }, { merge: true });
   console.log(`Successfully reset user cloud data while preserving profile for: ${uid}`);

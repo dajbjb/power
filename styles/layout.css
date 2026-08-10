@@ -316,7 +316,12 @@ body.authenticated .workout-summary-modal.active {
   animation: avatar-pulse 2s infinite;
 }
 
-/* Visibility hide/show helper */
+/* Visibility hide/show helper.
+   NOTE: this deliberately uses `display: none`. An earlier attempt to swap it for
+   visibility/opacity on modal overlays (so their transitions could animate) kept all
+   20 full-viewport `.workout-modal-overlay` elements in the render tree and let their
+   modal-slide-in animations run on every page load. The cosmetic gain was not worth
+   the layout/compositing cost on mobile. */
 .hide {
   display: none !important;
   opacity: 0;

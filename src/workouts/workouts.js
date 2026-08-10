@@ -1,6 +1,6 @@
 import { state } from "../state.js";
 import { SafeStorage } from "../utils/storage.js";
-import { triggerLocalNotification, showPremiumToast, requestNotificationPermissionSafely } from "../utils/helpers.js";
+import { triggerLocalNotification, showPremiumToast, requestNotificationPermissionSafely, escapeHTML } from "../utils/helpers.js";
 import { saveFieldToCloud } from "../utils/db.js";
 import { getCustomIcon, getCategoryIcon, getLocationIcon, ICONS_MAP } from "../utils/icons.js";
 
@@ -622,7 +622,7 @@ export function renderLocationSelectorGrid() {
     tile.className = 'location-tile';
     tile.innerHTML = `
       <span class="tile-icon" style="display: flex; align-items: center; justify-content: center; color: var(--electric-blue-light);">${getCustomIcon(loc.emoji || 'gym')}</span>
-      <span class="tile-label">${loc.name}</span>
+      <span class="tile-label">${escapeHTML(loc.name)}</span>
     `;
     tile.addEventListener('click', () => startNewWorkout(loc.id, loc.name, loc.emoji));
     container.appendChild(tile);
@@ -653,7 +653,7 @@ export function populateLocationSelects() {
       <option value="park">פארק</option>
     `;
     state.customLocations.forEach(loc => {
-      filterSelect.innerHTML += `<option value="${loc.id}">${loc.name}</option>`;
+      filterSelect.innerHTML += `<option value="${escapeHTML(loc.id)}">${escapeHTML(loc.name)}</option>`;
     });
   }
   if (scheduleSelect) {
@@ -662,7 +662,7 @@ export function populateLocationSelects() {
       <option value="park">פארק</option>
     `;
     state.customLocations.forEach(loc => {
-      scheduleSelect.innerHTML += `<option value="${loc.id}">${loc.name}</option>`;
+      scheduleSelect.innerHTML += `<option value="${escapeHTML(loc.id)}">${escapeHTML(loc.name)}</option>`;
     });
     scheduleSelect.innerHTML += `<option value="custom">סוג אימון מותאם אישית...</option>`;
   }
@@ -877,10 +877,10 @@ export function renderExercisePickerList() {
     item.innerHTML = `
       <div class="ex-list-info">
         ${iconSvg}
-        <span class="ex-list-name">${ex.name}</span>
+        <span class="ex-list-name">${escapeHTML(ex.name)}</span>
       </div>
       <div class="ex-list-right">
-        <span class="ex-category-badge" style="background: ${catStyle.bg}; color: ${catStyle.color};">${ex.category || 'תרגיל'}</span>
+        <span class="ex-category-badge" style="background: ${catStyle.bg}; color: ${catStyle.color};">${escapeHTML(ex.category || 'תרגיל')}</span>
         <span class="ex-list-arrow">←</span>
       </div>
     `;
@@ -1011,11 +1011,14 @@ export function renderExercises() {
   const finishWorkoutBtn = document.getElementById('finish-workout-btn');
   
   if (hasUncompleted) {
+    // Only the "add exercise" action is blocked while an exercise is still open.
+    // "Finish workout" must always stay reachable, otherwise a user with an open
+    // exercise has no way at all to close the session.
     if (addExerciseBtn) {
       addExerciseBtn.classList.add('hide');
     }
     if (finishWorkoutBtn) {
-      finishWorkoutBtn.classList.add('hide');
+      finishWorkoutBtn.classList.remove('hide');
     }
   } else {
     if (addExerciseBtn) {
@@ -1405,6 +1408,23 @@ export function renderExercises() {
 }
 
 // REST TIMER ENGINE
+
+// Single source of truth for the countdown tick. This logic previously existed as three
+// byte-identical copies (start / recover / +30s), which is how they drifted apart.
+function beginRestTimerTick() {
+  if (state.restTimerInterval) return;
+  state.restTimerInterval = setInterval(() => {
+    state.restTimerSecondsLeft--;
+    if (state.restTimerSecondsLeft <= 0) {
+      state.restTimerSecondsLeft = 0;
+      updateRestTimerUI();
+      handleRestTimerExpiration();
+    } else {
+      updateRestTimerUI();
+    }
+  }, 1000);
+}
+
 export function startRestTimer(seconds = 90) {
   stopRestTimer();
 
@@ -1440,16 +1460,7 @@ export function startRestTimer(seconds = 90) {
     });
   }
 
-  state.restTimerInterval = setInterval(() => {
-    state.restTimerSecondsLeft--;
-    if (state.restTimerSecondsLeft <= 0) {
-      state.restTimerSecondsLeft = 0;
-      updateRestTimerUI();
-      handleRestTimerExpiration();
-    } else {
-      updateRestTimerUI();
-    }
-  }, 1000);
+  beginRestTimerTick();
 }
 
 export function stopRestTimer() {
@@ -1522,16 +1533,7 @@ export function recoverRestTimer() {
         quoteEl.textContent = `"${HEBREW_QUOTES[randIdx]}"`;
       }
 
-      state.restTimerInterval = setInterval(() => {
-        state.restTimerSecondsLeft--;
-        if (state.restTimerSecondsLeft <= 0) {
-          state.restTimerSecondsLeft = 0;
-          updateRestTimerUI();
-          handleRestTimerExpiration();
-        } else {
-          updateRestTimerUI();
-        }
-      }, 1000);
+      beginRestTimerTick();
     }
   } else {
     // Timer expired while app was closed / backgrounded
@@ -1827,7 +1829,7 @@ export function openEditModal(workoutId) {
     const dispName = state.editingWorkout.locationName || (state.editingWorkout.location === 'gym' ? 'חדר כושר' : 'פארק');
     const dispEmoji = state.editingWorkout.locationEmoji || (state.editingWorkout.location === 'gym' ? '🏋️‍♂️' : '🌳');
     metaContainer.innerHTML = `
-      <div>📍 <strong>${dispEmoji} ${dispName}</strong></div>
+      <div>📍 <strong>${escapeHTML(dispEmoji)} ${escapeHTML(dispName)}</strong></div>
       <div>⏱️ משך: <strong>${durationText}</strong></div>
       <div>📅 תאריך: <strong>${dateText}</strong></div>
     `;
@@ -2072,7 +2074,12 @@ let runPolylines = [];
 let userMarker = null;
 let gpsWatchId = null;
 let telemetryTimerId = null;
+let telemetryLastTickAt = null;
+let telemetryCarryMs = 0;
 let wakeLock = null;
+
+// Readings less accurate than this (in metres) are treated as drift and discarded.
+const GPS_ACCURACY_LIMIT_M = 50;
 let silentAudioPlayer = null;
 
 function showGPSDiagnosticModal() {
@@ -2164,6 +2171,12 @@ async function requestWakeLock() {
   try {
     if ('wakeLock' in navigator) {
       wakeLock = await navigator.wakeLock.request('screen');
+      // The OS drops the lock silently when the page is hidden. Without this listener
+      // the sentinel stays non-null forever and it is never re-acquired.
+      wakeLock.addEventListener('release', () => {
+        wakeLock = null;
+        console.log('Wake Lock was released by the system');
+      });
       console.log('Wake Lock acquired');
     }
   } catch (err) {
@@ -2171,12 +2184,23 @@ async function requestWakeLock() {
   }
 }
 
+// The OS silently releases the wake lock whenever the page is hidden, so re-acquire
+// it when the user comes back while a run is still being tracked.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && state.isTrackingRun && wakeLock === null) {
+    requestWakeLock();
+  }
+});
+
 // Release screen wake lock
 function releaseWakeLock() {
   if (wakeLock !== null) {
     wakeLock.release().then(() => {
       wakeLock = null;
       console.log('Wake Lock released');
+    }).catch(err => {
+      wakeLock = null;
+      console.warn('Wake Lock release failed:', err);
     });
   }
 }
@@ -2185,6 +2209,12 @@ function releaseWakeLock() {
 function initTrackerMap() {
   const mapContainer = document.getElementById('run-tracker-map');
   if (!mapContainer) return;
+
+  if (typeof L === 'undefined') {
+    console.warn("Leaflet.js is not loaded - the run map will stay empty, tracking still works.");
+    mapContainer.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; height:100%; color:var(--text-muted); font-size:0.85rem; text-align:center; padding:12px; direction:rtl;">המפה לא נטענה (אין חיבור לרשת). המעקב ממשיך לפעול כרגיל.</div>';
+    return;
+  }
 
   if (!runTrackerMap) {
     // Center map on Israel [31.5, 34.8] with zoom level 8
@@ -2327,8 +2357,9 @@ function stopGPSWatcher() {
 function handleGPSReading(position) {
   const { latitude, longitude, accuracy } = position.coords;
 
-  // Filter GPS drift: ignore accuracy > 20 meters
-  if (accuracy > 20) {
+  // Filter GPS drift. 20m rejected almost every reading on a normal phone in a city
+  // (typical urban accuracy is 20-65m), so distance stayed at 0 for most users.
+  if (accuracy > GPS_ACCURACY_LIMIT_M) {
     console.log("GPS accuracy too poor, ignoring:", accuracy);
     return;
   }
@@ -2480,21 +2511,44 @@ function startTelemetryTimer() {
     clearInterval(telemetryTimerId);
   }
 
+  // Measure elapsed wall-clock time rather than counting ticks: browsers throttle
+  // timers heavily once the app is backgrounded or the screen is off, which used to
+  // make recorded durations (and therefore pace) far shorter than reality.
+  telemetryLastTickAt = Date.now();
+  telemetryCarryMs = 0;
+
   telemetryTimerId = setInterval(() => {
-    if (state.isTrackingRun && !state.isRunPaused) {
-      state.runTrackerMetrics.totalDuration++;
+    const now = Date.now();
+    let deltaMs = now - telemetryLastTickAt;
+    telemetryLastTickAt = now;
 
-      if (state.runTrackerState === "run") {
-        state.runTrackerMetrics.runDuration++;
-      } else if (state.runTrackerState === "walk") {
-        state.runTrackerMetrics.walkDuration++;
-      } else if (state.runTrackerState === "rest") {
-        state.runTrackerMetrics.restDuration++;
-      }
+    if (deltaMs < 0) deltaMs = 0; // clock moved backwards (NTP correction)
 
-      updateTrackerUI();
-      saveRunSessionState();
+    if (!state.isTrackingRun || state.isRunPaused) {
+      telemetryCarryMs = 0;
+      return;
     }
+
+    // Carry the sub-second remainder forward instead of rounding it away, otherwise a
+    // consistently late timer (busy main thread, backgrounded tab) loses ~30% of the
+    // elapsed time and the derived pace comes out wrong.
+    telemetryCarryMs += deltaMs;
+    const elapsed = Math.floor(telemetryCarryMs / 1000);
+    if (elapsed <= 0) return;
+    telemetryCarryMs -= elapsed * 1000;
+
+    state.runTrackerMetrics.totalDuration += elapsed;
+
+    if (state.runTrackerState === "run") {
+      state.runTrackerMetrics.runDuration += elapsed;
+    } else if (state.runTrackerState === "walk") {
+      state.runTrackerMetrics.walkDuration += elapsed;
+    } else if (state.runTrackerState === "rest") {
+      state.runTrackerMetrics.restDuration += elapsed;
+    }
+
+    updateTrackerUI();
+    saveRunSessionState();
   }, 1000);
 }
 
@@ -2504,6 +2558,8 @@ function stopTelemetryTimer() {
     clearInterval(telemetryTimerId);
     telemetryTimerId = null;
   }
+  telemetryLastTickAt = null;
+  telemetryCarryMs = 0;
 }
 
 // Helper to format Pace (min/km)
@@ -3145,6 +3201,8 @@ export function initWorkoutsModule() {
       };
       
       state.customExercises.push(newEx);
+      // metrics.js memoises name -> exercise; this in-place push must invalidate it
+      if (window.invalidateExerciseLookupCache) window.invalidateExerciseLookupCache();
       if (state.currentUser) {
         SafeStorage.setItem(`aura-custom-exercises_${state.currentUser.uid}`, JSON.stringify(state.customExercises));
         saveFieldToCloud("customExercises", state.customExercises);
@@ -3279,19 +3337,15 @@ export function initWorkoutsModule() {
   if (addExerciseBtn) {
     addExerciseBtn.addEventListener('click', () => {
       if (!state.activeWorkout) return;
-      
-      state.activeWorkout.exercises = state.activeWorkout.exercises.filter(ex => {
-        return ex.sets.some(s => s.completed);
-      });
-      saveActiveWorkoutState();
-      renderExercises();
-      
+
+      // Do NOT silently drop exercises that have no completed set yet — the user may
+      // simply not have logged the first set. Just ask them to close the open one.
       const hasActive = state.activeWorkout.exercises.some(ex => !ex.completed);
       if (hasActive) {
-        alert('נא לסיים את התרגיל הנוכחי לפני הוספת תרגיל חדש.');
+        showPremiumToast('נא לסיים את התרגיל הנוכחי לפני הוספת תרגיל חדש.', 'info');
         return;
       }
-      
+
       if (pickerModal) {
         pickerModal.classList.remove('hide');
         const searchInput = document.getElementById('exercise-search-input');
@@ -3492,11 +3546,10 @@ export function initWorkoutsModule() {
   }
 
   // Rest Timer Interactive Elements
-  const closeRestBtn = document.getElementById('close-rest-timer-btn');
   const plus30Btn = document.getElementById('rest-timer-plus-30');
   const minus30Btn = document.getElementById('rest-timer-minus-30');
 
-  if (closeRestBtn) closeRestBtn.addEventListener('click', stopRestTimer);
+  // NOTE: #close-rest-timer-btn is bound once in initRestTimerInteraction() below.
 
   if (plus30Btn) {
     plus30Btn.addEventListener('click', () => {
@@ -3509,16 +3562,7 @@ export function initWorkoutsModule() {
         const bubble = document.getElementById('rest-timer-bubble');
         if (bubble) bubble.classList.remove('expired');
         
-        state.restTimerInterval = setInterval(() => {
-          state.restTimerSecondsLeft--;
-          if (state.restTimerSecondsLeft <= 0) {
-            state.restTimerSecondsLeft = 0;
-            updateRestTimerUI();
-            handleRestTimerExpiration();
-          } else {
-            updateRestTimerUI();
-          }
-        }, 1000);
+        beginRestTimerTick();
       }
       updateRestTimerUI();
     });

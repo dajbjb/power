@@ -1,6 +1,6 @@
 import { state } from "../state.js";
 import { SafeStorage } from "../utils/storage.js";
-import { triggerLocalNotification, showAuraToast, safeFormatDate, requestNotificationPermissionSafely } from "../utils/helpers.js";
+import { triggerLocalNotification, showAuraToast, safeFormatDate, requestNotificationPermissionSafely, escapeHTML } from "../utils/helpers.js";
 import { getAllExercises, isSystemExercise, GYM_EXERCISES, PARK_EXERCISES, openEditModal, saveActiveWorkoutState, getExerciseDefaults, saveExerciseDefaults } from "../workouts/workouts.js";
 import { saveFieldToCloud } from "../utils/db.js";
 import { getCustomIcon, ICONS_MAP } from "../utils/icons.js";
@@ -16,6 +16,40 @@ const HEBREW_QUOTES = [
   "הפוך את התירוצים שלך לתוצאות בקצה הברזל! 🔥",
   "המנוחה מכינה אותך לסט המושלם הבא. תתרכז! 🎯"
 ];
+
+// getAllExercises() rebuilds a Set and a merged array on every call, and the render
+// paths below call it once per exercise per workout. Memoise the name lookup, keyed off
+// the identity of the custom-exercise array so it self-invalidates when that changes.
+let _exerciseLookupCache = null;
+let _exerciseLookupRef = null;
+let _exerciseLookupVersion = -1;
+
+function getExerciseByName(name) {
+  // Keyed on BOTH the array identity (covers reassignment, e.g. after a cloud merge)
+  // and an explicit version counter (covers in-place push/rename, which leaves the
+  // identity untouched). Getting this wrong silently reports every custom exercise
+  // as category 'אחר', so the invalidation must be conservative.
+  if (_exerciseLookupCache === null ||
+      _exerciseLookupRef !== state.customExercises ||
+      _exerciseLookupVersion !== window.__auraExerciseVersion) {
+    _exerciseLookupRef = state.customExercises;
+    _exerciseLookupVersion = window.__auraExerciseVersion;
+    _exerciseLookupCache = new Map();
+    getAllExercises().forEach(ex => _exerciseLookupCache.set(ex.name, ex));
+  }
+  return _exerciseLookupCache.get(name) || null;
+}
+
+// Must be called by anything that mutates state.customExercises in place.
+// Exposed on window because workouts.js also mutates the list and importing
+// metrics.js from workouts.js would close an import cycle.
+export function invalidateExerciseLookupCache() {
+  window.__auraExerciseVersion = (window.__auraExerciseVersion || 0) + 1;
+  _exerciseLookupCache = null;
+  _exerciseLookupRef = null;
+}
+window.__auraExerciseVersion = 0;
+window.invalidateExerciseLookupCache = invalidateExerciseLookupCache;
 
 // Future Workouts LocalStorage Handlers
 export function getFutureWorkouts() {
@@ -77,11 +111,13 @@ export function startFutureWorkoutReminderChecker() {
 
     if (updated) {
       saveFutureWorkouts(futureWorkouts);
-      if (state.activeSubTab === 'calendar') {
+      // Only the repaint is skipped while backgrounded - the notification above is the
+      // whole point of this checker and must still fire.
+      if (state.activeSubTab === 'calendar' && document.visibilityState === 'visible') {
         renderCalendarView();
       }
     }
-  }, 15000);
+  }, 60000);
 }
 
 // History Filters Manager
@@ -119,7 +155,7 @@ export function getFilteredHistory(ignoreFilters = false) {
     result = result.filter(w => {
       return w.exercises && w.exercises.some(ex => {
         let cat = 'אחר';
-        const matched = getAllExercises().find(x => x.name === ex.name);
+        const matched = getExerciseByName(ex.name);
         if (matched) cat = matched.category || 'אחר';
         return cat === state.filterMuscleGroup;
       });
@@ -129,187 +165,8 @@ export function getFilteredHistory(ignoreFilters = false) {
   return result.sort((a, b) => b.date - a.date);
 }
 
-// Draw Bezier curves progression SVG graph
-export function renderExerciseAnalyticsDashboard() {
-  if (!state.selectedAnalyticsExercise) return;
-
-  const filteredHistory = getFilteredHistory();
-  const exerciseSessions = [];
-  const chronological = [...filteredHistory].sort((a, b) => a.date - b.date);
-
-  chronological.forEach(w => {
-    if (!w.exercises) return;
-    const ex = w.exercises.find(e => e.name === state.selectedAnalyticsExercise);
-    if (ex && ex.sets && ex.sets.some(s => s.completed)) {
-      exerciseSessions.push({
-        date: new Date(w.date),
-        sets: ex.sets.filter(s => s.completed),
-        metricType: ex.metricType || 'both'
-      });
-    }
-  });
-
-  const chartSvg = document.getElementById('bezier-chart-svg');
-  const noDataEl = document.getElementById('chart-no-data');
-  const prEl = document.getElementById('dashboard-pr-value');
-  const rmEl = document.getElementById('dashboard-1rm-value');
-  const volEl = document.getElementById('dashboard-vol-value');
-
-  if (!chartSvg) return;
-
-  if (exerciseSessions.length === 0) {
-    if (noDataEl) noDataEl.style.display = 'flex';
-    if (prEl) prEl.textContent = '--';
-    if (rmEl) rmEl.textContent = '--';
-    if (volEl) volEl.textContent = '--';
-    
-    const areaPath = document.getElementById('chart-area-path');
-    const linePath = document.getElementById('chart-line-path');
-    const pointsGroup = document.getElementById('chart-points-group');
-    const gridlines = document.getElementById('chart-gridlines');
-    if (areaPath) areaPath.setAttribute('d', '');
-    if (linePath) linePath.setAttribute('d', '');
-    if (pointsGroup) pointsGroup.innerHTML = '';
-    if (gridlines) gridlines.innerHTML = '';
-    return;
-  }
-
-  if (noDataEl) noDataEl.style.display = 'none';
-
-  let maxWeight = 0;
-  let max1RM = 0;
-  let totalVolume = 0;
-  const points = [];
-
-  exerciseSessions.forEach(session => {
-    let sessionMaxWeight = 0;
-    let sessionMax1RM = 0;
-    let sessionVolume = 0;
-
-    session.sets.forEach(s => {
-      const w = parseFloat(s.weight) || 0;
-      const r = parseInt(s.reps, 10) || 0;
-
-      if (w > sessionMaxWeight) sessionMaxWeight = w;
-      const oneRM = r === 1 ? w : w * (1 + r / 30);
-      if (oneRM > sessionMax1RM) sessionMax1RM = oneRM;
-      sessionVolume += (w * r);
-    });
-
-    totalVolume += sessionVolume;
-    if (sessionMaxWeight > maxWeight) maxWeight = sessionMaxWeight;
-    if (sessionMax1RM > max1RM) max1RM = sessionMax1RM;
-
-    let yValue = 0;
-    if (state.activeChartType === '1rm') {
-      yValue = sessionMax1RM;
-    } else if (state.activeChartType === 'weight') {
-      yValue = sessionMaxWeight;
-    } else {
-      yValue = sessionVolume;
-    }
-
-    points.push({
-      date: session.date,
-      value: yValue
-    });
-  });
-
-  if (prEl) prEl.textContent = `${maxWeight} ק״ג`;
-  if (rmEl) rmEl.textContent = `${Math.round(max1RM)} ק״ג`;
-  if (volEl) volEl.textContent = `${totalVolume.toLocaleString()} ק״ג`;
-
-  const width = chartSvg.clientWidth || 320;
-  const height = chartSvg.clientHeight || 160;
-
-  const paddingX = 30;
-  const paddingY = 20;
-
-  const minVal = Math.min(...points.map(p => p.value)) * 0.9;
-  const maxVal = Math.max(...points.map(p => p.value)) * 1.1 || 100;
-  const valRange = (maxVal - minVal) || 1;
-
-  const svgCoords = points.map((p, idx) => {
-    const x = points.length > 1 
-      ? paddingX + (idx / (points.length - 1)) * (width - 2 * paddingX)
-      : width / 2;
-    const y = height - paddingY - ((p.value - minVal) / valRange) * (height - 2 * paddingY);
-    return { x, y, val: p.value, date: p.date };
-  });
-
-  let dLine = '';
-  let dArea = '';
-
-  if (svgCoords.length === 1) {
-    const c = svgCoords[0];
-    dLine = `M ${c.x - 10} ${c.y} L ${c.x + 10} ${c.y}`;
-    dArea = `M ${c.x - 10} ${c.y} L ${c.x + 10} ${c.y} L ${c.x + 10} ${height} L ${c.x - 10} ${height} Z`;
-  } else {
-    dLine = `M ${svgCoords[0].x} ${svgCoords[0].y}`;
-    for (let i = 0; i < svgCoords.length - 1; i++) {
-      const curr = svgCoords[i];
-      const next = svgCoords[i + 1];
-      const cpX1 = curr.x + (next.x - curr.x) / 3;
-      const cpY1 = curr.y;
-      const cpX2 = curr.x + 2 * (next.x - curr.x) / 3;
-      const cpY2 = next.y;
-      dLine += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${next.x} ${next.y}`;
-    }
-    dArea = dLine + ` L ${svgCoords[svgCoords.length - 1].x} ${height} L ${svgCoords[0].x} ${height} Z`;
-  }
-
-  const areaPath = document.getElementById('chart-area-path');
-  const linePath = document.getElementById('chart-line-path');
-  const pointsGroup = document.getElementById('chart-points-group');
-  const gridlines = document.getElementById('chart-gridlines');
-
-  if (areaPath) areaPath.setAttribute('d', dArea);
-  if (linePath) {
-    linePath.setAttribute('d', dLine);
-    linePath.style.stroke = 'var(--electric-blue-light)';
-    linePath.style.strokeWidth = '3';
-    linePath.style.fill = 'none';
-  }
-
-  if (gridlines) {
-    gridlines.innerHTML = '';
-    for (let i = 0; i < 3; i++) {
-      const y = paddingY + (i / 2) * (height - 2 * paddingY);
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', '0');
-      line.setAttribute('y1', y);
-      line.setAttribute('x2', width);
-      line.setAttribute('y2', y);
-      line.setAttribute('stroke', 'rgba(255, 255, 255, 0.05)');
-      line.setAttribute('stroke-dasharray', '4, 4');
-      gridlines.appendChild(line);
-    }
-  }
-
-  if (pointsGroup) {
-    pointsGroup.innerHTML = '';
-    svgCoords.forEach(c => {
-      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      circle.setAttribute('cx', c.x);
-      circle.setAttribute('cy', c.y);
-      circle.setAttribute('r', '5');
-      circle.setAttribute('fill', '#ffffff');
-      circle.setAttribute('stroke', 'var(--color-danger)');
-      circle.setAttribute('stroke-width', '2.5');
-      circle.style.cursor = 'pointer';
-
-      circle.addEventListener('mouseover', () => {
-        circle.setAttribute('r', '7');
-        const dateStr = c.date.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
-        circle.title = `${dateStr}: ${Math.round(c.val)} ק״ג`;
-      });
-      circle.addEventListener('mouseout', () => {
-        circle.setAttribute('r', '5');
-      });
-      pointsGroup.appendChild(circle);
-    });
-  }
-}
+// NOTE: renderExerciseAnalyticsDashboard() was removed in v1.9.0 — it targeted
+// #bezier-chart-svg / #chart-* / #dashboard-* which no longer exist in index.html.
 
 // Calendar View
 export function renderCalendarView() {
@@ -400,10 +257,11 @@ export function renderCalendarView() {
       dayCell.classList.add('has-future-workout');
       futures.forEach(f => {
         const dot = document.createElement('span');
+        // Scheduled workouts store the Hebrew display name (e.g. 'פארק'), not the 'gym'/'park' key
         const loc = (f.location || '').toLowerCase();
         let dotClass = 'workout-dot gym';
-        if (loc === 'park') dotClass = 'workout-dot park';
-        else if (loc === 'home') dotClass = 'workout-dot home';
+        if (loc === 'park' || loc.indexOf('פארק') !== -1) dotClass = 'workout-dot park';
+        else if (loc === 'home' || loc.indexOf('בית') !== -1) dotClass = 'workout-dot home';
         dot.className = dotClass;
         dot.style.border = '1px solid rgba(255, 255, 255, 0.4)';
         dotsContainer.appendChild(dot);
@@ -426,10 +284,10 @@ export function renderCalendarView() {
             return `
               <div style="padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 8px; direction: rtl; text-align: right;">
                 <div style="display: flex; justify-content: space-between; font-weight: 700; color: #fff;">
-                  <span>${w.locationEmoji || '🏋️'} ${w.locationName || 'אימון'}</span>
+                  <span>${escapeHTML(w.locationEmoji || '🏋️')} ${escapeHTML(w.locationName || 'אימון')}</span>
                   <span style="font-size: 0.8rem; color: var(--text-muted);">${timeStr} • ${duration} דק׳</span>
                 </div>
-                <button class="btn btn-secondary edit-past-workout-btn" data-id="${w.id}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important;">🛠️ ערוך אימון</button>
+                <button class="btn btn-secondary edit-past-workout-btn" data-id="${escapeHTML(w.id)}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important;">🛠️ ערוך אימון</button>
               </div>
             `;
           }).join('');
@@ -447,12 +305,12 @@ export function renderCalendarView() {
                   <span class="future-badge">${f.time}</span>
                 </div>
                 <div style="color: #e2e8f0; font-size: 0.85rem; margin-top: 4px;">
-                  מיקום: <strong>${displayLoc}</strong>
+                  מיקום: <strong>${escapeHTML(displayLoc)}</strong>
                 </div>
                 <div style="color: var(--text-muted); font-size: 0.78rem; margin-top: 2px;">
                   תזכורת: ${f.reminderMinutes === 0 ? 'בדיוק בזמן' : (f.reminderMinutes === 60 ? 'שעה לפני' : (f.reminderMinutes === 180 ? '3 שעות לפני' : f.reminderMinutes + ' דקות לפני'))}
                 </div>
-                <button class="btn btn-secondary cancel-future-btn" data-id="${f.id}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important; background: rgba(220,38,38,0.1) !important; border-color: rgba(220,38,38,0.2) !important; color: #fca5a5 !important;">❌ ביטול אימון</button>
+                <button class="btn btn-secondary cancel-future-btn" data-id="${escapeHTML(f.id)}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important; background: rgba(220,38,38,0.1) !important; border-color: rgba(220,38,38,0.2) !important; color: #fca5a5 !important;">❌ ביטול אימון</button>
               </div>
             `;
           }).join('');
@@ -553,8 +411,11 @@ export function renderHeatmapView() {
       rect.setAttribute('rx', '2');
       rect.setAttribute('fill', color);
       
+      // SVG ignores a `title` attribute; a <title> child element is what shows a tooltip.
       const formattedDate = currentDate.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
-      rect.setAttribute('title', `${formattedDate}: ${count} אימונים`);
+      const tooltip = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+      tooltip.textContent = `${formattedDate}: ${count} אימונים`;
+      rect.appendChild(tooltip);
 
       rect.addEventListener('mouseover', () => {
         rect.setAttribute('stroke', '#ffffff');
@@ -589,9 +450,10 @@ export function renderMuscleSplitView() {
     if (!w.exercises) return;
     w.exercises.forEach(ex => {
       let cat = 'אחר';
-      const matched = getAllExercises().find(x => x.name === ex.name);
+      const matched = getExerciseByName(ex.name);
       if (matched) cat = matched.category || 'אחר';
 
+      if (!Array.isArray(ex.sets)) return;
       ex.sets.forEach(s => {
         if (s.completed) {
           const w = parseFloat(s.weight) || 0;
@@ -627,7 +489,7 @@ export function renderMuscleSplitView() {
 
     barRow.innerHTML = `
       <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 4px; direction: rtl;">
-        <span>${muscle}</span>
+        <span>${escapeHTML(muscle)}</span>
         <span>${pct}% (${vol.toLocaleString()} ק״ג)</span>
       </div>
       <div class="progress-bar-track" style="width: 100%; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
@@ -826,185 +688,8 @@ export function renderAerobicAnalyticsCard(timeframe = '30') {
 
 window.renderAerobicAnalyticsCard = renderAerobicAnalyticsCard;
 
-// Helper to format exercise sets text nicely depending on metricType
-function formatExerciseSetsText(ex) {
-  const firstGpsSet = ex.sets && ex.sets.find(s => s.distance !== undefined);
-  if (firstGpsSet) {
-    const km = (firstGpsSet.distance / 1000).toFixed(2);
-    const hrs = Math.floor(firstGpsSet.time / 3600);
-    const mins = Math.floor((firstGpsSet.time % 3600) / 60);
-    const secs = firstGpsSet.time % 60;
-    const timeStr = hrs > 0 ? `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}` : `${mins}:${String(secs).padStart(2, '0')}`;
-    return `🏃 ${km} ק״מ ב-${timeStr}`;
-  }
-
-  const showWeight = ex.metrics ? ex.metrics.includes('weight') : (ex.metricType === 'both' || ex.metricType === 'weight' || !ex.metricType);
-  const showReps = ex.metrics ? ex.metrics.includes('reps') : (ex.metricType === 'both' || ex.metricType === 'reps' || !ex.metricType);
-  const showTime = ex.metrics ? ex.metrics.includes('time') : (ex.metricType === 'time');
-  
-  return ex.sets.map(s => {
-    const parts = [];
-    if (showWeight) {
-      parts.push(`${s.weight || 0} ק״ג`);
-    }
-    if (showReps) {
-      parts.push(`${s.reps || 0} חזרות`);
-    }
-    if (showTime) {
-      parts.push(`${s.time || 0} ש׳`);
-    }
-    return parts.join(' × ');
-  }).join(', ');
-}
-
-// Historical workouts accordion list view
-export function renderAccordionHistoryView() {
-  const container = document.getElementById('accordion-history-container');
-  if (!container) return;
-
-  container.innerHTML = '';
-  const filtered = getFilteredHistory();
-
-  if (filtered.length === 0) {
-    container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 0.9rem; direction: rtl;">לא נמצאו אימונים התואמים את המסננים שבחרת.</div>';
-    return;
-  }
-
-  filtered.forEach(w => {
-    const card = document.createElement('div');
-    card.className = 'history-accordion-card';
-    card.style.cssText = 'background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; margin-bottom: 12px; padding: 12px 16px; cursor: pointer; transition: all 0.25s ease;';
-
-    const duration = w.duration ? Math.round(w.duration / 60) : 0;
-    const dateObj = new Date(w.date);
-    const dateStr = dateObj.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric', year: 'numeric' });
-
-    let totalVolume = 0;
-    let totalSets = 0;
-
-    w.exercises.forEach(ex => {
-      ex.sets.forEach(s => {
-        if (s.completed) {
-          totalSets++;
-          totalVolume += (parseFloat(s.weight) || 0) * (parseInt(s.reps, 10) || 0);
-        }
-      });
-    });
-
-    card.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 1.4rem;">${w.locationEmoji || '🏋️'}</span>
-          <div>
-            <h4 style="margin: 0; font-size: 0.98rem; font-weight: 800; color: #fff;">${w.locationName || 'אימון'}</h4>
-            <span style="font-size: 0.78rem; color: var(--text-muted);">${dateStr} • ${duration} דקות</span>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 0.82rem; font-weight: 700; color: var(--electric-blue-light);">${totalVolume.toLocaleString()} ק״ג</span>
-          <span class="accordion-arrow" style="font-size: 0.9rem; transition: transform 0.2s ease;">▼</span>
-        </div>
-      </div>
-      <div class="accordion-details hide" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); direction: rtl;">
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
-          ${w.exercises.map((ex, exIdx) => {
-            const exSetsText = formatExerciseSetsText(ex);
-            const gpsSet = ex.sets && ex.sets.find(s => s.segments && s.segments.length > 0);
-            if (gpsSet) {
-              const totalDist = ((gpsSet.distance || 0) / 1000).toFixed(2);
-              const runDist = ((gpsSet.runDistance || 0) / 1000).toFixed(2);
-              const walkDist = ((gpsSet.walkDistance || 0) / 1000).toFixed(2);
-              
-              const formatDurationHelper = (secs) => {
-                const h = Math.floor(secs / 3600);
-                const m = Math.floor((secs % 3600) / 60);
-                const s = secs % 60;
-                return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${m}:${String(s).padStart(2, '0')}`;
-              };
-
-              const totalDurationStr = formatDurationHelper(gpsSet.time || 0);
-              const runDurationStr = formatDurationHelper(gpsSet.runDuration || 0);
-              const walkDurationStr = formatDurationHelper(gpsSet.walkDuration || 0);
-              const restDurationStr = formatDurationHelper(gpsSet.restDuration || 0);
-
-              return `
-                <div style="font-size: 0.85rem; color: #e2e8f0; margin-bottom: 12px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 12px;">
-                  <div style="display: flex; justify-content: space-between; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; margin-bottom: 8px;">
-                    <span>• ${ex.name}</span>
-                    <span style="color: var(--electric-blue-light); direction: ltr; font-size: 0.8rem;">${exSetsText}</span>
-                  </div>
-                  
-                  <div class="gps-telemetry-dashboard" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; text-align: center; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.03);">
-                    <div>
-                      <div style="color: var(--text-muted);">מרחק כולל</div>
-                      <div style="font-weight: bold; color: #fff;">${totalDist} ק״מ</div>
-                      <div style="font-size: 0.65rem; color: var(--text-muted);">${totalDurationStr}</div>
-                    </div>
-                    <div>
-                      <div style="color: #ef4444;">🏃 ריצה</div>
-                      <div style="font-weight: bold; color: #fff;">${runDist} ק״מ</div>
-                      <div style="font-size: 0.65rem; color: var(--text-muted);">${runDurationStr}</div>
-                    </div>
-                    <div>
-                      <div style="color: #10b981;">🚶 הליכה</div>
-                      <div style="font-weight: bold; color: #fff;">${walkDist} ק״מ</div>
-                      <div style="font-size: 0.65rem; color: var(--text-muted);">${walkDurationStr}</div>
-                    </div>
-                  </div>
-                  
-                  <div style="text-align: center; margin-top: 6px; font-size: 0.7rem; color: #f59e0b;">🛑 מנוחה: ${restDurationStr}</div>
-                  
-                  <div id="history-map-${w.id}-${exIdx}" class="history-map-element" style="height: 180px; width: 100%; border-radius: 12px; overflow: hidden; position: relative; margin-top: 10px; background: rgba(0,0,0,0.2);" data-segments='${JSON.stringify(gpsSet.segments)}'></div>
-                </div>
-              `;
-            } else {
-              return `
-                <div style="font-size: 0.85rem; color: #e2e8f0; display: flex; justify-content: space-between; margin-bottom: 4px;">
-                  <span style="font-weight: 700;">• ${ex.name}</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem; direction: ltr;">[${exSetsText}]</span>
-                </div>
-              `;
-            }
-          }).join('')}
-        </div>
-        <button class="btn btn-secondary edit-w-accordion-btn" style="width: 100%; padding: 8px !important; font-size: 0.8rem !important; border-radius: 10px;">🛠️ ערוך פרטי אימון</button>
-      </div>
-    `;
-
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.edit-w-accordion-btn')) return;
-
-      const details = card.querySelector('.accordion-details');
-      const arrow = card.querySelector('.accordion-arrow');
-
-      if (details) {
-        if (details.classList.contains('hide')) {
-          details.classList.remove('hide');
-          if (arrow) arrow.style.transform = 'rotate(180deg)';
-          card.style.background = 'rgba(255,255,255,0.04)';
-          
-          setTimeout(() => {
-            initHistoryMaps(details);
-          }, 100);
-        } else {
-          details.classList.add('hide');
-          if (arrow) arrow.style.transform = 'rotate(0deg)';
-          card.style.background = 'rgba(255,255,255,0.02)';
-        }
-      }
-    });
-
-    const editBtn = card.querySelector('.edit-w-accordion-btn');
-    if (editBtn) {
-      editBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openEditModal(w.id);
-      });
-    }
-
-    container.appendChild(card);
-  });
-}
+// NOTE: renderAccordionHistoryView() + formatExerciseSetsText() were removed in v1.9.0 —
+// they targeted #accordion-history-container, which no longer exists in index.html.
 
 // Leaflet History Maps Logic
 let fullscreenMapInstance = null;
@@ -1854,7 +1539,7 @@ export function populateFilterDropdown(category, container, pill) {
       const optionEl = document.createElement('div');
       optionEl.className = `filter-dropdown-option ${state.filterLocation === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
-        <span>${opt.text}</span>
+        <span>${escapeHTML(opt.text)}</span>
         ${state.filterLocation === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
       `;
       optionEl.addEventListener('click', () => {
@@ -1878,7 +1563,7 @@ export function populateFilterDropdown(category, container, pill) {
       const optionEl = document.createElement('div');
       optionEl.className = `filter-dropdown-option ${state.filterTimeSelection === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
-        <span>${opt.text}</span>
+        <span>${escapeHTML(opt.text)}</span>
         ${state.filterTimeSelection === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
       `;
       optionEl.addEventListener('click', (e) => {
@@ -1902,7 +1587,7 @@ export function populateFilterDropdown(category, container, pill) {
       const optionEl = document.createElement('div');
       optionEl.className = `filter-dropdown-option ${state.filterMuscleGroup === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
-        <span>${opt.text}</span>
+        <span>${escapeHTML(opt.text)}</span>
         ${state.filterMuscleGroup === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
       `;
       optionEl.addEventListener('click', () => {
@@ -1922,7 +1607,7 @@ export function populateFilterDropdown(category, container, pill) {
       const optionEl = document.createElement('div');
       optionEl.className = `filter-dropdown-option ${state.filterSortSelection === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
-        <span>${opt.text}</span>
+        <span>${escapeHTML(opt.text)}</span>
         ${state.filterSortSelection === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
       `;
       optionEl.addEventListener('click', () => {
@@ -1960,7 +1645,7 @@ export function populateExercisesFilterDropdown(category, container, pill) {
     const optionEl = document.createElement('div');
     optionEl.className = `filter-dropdown-option ${selectedValue === opt.value ? 'selected' : ''}`;
     optionEl.innerHTML = `
-      <span>${opt.text}</span>
+      <span>${escapeHTML(opt.text)}</span>
       ${selectedValue === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
     `;
     optionEl.addEventListener('click', () => {
@@ -2119,6 +1804,7 @@ export function renderWorkoutsLog() {
         const maxT = maxTimes[ex.name] || 0;
         let exerciseHasPR = false;
 
+        if (!Array.isArray(ex.sets)) return;
         ex.sets.forEach(s => {
           if (s.completed) {
             totalSets++;
@@ -2202,11 +1888,11 @@ export function renderWorkoutsLog() {
     const muscleCounts = {};
     const muscleGroupsTrained = new Set();
 
-    w.exercises.forEach(ex => {
-      const compSetsCount = ex.sets.filter(s => s.completed).length;
+    (w.exercises || []).forEach(ex => {
+      const compSetsCount = (ex.sets || []).filter(s => s.completed).length;
       if (compSetsCount > 0) {
         let cat = 'אחר';
-        const matched = getAllExercises().find(x => x.name === ex.name);
+        const matched = getExerciseByName(ex.name);
         if (matched) cat = matched.category || 'אחר';
         
         muscleCounts[cat] = (muscleCounts[cat] || 0) + compSetsCount;
@@ -2223,8 +1909,8 @@ export function renderWorkoutsLog() {
       const count = muscleCounts[cat] || 0;
       const pct = totalCompSetsInW > 0 ? Math.round((count / totalCompSetsInW) * 100) : 0;
       return `
-        <span class="premium-muscle-badge" style="background: ${style.glow}; border: 1px solid ${style.color}; box-shadow: 0 0 10px ${style.glow};" title="${cat} (${pct}%)">
-          ${cat} (${pct}%)
+        <span class="premium-muscle-badge" style="background: ${style.glow}; border: 1px solid ${style.color}; box-shadow: 0 0 10px ${style.glow};" title="${escapeHTML(cat)} (${pct}%)">
+          ${escapeHTML(cat)} (${pct}%)
         </span>
       `;
     }).join('');
@@ -2233,8 +1919,8 @@ export function renderWorkoutsLog() {
     const compactInfoBarHtml = `
       <div class="premium-compact-info-bar">
         <div class="premium-info-item">
-          <span class="premium-info-icon">${dispEmoji}</span>
-          <span class="premium-info-text">${dispName}</span>
+          <span class="premium-info-icon">${escapeHTML(dispEmoji)}</span>
+          <span class="premium-info-text">${escapeHTML(dispName)}</span>
         </div>
         <div class="premium-info-divider"></div>
         <div class="premium-info-item">
@@ -2270,7 +1956,7 @@ export function renderWorkoutsLog() {
           return `
             <div class="premium-muscle-split-row">
               <div class="premium-muscle-split-meta">
-                <span class="premium-muscle-split-name" style="color: #ffffff; font-weight: 800;">${muscle}</span>
+                <span class="premium-muscle-split-name" style="color: #ffffff; font-weight: 800;">${escapeHTML(muscle)}</span>
                 <span class="premium-muscle-split-pct" style="color: ${style.color}; text-shadow: 0 0 5px ${style.glow}; font-weight: 800;">${pct}% <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">(${count} סטים)</span></span>
               </div>
               <div class="premium-muscle-split-track">
@@ -2294,9 +1980,9 @@ export function renderWorkoutsLog() {
     }
 
     // 5. Render premium exercise sub-cards
-    const premiumExercisesHtml = w.exercises.map(ex => {
+    const premiumExercisesHtml = (w.exercises || []).map(ex => {
       let cat = 'אחר';
-      const matched = getAllExercises().find(x => x.name === ex.name);
+      const matched = getExerciseByName(ex.name);
       if (matched) cat = matched.category || 'אחר';
 
       const muscleStyle = getMuscleCategoryStyle(cat);
@@ -2310,7 +1996,7 @@ export function renderWorkoutsLog() {
         w2.exercises && w2.exercises.some(e => e.name === ex.name && e.sets && e.sets.some(s => s.completed))
       );
 
-      const completedSets = ex.sets.filter(s => s.completed);
+      const completedSets = (ex.sets || []).filter(s => s.completed);
       const peakWeight = completedSets.length > 0 ? Math.max(...completedSets.map(s => parseFloat(s.weight) || 0)) : 0;
       const peakReps = completedSets.length > 0 ? Math.max(...completedSets.map(s => parseInt(s.reps, 10) || 0)) : 0;
       const peakTime = completedSets.length > 0 ? Math.max(...completedSets.map(s => parseInt(s.time, 10) || 0)) : 0;
@@ -2334,7 +2020,7 @@ export function renderWorkoutsLog() {
       let prevMaxT = 0;
       if (prevW) {
         const prevEx = prevW.exercises.find(e => e.name === ex.name);
-        const prevCompleted = prevEx ? prevEx.sets.filter(s => s.completed) : [];
+        const prevCompleted = (prevEx && Array.isArray(prevEx.sets)) ? prevEx.sets.filter(s => s.completed) : [];
         prevMaxW = prevCompleted.length > 0 ? Math.max(...prevCompleted.map(s => parseFloat(s.weight) || 0)) : 0;
         prevMaxR = prevCompleted.length > 0 ? Math.max(...prevCompleted.map(s => parseInt(s.reps, 10) || 0)) : 0;
         prevMaxT = prevCompleted.length > 0 ? Math.max(...prevCompleted.map(s => parseInt(s.time, 10) || 0)) : 0;
@@ -2406,8 +2092,8 @@ export function renderWorkoutsLog() {
           <div class="premium-exercise-accordion-header">
             <div class="premium-exercise-accordion-info">
               <div class="premium-exercise-name-row">
-                <span class="premium-exercise-name" style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">${ex.name}</span>
-                <span class="premium-exercise-cat-badge" style="background-color: ${muscleStyle.glow}; color: ${muscleStyle.color}; border: 1px solid rgba(255,255,255,0.08); font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 6px;">${cat}</span>
+                <span class="premium-exercise-name" style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">${escapeHTML(ex.name)}</span>
+                <span class="premium-exercise-cat-badge" style="background-color: ${muscleStyle.glow}; color: ${muscleStyle.color}; border: 1px solid rgba(255,255,255,0.08); font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 6px;">${escapeHTML(cat)}</span>
               </div>
               <div class="premium-exercise-sets-summary-row">${fullSummary}</div>
             </div>
@@ -2433,7 +2119,7 @@ export function renderWorkoutsLog() {
               </div>
 
               <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
-                <span class="premium-exercise-inspector-link" data-name="${ex.name}" style="color: var(--electric-blue-light); font-size: 0.78rem; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;">
+                <span class="premium-exercise-inspector-link" data-name="${escapeHTML(ex.name)}" style="color: var(--electric-blue-light); font-size: 0.78rem; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;">
                   ניתוח גרפים והיסטוריית PR 📈
                 </span>
               </div>
@@ -2446,9 +2132,9 @@ export function renderWorkoutsLog() {
     card.innerHTML = `
       <div class="workout-log-header">
         <div class="workout-log-location">
-          <span class="workout-log-emoji">${dispEmoji}</span>
+          <span class="workout-log-emoji">${escapeHTML(dispEmoji)}</span>
           <div>
-            <h4 class="workout-log-name">${dispName}</h4>
+            <h4 class="workout-log-name">${escapeHTML(dispName)}</h4>
           </div>
         </div>
         <div class="workout-log-stats">
@@ -2585,7 +2271,7 @@ export function renderExercisesLeaderboardModal() {
     const isTop3 = idx < 3;
     const rankStr = isTop3 ? ranks[idx] : `<span style="font-size: 1.1rem; font-weight: 800; color: var(--text-muted); width: 24px; text-align: center; display: inline-block;">${idx + 1}</span>`;
     const pct = Math.round((item.stats.timesPerformed / maxPerformed) * 100);
-    const emojiStr = item.ex.emoji ? `<span style="font-size: 1.2rem; margin-left: 6px;">${item.ex.emoji}</span>` : '💪';
+    const emojiStr = item.ex.emoji ? `<span style="font-size: 1.2rem; margin-left: 6px;">${escapeHTML(item.ex.emoji)}</span>` : '💪';
     
     const leaderItem = document.createElement('div');
     leaderItem.className = `modal-leader-item ${isTop3 ? tierClasses[idx] : ''}`;
@@ -2604,7 +2290,7 @@ export function renderExercisesLeaderboardModal() {
       <div class="leader-rank" style="min-width: 30px; display: flex; justify-content: center; align-items: center;">${rankStr}</div>
       <div class="leader-info" style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
         <span class="leader-name" style="font-size: 0.95rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 4px;">
-          ${emojiStr} ${item.ex.name}
+          ${emojiStr} ${escapeHTML(item.ex.name)}
         </span>
         <span class="leader-sub" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">
           בוצע ${item.stats.timesPerformed} פעמים | ${item.stats.totalSets} סטים | שיא: ${item.stats.maxWeight > 0 ? item.stats.maxWeight + ' ק״ג' : '--'}
@@ -2722,21 +2408,21 @@ export function renderExercisesManager() {
     card.className = 'exercise-manage-card-tab3';
     
     const catStyle = categoryColorsTab3[ex.category] || { bg: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)' };
-    const emojiStr = ex.emoji ? `<span class="ex-card-emoji-tab3">${ex.emoji}</span>` : '💪';
+    const emojiStr = ex.emoji ? `<span class="ex-card-emoji-tab3">${escapeHTML(ex.emoji)}</span>` : '💪';
     const isFav = state.favoriteExercises.includes(ex.name);
     
     card.innerHTML = `
       <div class="ex-card-info-tab3" style="text-align: right; direction: rtl; flex: 1;">
         <div class="ex-card-title-row">
           ${emojiStr}
-          <span class="ex-card-name-tab3">${ex.name}</span>
+          <span class="ex-card-name-tab3">${escapeHTML(ex.name)}</span>
         </div>
         <div class="ex-card-stats-tab3" style="margin-top: 4px;">
           בוצע ${stats.timesPerformed} פעמים • ${stats.totalSets} סטים
         </div>
       </div>
       <div class="ex-card-actions-tab3" style="display: flex; align-items: center; gap: 10px;">
-        <span class="ex-card-badge-tab3" style="background: ${catStyle.bg}; color: ${catStyle.color}; margin-left: 4px;">${ex.category || 'אחר'}</span>
+        <span class="ex-card-badge-tab3" style="background: ${catStyle.bg}; color: ${catStyle.color}; margin-left: 4px;">${escapeHTML(ex.category || 'אחר')}</span>
       </div>
     `;
 
@@ -2763,6 +2449,7 @@ export function renderExercisesManager() {
       }
       if (state.currentUser) {
         SafeStorage.setItem(`aura-favorite-exercises_${state.currentUser.uid}`, JSON.stringify(state.favoriteExercises));
+        saveFieldToCloud("favoriteExercises", state.favoriteExercises);
       }
       renderExercisesManager();
       if (typeof window.renderExercisePickerList === 'function') window.renderExercisePickerList();
@@ -2907,7 +2594,7 @@ export function updateInspectorStatistics(exerciseName) {
     }
     if (volCard) {
       const volLbl = volCard.querySelector('.stat-label');
-      if (volLbl) volLbl.textContent = 'ננפח אימון שיא 📊';
+      if (volLbl) volLbl.textContent = 'נפח אימון שיא 📊';
       volVal.textContent = peakVolume > 0 ? `${peakVolume} ק״ג` : '--';
     }
   }
@@ -3126,7 +2813,7 @@ export function openExerciseInspector(exerciseName) {
         const headerRow = document.createElement('div');
         headerRow.style.cssText = 'display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 4px; direction: rtl;';
         headerRow.innerHTML = `
-          <span>${session.workoutName}</span>
+          <span>${escapeHTML(session.workoutName)}</span>
           <span style="color: var(--text-muted); font-weight: 600; font-size: 0.8rem;">${dateStr}</span>
         `;
         sessionItem.appendChild(headerRow);
@@ -3484,6 +3171,7 @@ export function deleteGlobalExercise(exerciseName) {
 
   if (state.currentUser) {
     state.customExercises = state.customExercises.filter(ex => ex.name.trim().toLowerCase() !== exerciseName.trim().toLowerCase());
+    invalidateExerciseLookupCache();
     SafeStorage.setItem(`aura-custom-exercises_${state.currentUser.uid}`, JSON.stringify(state.customExercises));
     saveFieldToCloud("customExercises", state.customExercises);
   }
@@ -3531,6 +3219,7 @@ export function addGlobalExercise() {
 
   if (state.currentUser) {
     state.customExercises.push(newEx);
+    invalidateExerciseLookupCache();
     SafeStorage.setItem(`aura-custom-exercises_${state.currentUser.uid}`, JSON.stringify(state.customExercises));
     saveFieldToCloud("customExercises", state.customExercises);
   }
@@ -3619,6 +3308,7 @@ export function saveEditedGlobalExercise(oldName) {
       }
     });
     if (customFound) {
+      invalidateExerciseLookupCache();
       SafeStorage.setItem(`aura-custom-exercises_${state.currentUser.uid}`, JSON.stringify(state.customExercises));
       saveFieldToCloud("customExercises", state.customExercises);
     }
@@ -3922,37 +3612,6 @@ export function initAnalyticsTab() {
     };
   }
 
-  // Log book switcher
-  const logsSwitchBtns = document.querySelectorAll('#tab-analytics .logs-switch-btn');
-  logsSwitchBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      logsSwitchBtns.forEach(b => {
-        b.classList.remove('active');
-        b.style.background = 'transparent';
-        b.style.color = 'var(--text-muted)';
-      });
-      btn.classList.add('active');
-      btn.style.background = 'var(--electric-blue-light)';
-      btn.style.color = '#fff';
-
-      const subview = btn.dataset.subview;
-      state.activeLogsSubView = subview;
-
-      const calendarView = document.getElementById('analytics-calendar-view');
-      const historyListView = document.getElementById('analytics-history-list-view');
-
-      if (subview === 'calendar') {
-        if (calendarView) calendarView.classList.remove('hide');
-        if (historyListView) historyListView.classList.add('hide');
-        renderCalendarView();
-      } else {
-        if (calendarView) calendarView.classList.add('hide');
-        if (historyListView) historyListView.classList.remove('hide');
-        renderAccordionHistoryView();
-      }
-    });
-  });
-
   // Time filter chips listener removed (replaced by horizontal filters bar)
 
   const startD = document.getElementById('filter-start-date');
@@ -3984,82 +3643,6 @@ export function initAnalyticsTab() {
       renderAnalytics();
     });
   }
-
-  // Suggestions search picker
-  const searchInput = document.getElementById('analytics-exercise-search');
-  const dropdown = document.getElementById('analytics-suggestions-dropdown');
-  const clearBtn = document.getElementById('clear-dashboard-btn');
-
-  if (searchInput && dropdown) {
-    searchInput.addEventListener('input', () => {
-      const val = searchInput.value.trim().toLowerCase();
-      if (!val) {
-        dropdown.classList.add('hide');
-        return;
-      }
-
-      const set = new Set();
-      getAllExercises().forEach(e => set.add(e.name));
-      state.workoutHistory.forEach(w => {
-        if (w.exercises) w.exercises.forEach(e => set.add(e.name));
-      });
-
-      const matches = Array.from(set).filter(name => name.toLowerCase().includes(val));
-
-      if (matches.length === 0) {
-        dropdown.innerHTML = '<div style="padding: 10px; color: var(--text-muted); font-size: 0.85rem; text-align: right; direction: rtl;">לא נמצאו תרגילים מתאימים</div>';
-      } else {
-        dropdown.innerHTML = '';
-        matches.slice(0, 5).forEach(name => {
-          const item = document.createElement('div');
-          item.className = 'suggestion-item';
-          item.style.cssText = 'padding: 10px 14px; color: #fff; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-align: right; direction: rtl; border-bottom: 1px solid rgba(255,255,255,0.03);';
-          item.textContent = name;
-          item.addEventListener('click', () => {
-            state.selectedAnalyticsExercise = name;
-            searchInput.value = name;
-            dropdown.classList.add('hide');
-
-            const db = document.getElementById('analytics-exercise-dashboard');
-            const dbName = document.getElementById('dashboard-exercise-name');
-            if (db) db.classList.remove('hide');
-            if (dbName) dbName.textContent = name;
-
-            renderExerciseAnalyticsDashboard();
-          });
-          dropdown.appendChild(item);
-        });
-      }
-      dropdown.classList.remove('hide');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (e.target !== searchInput && e.target !== dropdown) {
-        dropdown.classList.add('hide');
-      }
-    });
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-      state.selectedAnalyticsExercise = null;
-      if (searchInput) searchInput.value = '';
-      const db = document.getElementById('analytics-exercise-dashboard');
-      if (db) db.classList.add('hide');
-    });
-  }
-
-  // Dashboard Chart Tabs Switcher
-  const chartTabs = document.querySelectorAll('#tab-analytics .chart-tab');
-  chartTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      chartTabs.forEach(x => x.classList.remove('active'));
-      tab.classList.add('active');
-
-      state.activeChartType = tab.dataset.chart;
-      renderExerciseAnalyticsDashboard();
-    });
-  });
 
   // Calendar monthly navigations
   const prevMonthBtn = document.getElementById('calendar-prev-month');
@@ -4498,6 +4081,7 @@ export function initAnalyticsTab() {
       }
       if (state.currentUser) {
         SafeStorage.setItem(`aura-favorite-exercises_${state.currentUser.uid}`, JSON.stringify(state.favoriteExercises));
+        saveFieldToCloud("favoriteExercises", state.favoriteExercises);
       }
       renderExercisesManager();
       if (typeof window.renderExercisePickerList === 'function') window.renderExercisePickerList();
@@ -4543,7 +4127,6 @@ export function initAnalyticsModule() {
   window.renderAnalytics = renderAnalytics;
   window.checkAndShowPreviousPerformance = checkAndShowPreviousPerformance;
   window.renderExercisesManager = renderExercisesManager;
-  window.renderAccordionHistoryView = renderAccordionHistoryView;
   window.renderWorkoutsLog = renderWorkoutsLog;
 }
 

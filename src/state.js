@@ -19,7 +19,11 @@ export const state = {
 
   // Navigation State
   lastActiveMainTab: 'settings',
+  previousTab: 'settings',
   activeSubTab: 'workouts',
+
+  // Background sync indicator, read by views that show a "loading from cloud" hint
+  isBackgroundSyncing: false,
 
   // Workouts State
   activeWorkout: null,
@@ -49,17 +53,18 @@ export const state = {
   filterEndDate: null,
   filterLocation: 'all',
   filterMuscleGroup: 'all',
-  selectedAnalyticsExercise: null,
-  activeChartType: '1rm',
   activeChartTypeTab3: '1rm',
   activeInspectorMetric: 'weight',
-  activeLogsSubView: 'calendar',
+  currentInspectorExercise: null,
+  aerobicTimeSelection: '30',
   currentCalendarDate: new Date(),
   filterSortSelection: 'date-desc',
   activeAnalyticsSegment: 'workouts', // Only workouts is supported now
 
   // Location-based Run Tracker State
   isTrackingRun: false,
+  isRunPaused: false,
+  activeRunExerciseIndex: null,
   runWatchPositionId: null,
   runTrackerState: "run", // "run" | "walk" | "rest"
   runTrackerSegments: [],

@@ -135,7 +135,7 @@ if ('serviceWorker' in navigator) {
 
 function showUpdateToast(waitingWorker) {
   const toast = document.getElementById('pwa-update-toast');
-  const refreshBtn = document.getElementById('pwa-refresh-btn');
+  let refreshBtn = document.getElementById('pwa-refresh-btn');
   
   if (toast && refreshBtn) {
     // Query the waiting worker for version and update description
@@ -153,6 +153,11 @@ function showUpdateToast(waitingWorker) {
     waitingWorker.postMessage({ action: 'getVersion' }, [messageChannel.port2]);
 
     toast.classList.add('show');
+    // Replace the node first: showUpdateToast can fire more than once per session, and
+    // stacking listeners made a single tap post the download message several times.
+    const freshBtn = refreshBtn.cloneNode(true);
+    refreshBtn.parentNode.replaceChild(freshBtn, refreshBtn);
+    refreshBtn = freshBtn;
     refreshBtn.addEventListener('click', () => {
       console.log("User requested update activation. Initiating on-demand asset download...");
       refreshBtn.disabled = true;
@@ -204,14 +209,26 @@ export function switchTab(targetTab) {
   // Activate target tab pane
   window.scrollTo(0, 0);
   tabPanes.forEach(pane => {
-    pane.classList.remove('active');
-    if (pane.id === `tab-${targetTab}`) {
-      pane.classList.add('active');
+    const isTargetPane = pane.id === `tab-${targetTab}`;
+    pane.classList.toggle('active', isTargetPane);
+
+    if (isTargetPane) {
+      pane.style.display = 'flex';
+      pane.style.opacity = '1';
+      pane.style.visibility = 'visible';
+      pane.style.pointerEvents = 'auto';
+      pane.style.zIndex = '10';
       pane.scrollTop = 0;
 
       // Reset scroll wrappers inside pane
       const innerScrolls = pane.querySelectorAll('.ios-settings-scroll-container, .ios-analytics-scroll-container, .exercises-list-container, .workout-history-list');
       innerScrolls.forEach(c => c.scrollTop = 0);
+    } else {
+      pane.style.display = 'none';
+      pane.style.opacity = '0';
+      pane.style.visibility = 'hidden';
+      pane.style.pointerEvents = 'none';
+      pane.style.zIndex = '-9999';
     }
   });
 

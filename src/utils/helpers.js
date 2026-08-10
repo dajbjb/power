@@ -2,8 +2,8 @@ import { SafeStorage } from "./storage.js";
 
 // Safe HTML escape helper to prevent Persistent DOM XSS
 export function escapeHTML(str) {
-  if (!str) return '';
-  return str
+  if (str === null || str === undefined) return '';
+  return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -103,17 +103,16 @@ export function safeFormatDateTime(value) {
 
 // Initials Avatar generator
 export function getInitialsAvatar(name) {
-  const cleanName = (name || 'User').trim();
-  const parts = cleanName.split(' ');
+  const cleanName = String(name || 'User').trim();
+  // Filter out empty segments so names with double spaces cannot produce undefined initials
+  const parts = cleanName.split(/\s+/).filter(Boolean);
   let initials = '';
   if (parts.length > 1) {
-    initials = parts[0][0] + parts[1][0];
-  } else if (parts[0].length > 0) {
+    initials = (parts[0][0] || '') + (parts[1][0] || '');
+  } else if (parts.length === 1) {
     initials = parts[0].substring(0, 2);
-  } else {
-    initials = 'U';
   }
-  initials = initials.toUpperCase();
+  initials = (initials || 'U').toUpperCase();
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
     <defs>
@@ -129,8 +128,11 @@ export function getInitialsAvatar(name) {
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
 }
 
-// Sleek glassmorphic Toast notification system
-export function showPremiumToast(message, type = 'info') {
+// Sleek glassmorphic Toast notification system.
+// `message` is treated as PLAIN TEXT by default — several callers interpolate
+// user-controlled values (display names, exercise names, error strings) into it.
+// Pass allowHtml = true only for a hard-coded markup string.
+export function showPremiumToast(message, type = 'info', allowHtml = false) {
   let toastContainer = document.getElementById('premium-toast-container');
   if (!toastContainer) {
     toastContainer = document.createElement('div');
@@ -151,8 +153,14 @@ export function showPremiumToast(message, type = 'info') {
   
   toast.innerHTML = `
     <span class="toast-icon" style="display: flex; align-items: center; justify-content: center;">${icon}</span>
-    <span class="toast-text">${message}</span>
+    <span class="toast-text"></span>
   `;
+  const textEl = toast.querySelector('.toast-text');
+  if (allowHtml) {
+    textEl.innerHTML = message;
+  } else {
+    textEl.textContent = message;
+  }
   
   toastContainer.appendChild(toast);
   setTimeout(() => toast.classList.add('show'), 50);
@@ -194,7 +202,8 @@ export function showAuraToast(message) {
     white-space: nowrap;
     font-family: var(--font-sans);
   `;
-  toast.innerHTML = `<span>🤖🔥</span> ${message}`;
+  toast.innerHTML = `<span>🤖🔥</span> <span class="aura-toast-text"></span>`;
+  toast.querySelector('.aura-toast-text').textContent = message;
   document.body.appendChild(toast);
 
   // Force a reflow

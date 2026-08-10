@@ -1,5 +1,5 @@
-const CACHE_NAME = '1.8.9';
-const UPDATE_DESCRIPTION = 'שדרוג 1.8.9: התאוששות אוטומטית של חיבור Firestore, מניעת הודעות שגיאה גנריות והצגת סיבת הכשל המדויקת';
+const CACHE_NAME = '1.9.0';
+const UPDATE_DESCRIPTION = 'שדרוג 1.9.0: תיקון סנכרון הענן, שחזור מצב אופליין מלא, אבטחת קונסולת הניהול, תיקון כפתורי המשקל והחזרות ושיפורי דיוק במעקב הריצה';
 
 const ASSETS = [
   './',
@@ -12,7 +12,6 @@ const ASSETS = [
   './styles/modals.css',
   './styles/auth.css',
   './styles/workouts.css',
-  './styles/meals.css',
   './styles/metrics.css',
   './styles/settings.css',
   './app.js',
@@ -28,6 +27,7 @@ const ASSETS = [
   './src/metrics/metrics.js',
   './src/settings/settings.js',
   './src/utils/db.js',
+  './src/utils/icons.js',
   './src/utils/onboarding.js',
   './src/settings/admin.js'
   // Firebase SDK files intentionally excluded: served from Google CDN with long cache-control headers.

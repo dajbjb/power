@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <script>
-    window.onerror = function(msg, url, line) {
-      console.warn("Global error detected:", msg, "line:", line);
+    // Surface real errors instead of hiding them: a silent console.warn is how a
+    // ReferenceError in the cloud-sync path went unnoticed across several releases.
+    window.onerror = function (msg, url, line, col, error) {
+      console.error("Global error:", msg, "at", url + ":" + line + ":" + col, error);
     };
+    window.addEventListener('unhandledrejection', function (e) {
+      console.error("Unhandled promise rejection:", e.reason);
+    });
     function adjustWeight(offset) {
       const slider = document.getElementById('weight-range-slider');
       const display = document.getElementById('weight-slider-value');
@@ -46,7 +51,7 @@
   <title>AuraApp</title>
   
   <meta name="description" content="AuraApp - אפליקציית כושר ואימונים מתקדמת בממשק פרימיום ייחודי.">
-  <link rel="canonical" href="https://aura.app/">
+  <link rel="canonical" href="https://power-4ab3e.web.app/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -1086,6 +1091,10 @@
 
         </div>
 
+        </div><!-- /#tab-settings : this closing tag was missing, which nested
+                   #tab-workouts and #tab-analytics INSIDE the settings pane. Hiding
+                   settings then hid them too, so both tabs rendered blank. -->
+
         <!-- Tab 2: Workouts -->
         <div id="tab-workouts" class="tab-pane dark-theme">
           
@@ -1243,12 +1252,12 @@
                     </span>
                   </div>
                   <div class="stepper-control-row" style="display: flex; align-items: center; justify-content: center; gap: 20px; direction: ltr; margin: 5px 0;">
-                    <button type="button" id="weight-minus-btn" class="stepper-btn" onclick="adjustWeight(-2.5)" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">-</button>
+                    <button type="button" id="weight-minus-btn" class="stepper-btn" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">-</button>
                     <div class="stepper-display" style="min-width: 120px; text-align: center; display: flex; align-items: baseline; justify-content: center; gap: 4px;">
                       <span id="weight-slider-value" style="font-size: 2.2rem; font-weight: 800; color: #ffffff; font-family: var(--font-display);">60</span>
                       <span style="font-size: 1rem; color: var(--text-muted); font-weight: 600;">ק״ג</span>
                     </div>
-                    <button type="button" id="weight-plus-btn" class="stepper-btn" onclick="adjustWeight(2.5)" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">+</button>
+                    <button type="button" id="weight-plus-btn" class="stepper-btn" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">+</button>
                   </div>
                   <input type="hidden" id="weight-range-slider" value="60">
                   
@@ -1267,12 +1276,12 @@
                     <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-muted);">חזרות</span>
                   </div>
                   <div class="stepper-control-row" style="display: flex; align-items: center; justify-content: center; gap: 20px; direction: ltr; margin: 5px 0;">
-                    <button type="button" id="reps-minus-btn" class="stepper-btn" onclick="adjustReps(-1)" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">-</button>
+                    <button type="button" id="reps-minus-btn" class="stepper-btn" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">-</button>
                     <div class="stepper-display" style="min-width: 120px; text-align: center; display: flex; align-items: baseline; justify-content: center; gap: 4px;">
                       <span id="reps-slider-value" style="font-size: 2.2rem; font-weight: 800; color: #ffffff; font-family: var(--font-display);">10</span>
                       <span style="font-size: 1rem; color: var(--text-muted); font-weight: 600;">חזרות</span>
                     </div>
-                    <button type="button" id="reps-plus-btn" class="stepper-btn" onclick="adjustReps(1)" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">+</button>
+                    <button type="button" id="reps-plus-btn" class="stepper-btn" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; font-size: 1.4rem; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s;">+</button>
                   </div>
                   <input type="hidden" id="reps-range-slider" value="10">
                   

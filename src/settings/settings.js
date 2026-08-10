@@ -1,6 +1,6 @@
 import { state } from "../state.js";
 import { SafeStorage } from "../utils/storage.js";
-import { showPremiumToast } from "../utils/helpers.js";
+import { showPremiumToast, escapeHTML } from "../utils/helpers.js";
 import { getCustomIcon, ICONS_MAP } from "../utils/icons.js";
 
 // Display "עדכן 🚀" button inside settings check update row
@@ -24,8 +24,18 @@ export function showUpdateStateInSettings(waitingWorker) {
 }
 
 // Color Adjustment Helper Functions
+
+// Accepts #rgb or #rrggbb and always returns a 6-digit value, so the bit-shifting
+// helpers below cannot silently produce nonsense colours from a shorthand hex.
+function normalizeHex(hex) {
+  let h = String(hex || '').trim().replace('#', '');
+  if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return '007aff';
+  return h;
+}
+
 function adjustColorBrightness(hex, percent) {
-  let num = parseInt(hex.replace('#', ''), 16);
+  let num = parseInt(normalizeHex(hex), 16);
   let r = Math.min(255, Math.max(0, (num >> 16) + Math.round(255 * (percent / 100))));
   let g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + Math.round(255 * (percent / 100))));
   let b = Math.min(255, Math.max(0, (num & 0x0000FF) + Math.round(255 * (percent / 100))));
@@ -33,7 +43,7 @@ function adjustColorBrightness(hex, percent) {
 }
 
 function hexToRgba(hex, alpha = 0.25) {
-  let num = parseInt(hex.replace('#', ''), 16);
+  let num = parseInt(normalizeHex(hex), 16);
   let r = (num >> 16);
   let g = ((num >> 8) & 0x00FF);
   let b = (num & 0x0000FF);
@@ -41,7 +51,7 @@ function hexToRgba(hex, alpha = 0.25) {
 }
 
 function hexToRgbValues(hex) {
-  let num = parseInt(hex.replace('#', ''), 16);
+  let num = parseInt(normalizeHex(hex), 16);
   let r = (num >> 16);
   let g = ((num >> 8) & 0x00FF);
   let b = (num & 0x0000FF);
@@ -235,12 +245,6 @@ export function initPremiumSettings() {
   const backToSettingsBtn = document.getElementById('back-to-settings-btn');
   const goToDisplayBtn = document.getElementById('go-to-display-settings-btn');
   const backFromDisplayBtn = document.getElementById('back-from-display-btn');
-  const goToFeedbackBtn = document.getElementById('go-to-feedback-btn');
-  const backFromFeedbackBtn = document.getElementById('back-from-feedback-btn');
-  const goToMessagesBtn = document.getElementById('go-to-messages-btn');
-  const backFromMessagesBtn = document.getElementById('back-from-messages-btn');
-  const goToAdminBtn = document.getElementById('go-to-admin-console-btn');
-  const backFromAdminBtn = document.getElementById('back-from-admin-btn');
 
   const settingsMainView = document.getElementById('settings-main-view');
   const displayView = document.getElementById('settings-display-view');
@@ -295,47 +299,10 @@ export function initPremiumSettings() {
     });
   }
 
-  // Bind Feedback View
-  if (goToFeedbackBtn) {
-    goToFeedbackBtn.addEventListener('click', () => {
-      if (settingsMainView) settingsMainView.classList.add('hide');
-      if (feedbackView) feedbackView.classList.remove('hide');
-    });
-  }
-  if (backFromFeedbackBtn) {
-    backFromFeedbackBtn.addEventListener('click', () => {
-      if (feedbackView) feedbackView.classList.add('hide');
-      if (settingsMainView) settingsMainView.classList.remove('hide');
-    });
-  }
-
-  // Bind Messages View
-  if (goToMessagesBtn) {
-    goToMessagesBtn.addEventListener('click', () => {
-      if (settingsMainView) settingsMainView.classList.add('hide');
-      if (messagesView) messagesView.classList.remove('hide');
-    });
-  }
-  if (backFromMessagesBtn) {
-    backFromMessagesBtn.addEventListener('click', () => {
-      if (messagesView) messagesView.classList.add('hide');
-      if (settingsMainView) settingsMainView.classList.remove('hide');
-    });
-  }
-
-  // Bind Admin View
-  if (goToAdminBtn) {
-    goToAdminBtn.addEventListener('click', () => {
-      if (settingsMainView) settingsMainView.classList.add('hide');
-      if (adminView) adminView.classList.remove('hide');
-    });
-  }
-  if (backFromAdminBtn) {
-    backFromAdminBtn.addEventListener('click', () => {
-      if (adminView) adminView.classList.add('hide');
-      if (settingsMainView) settingsMainView.classList.remove('hide');
-    });
-  }
+  // NOTE: the Feedback / Messages / Admin sub-views are bound exclusively in
+  // src/settings/admin.js (initAdminModule). Binding them here as well produced two
+  // handlers per click, and the copy here skipped the `state.userRole === 'admin'`
+  // guard, so a non-admin could still open the admin console.
 
   // Phase 3 Accessibility Enhancement: Bind keydown (Enter/Space) to all interactive rows with role="button" or tabindex="0"
   const interactiveRows = document.querySelectorAll('#tab-settings [role="button"], #tab-settings [tabindex="0"]');
@@ -943,7 +910,7 @@ export function initPremiumSettings() {
     syncActionDisconnect.addEventListener('click', () => {
       state.cloudSyncEnabled = false;
       SafeStorage.setItem('aura-cloud-sync-enabled', 'false');
-      showPremiumToast("הסנכרון לענן כובד. המידע יישמר רק על גבי המכשיר.", "info");
+      showPremiumToast("הסנכרון לענן כובה. המידע יישמר רק על גבי המכשיר.", "info");
       updateSyncUI();
     });
   }
@@ -1071,8 +1038,8 @@ export function initPremiumSettings() {
       const categoriesMap = [
         { key: 'customExercises', title: '✨ תרגילים מותאמים אישית', labelKey: 'name' },
         { key: 'customLocations', title: '📍 מיקומים מותאמים אישית', labelKey: 'name' },
-        { key: 'workoutHistory', title: '📋 היסטוריית אימונים', labelKey: 'title' },
-        { key: 'futureWorkouts', title: '📅 אימונים מתוכננים', labelKey: 'title' },
+        { key: 'workoutHistory', title: '📋 היסטוריית אימונים', labelKey: 'locationName' },
+        { key: 'futureWorkouts', title: '📅 אימונים מתוכננים', labelKey: 'location' },
         { key: 'favoriteExercises', title: '⭐ תרגילים מועדפים', isStringArray: true }
       ];
 
@@ -1093,11 +1060,11 @@ export function initPremiumSettings() {
 
             return `
               <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
-                <button class="delete-cloud-item-btn" data-cat="${cat.key}" data-itemid="${itemId}" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+                <button class="delete-cloud-item-btn" data-cat="${escapeHTML(cat.key)}" data-itemid="${escapeHTML(itemId)}" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
                   🗑️ מחק בענן
                 </button>
                 <div style="text-align: right;">
-                  <div style="font-weight: 700; font-size: 0.88rem; color: #fff;">${displayTitle}</div>
+                  <div style="font-weight: 700; font-size: 0.88rem; color: #fff;">${escapeHTML(displayTitle)}</div>
                   ${dateStr ? `<div style="font-size: 0.75rem; color: var(--text-muted);">${dateStr}</div>` : ''}
                 </div>
               </div>
@@ -1159,7 +1126,13 @@ export function initPremiumSettings() {
   // Realtime Status Check Interval & Network Listener (runs every 6s)
   if (!window._syncStatusHeartbeat) {
     window._syncStatusHeartbeat = setInterval(() => {
-      if (state.currentUser) updateSyncUI();
+      // Only refresh while the sync screen is actually on-screen. This used to re-read and
+      // re-parse five localStorage arrays every 6 seconds for the whole life of the tab.
+      const syncPane = document.getElementById('settings-sync-view');
+      const isSyncViewVisible = syncPane && !syncPane.classList.contains('hide');
+      if (state.currentUser && isSyncViewVisible && document.visibilityState === 'visible') {
+        updateSyncUI();
+      }
     }, 6000);
     window.addEventListener('online', () => updateSyncUI());
     window.addEventListener('offline', () => updateSyncUI());

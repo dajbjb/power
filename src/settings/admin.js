@@ -1,6 +1,6 @@
 import { state } from "../state.js";
 import { SafeStorage } from "../utils/storage.js";
-import { showPremiumToast, triggerLocalNotification } from "../utils/helpers.js";
+import { showPremiumToast, escapeHTML } from "../utils/helpers.js";
 import { getDb, saveFieldToCloud } from "../utils/db.js";
 import { 
   collection, 
@@ -389,13 +389,13 @@ export async function scanAppCacheFiles() {
       return `
         <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; direction: rtl;">
           <div style="display: flex; flex-direction: column; gap: 3px; max-width: 68%;">
-            <div style="font-weight: 700; font-size: 0.95rem; color: #ffffff; font-family: monospace;">${filename}</div>
+            <div style="font-weight: 700; font-size: 0.95rem; color: #ffffff; font-family: monospace;">${escapeHTML(filename)}</div>
             <div style="font-size: 0.78rem; color: var(--text-muted);">${matchedMeaning}</div>
-            <div style="font-size: 0.72rem; color: rgba(255,255,255,0.35); font-family: monospace;">${f.path}</div>
+            <div style="font-size: 0.72rem; color: rgba(255,255,255,0.35); font-family: monospace;">${escapeHTML(f.path)}</div>
           </div>
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
             <span style="font-weight: 800; font-size: 0.88rem; color: var(--electric-blue-light);">${fileSizeFormatted}</span>
-            <button class="delete-single-cache-file-btn" data-url="${f.url}" data-cache="${f.cacheName}" style="background: rgba(255,149,0,0.15); border: 1px solid rgba(255,149,0,0.35); color: #ff9500; font-size: 0.72rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: 600;">רענן קובץ 🔄</button>
+            <button class="delete-single-cache-file-btn" data-url="${escapeHTML(f.url)}" data-cache="${escapeHTML(f.cacheName)}" style="background: rgba(255,149,0,0.15); border: 1px solid rgba(255,149,0,0.35); color: #ff9500; font-size: 0.72rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: 600;">רענן קובץ 🔄</button>
           </div>
         </div>
       `;
@@ -558,10 +558,10 @@ function renderAdminUsersList(list) {
         <div style="display: flex; justify-content: space-between; align-items: start; direction: rtl;">
           <div style="text-align: right;">
             <div style="font-weight: 700; color: #fff; font-size: 0.98rem; display: flex; align-items: center; gap: 6px;">
-              ${user.displayName}
+              ${escapeHTML(user.displayName)}
               ${roleBadge}
             </div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; font-family: var(--font-sans);">${user.email}</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; font-family: var(--font-sans);">${escapeHTML(user.email)}</div>
           </div>
           <div style="text-align: left; font-family: var(--font-sans);">
             <div style="font-size: 1.1rem; font-weight: 800; color: var(--electric-blue);">${user.workoutHistoryCount}</div>
@@ -571,13 +571,13 @@ function renderAdminUsersList(list) {
         
         <!-- Admin Actions grid -->
         <div style="display: flex; gap: 8px; direction: rtl; margin-top: 4px;">
-          <button class="btn btn-secondary admin-action-btn" data-uid="${user.uid}" data-action="toggle-role" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+          <button class="btn btn-secondary admin-action-btn" data-uid="${escapeHTML(user.uid)}" data-action="toggle-role" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
             ${isTargetAdmin ? 'הורד למשתמש 👤' : 'שדרג למנהל 👑'}
           </button>
-          <button class="btn btn-secondary admin-action-btn" data-uid="${user.uid}" data-action="send-msg" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+          <button class="btn btn-secondary admin-action-btn" data-uid="${escapeHTML(user.uid)}" data-action="send-msg" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
             הודעה אישית ✉️
           </button>
-          <button class="btn btn-logout admin-action-btn" data-uid="${user.uid}" data-action="delete" style="flex: 0 0 auto; padding: 8px 12px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171;">
+          <button class="btn btn-logout admin-action-btn" data-uid="${escapeHTML(user.uid)}" data-action="delete" style="flex: 0 0 auto; padding: 8px 12px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171;">
             מחק 🗑️
           </button>
         </div>
@@ -696,10 +696,10 @@ function renderAdminFeedbacksList(list) {
         <div style="display: flex; justify-content: space-between; align-items: start; direction: rtl;">
           <div style="text-align: right;">
             <div style="font-weight: 700; color: #fff; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
-              ${item.displayName}
+              ${escapeHTML(item.displayName)}
               ${statusBadge}
             </div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; font-family: var(--font-sans);">${item.email}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; font-family: var(--font-sans);">${escapeHTML(item.email)}</div>
           </div>
           <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-sans); text-align: left;">
             ${dateStr}
@@ -707,16 +707,16 @@ function renderAdminFeedbacksList(list) {
         </div>
         
         <div style="background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 10px; font-size: 0.88rem; color: #e4e4e7; line-height: 1.4; direction: rtl; text-align: right; border: 1px solid rgba(255,255,255,0.02);">
-          <div style="font-weight: bold; font-size: 0.75rem; color: var(--electric-blue); margin-bottom: 4px;">סוג: ${item.category}</div>
-          ${item.text}
+          <div style="font-weight: bold; font-size: 0.75rem; color: var(--electric-blue); margin-bottom: 4px;">סוג: ${escapeHTML(item.category)}</div>
+          ${escapeHTML(item.text)}
         </div>
 
         ${isPending ? `
           <div style="display: flex; gap: 8px; direction: rtl; margin-top: 2px;">
-            <button class="btn btn-secondary admin-feedback-btn" data-id="${item.id}" data-action="resolve" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
+            <button class="btn btn-secondary admin-feedback-btn" data-id="${escapeHTML(item.id)}" data-action="resolve" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
               סמן כטופל ✓
             </button>
-            <button class="btn btn-secondary admin-feedback-btn" data-id="${item.id}" data-action="reply" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
+            <button class="btn btn-secondary admin-feedback-btn" data-id="${escapeHTML(item.id)}" data-action="reply" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
               שלח מענה ✉️
             </button>
           </div>
@@ -791,9 +791,9 @@ function renderUserMessagesList() {
     return `
       <div class="ios-workout-log-card" style="padding: 16px; border-radius: 18px; border: 1px solid ${isNew ? 'rgba(0,122,255,0.25)' : 'rgba(255,255,255,0.05)'}; background: ${isNew ? 'rgba(0,122,255,0.03)' : 'rgba(255,255,255,0.01)'}; position: relative; direction: rtl; text-align: right;">
         ${isNew ? '<span style="position: absolute; top: 16px; left: 16px; width: 8px; height: 8px; border-radius: 50%; background: #007aff; box-shadow: 0 0 8px #007aff;"></span>' : ''}
-        <div style="font-weight: 800; color: #fff; font-size: 1.05rem; margin-bottom: 4px; padding-left: 20px;">${item.title}</div>
+        <div style="font-weight: 800; color: #fff; font-size: 1.05rem; margin-bottom: 4px; padding-left: 20px;">${escapeHTML(item.title)}</div>
         <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-sans); margin-bottom: 10px;">${dateStr}</div>
-        <div style="font-size: 0.88rem; color: #d4d4d8; line-height: 1.5; white-space: pre-wrap;">${item.content}</div>
+        <div style="font-size: 0.88rem; color: #d4d4d8; line-height: 1.5; white-space: pre-wrap;">${escapeHTML(item.content)}</div>
       </div>
     `;
   }).join('');
@@ -979,19 +979,7 @@ async function markAllMessagesAsRead() {
     // Save to Firestore
     await saveFieldToCloud('messages', updatedList);
     
-    // Trigger local push notification to simulate PWA Web Push notification logic (A1 response choice)
-    if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-      try {
-        const lastMsg = updatedList[0];
-        if (lastMsg) {
-          triggerLocalNotification(
-            "קראת הודעות חדשות ✉️",
-            `סומנו כנקראו הודעות ממערכת האפליקציה.`
-          );
-        }
-      } catch (err) {
-        console.warn("Could not fire local notification:", err);
-      }
-    }
+    // NOTE: no notification is fired here. The user is already looking at the inbox —
+    // telling them they just read their own messages was pure noise.
   }
 }

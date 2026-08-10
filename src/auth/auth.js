@@ -305,7 +305,6 @@ export async function initAuth() {
       state.currentUser = JSON.parse(cachedUserStr);
       updateAuthUI();
       if (window.initWorkouts) window.initWorkouts();
-      if (window.initAnalyticsTab) window.initAnalyticsTab();
       switchScreen(true);
       updateSplashProgress(85, 'טוען נתונים מקומיים...');
       // Dismiss splash screen immediately for instant access!
@@ -383,7 +382,7 @@ export async function initAuth() {
         }
 
         if (popupError.code === 'auth/popup-blocked' || popupError.code === 'auth/popup-closed-by-user') {
-          showPremiumToast('ההתחברות נחסמה או בוטלה. <a href="#" onclick="document.getElementById(\'google-login-btn\').click(); return false;" style="text-decoration: underline; color: #60a5fa;">נסה להתחבר שנית 🔄</a>', "error");
+          showPremiumToast('ההתחברות נחסמה או בוטלה. <a href="#" onclick="document.getElementById(\'google-login-btn\').click(); return false;" style="text-decoration: underline; color: #60a5fa;">נסה להתחבר שנית 🔄</a>', "error", true);
         } else {
           showPremiumToast(`שגיאת התחברות: ${popupError.message || 'נא לנסות שנית'}`, "error");
         }
@@ -393,14 +392,6 @@ export async function initAuth() {
 
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
-      if ('Notification' in window && typeof Notification !== 'undefined' && Notification.permission === 'default') {
-        try {
-          await Notification.requestPermission();
-        } catch (err) {
-          console.warn("Could not request notification permission on logout click:", err);
-        }
-      }
-
       if (!state.firebaseEnabled) {
         showPremiumToast("התנתקות אינה זמינה במצב לא מקוון/דמו.", "error");
         return;
@@ -446,11 +437,8 @@ export async function initAuth() {
             if (window.renderWorkoutHistory) window.renderWorkoutHistory();
             if (window.renderAnalytics) window.renderAnalytics();
             if (window.renderExercisesManager) window.renderExercisesManager();
-            if (window.renderAccordionHistoryView) window.renderAccordionHistoryView();
             if (window.renderWorkoutsLog) window.renderWorkoutsLog();
             if (window.renderExercisePickerList) window.renderExercisePickerList();
-            if (window.renderMeals) window.renderMeals();
-            if (window.renderMealsTab) window.renderMealsTab();
             if (window.renderFutureWorkouts) window.renderFutureWorkouts();
             if (window.updateUnreadMessagesCount) window.updateUnreadMessagesCount();
             if (window.renderUserMessages) window.renderUserMessages();
@@ -545,7 +533,7 @@ export async function initAuth() {
           dismissSplashScreen(0);
         }
       }
-    }, 3500);
+    }, 12000);
   } else {
     console.log("Firebase is disabled. Auth features are unavailable.");
     switchScreen(false);

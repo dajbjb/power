@@ -71,7 +71,7 @@ export const EMOJI_TO_ICON_MAP = {
   '🏋️‍♂️': 'dumbbell',
   '🏋️': 'dumbbell',
   '🏋': 'dumbbell',
-  '📋': 'clipboard',
+  '📋': 'analytics',
   '📊': 'chart',
   '⚙️': 'settings',
   '⚙': 'settings',
