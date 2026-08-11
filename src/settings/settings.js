@@ -68,12 +68,39 @@ function saveAllDisplaySettingsToCloud() {
       cardColor: state.cardBgColor,
       wallpaper: state.wallpaper,
       showGlows: state.showGlows,
-      navStyle: state.navStyle
+      navStyle: state.navStyle,
+      glassBlur: state.glassBlur,
+      density: state.density,
+      fontSize: state.fontSize,
+      cornerStyle: state.cornerStyle,
+      motionPref: state.motionPref
     });
   });
 }
 
 export function applyDisplayPreferences() {
+  // 0. Design tokens -> <html> data attributes. tokens.css reads these and
+  //    rescales type, spacing, radius and motion for the entire app at once.
+  const root = document.documentElement;
+  root.dataset.density  = state.density     || 'comfortable';
+  root.dataset.fontsize = state.fontSize    || 'normal';
+  root.dataset.radius   = state.cornerStyle || 'rounded';
+  root.dataset.motion   = state.motionPref  || 'full';
+
+  // Only pin the blur when the user actually chose one. Leaving it unset lets
+  // tokens.css honour the OS "reduce transparency" accessibility preference.
+  if (state.glassBlur === undefined || state.glassBlur === null || Number.isNaN(state.glassBlur)) {
+    root.style.removeProperty('--glass-blur');
+  } else {
+    root.style.setProperty('--glass-blur', `${state.glassBlur}px`);
+  }
+  const effectiveBlur = parseInt(getComputedStyle(root).getPropertyValue('--glass-blur')) || 0;
+
+  const blurSlider = document.getElementById('display-glass-blur-slider');
+  const blurText = document.getElementById('display-glass-blur-value-text');
+  if (blurSlider) blurSlider.value = effectiveBlur;
+  if (blurText) blurText.textContent = `${effectiveBlur}px`;
+
   // 1. Apply Opacity (0% to 100%)
   const opacityVal = (state.displayOpacity !== undefined) ? state.displayOpacity : 85;
   const opacityAlpha = opacityVal / 100;
@@ -112,6 +139,8 @@ export function applyDisplayPreferences() {
   const cardColor = state.cardBgColor || '#16161c';
   const cardRgb = hexToRgbValues(cardColor);
   document.documentElement.style.setProperty('--card-bg-rgb', cardRgb);
+  // glass.css uses the modern space-separated form inside rgba()
+  document.documentElement.style.setProperty('--card-bg-rgb', cardRgb.split(',').map(v => v.trim()).join(' '));
 
   const cardColorPicker = document.getElementById('display-custom-card-color-picker');
   if (cardColorPicker) cardColorPicker.value = cardColor;
@@ -127,6 +156,8 @@ export function applyDisplayPreferences() {
 
   // 4. Theme Mode (Dark / Light / Outdoor)
   const currentTheme = state.displayTheme || (state.outdoorMode ? 'outdoor' : (SafeStorage.getItem('settings_dark_mode') !== 'false' ? 'dark' : 'light'));
+  // tokens.css swaps the whole neutral ramp off this attribute
+  root.dataset.theme = currentTheme;
   const allTabs = document.querySelectorAll('.tab-pane');
 
   if (currentTheme === 'dark') {
@@ -368,6 +399,49 @@ export function initPremiumSettings() {
       applyDisplayPreferences();
     });
     opacitySlider.addEventListener('change', () => {
+      saveAllDisplaySettingsToCloud();
+    });
+  }
+
+  // ---- Liquid Glass controls (v1.10.0) --------------------------------
+  // One generic binder for the four segmented controls, so adding another
+  // token-driven preference later is a single line.
+  const bindSegment = (containerId, datasetKey, stateKey, storageKey) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const buttons = container.querySelectorAll('.segmented-btn');
+    const paint = () => buttons.forEach(b => {
+      b.classList.toggle('active', b.dataset[datasetKey] === state[stateKey]);
+    });
+    paint();
+    container.addEventListener('click', (e) => {
+      const btn = e.target.closest('.segmented-btn');
+      if (!btn) return;
+      const val = btn.dataset[datasetKey];
+      if (!val || val === state[stateKey]) return;
+      state[stateKey] = val;
+      SafeStorage.setItem(storageKey, val);
+      paint();
+      applyDisplayPreferences();
+      saveAllDisplaySettingsToCloud();
+      if (navigator.vibrate) navigator.vibrate(8);
+    });
+  };
+
+  bindSegment('density-segment',  'density',  'density',     'aura-density');
+  bindSegment('fontsize-segment', 'fontsize', 'fontSize',    'aura-font-size');
+  bindSegment('radius-segment',   'radius',   'cornerStyle', 'aura-corner-style');
+  bindSegment('motion-segment',   'motion',   'motionPref',  'aura-motion');
+
+  const glassBlurSlider = document.getElementById('display-glass-blur-slider');
+  if (glassBlurSlider) {
+    // input = live preview (cheap, no cloud write); change = commit
+    glassBlurSlider.addEventListener('input', (e) => {
+      state.glassBlur = parseInt(e.target.value, 10);
+      SafeStorage.setItem('aura-glass-blur', state.glassBlur);
+      applyDisplayPreferences();
+    });
+    glassBlurSlider.addEventListener('change', () => {
       saveAllDisplaySettingsToCloud();
     });
   }

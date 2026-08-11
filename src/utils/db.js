@@ -425,6 +425,14 @@ export async function syncUserSession(uid, isManual = false) {
         state.navStyle = ds.navStyle;
         SafeStorage.setItem('aura-nav-style', ds.navStyle);
       }
+      if (ds.glassBlur !== undefined) {
+        state.glassBlur = ds.glassBlur;
+        SafeStorage.setItem('aura-glass-blur', ds.glassBlur);
+      }
+      if (ds.density) { state.density = ds.density; SafeStorage.setItem('aura-density', ds.density); }
+      if (ds.fontSize) { state.fontSize = ds.fontSize; SafeStorage.setItem('aura-font-size', ds.fontSize); }
+      if (ds.cornerStyle) { state.cornerStyle = ds.cornerStyle; SafeStorage.setItem('aura-corner-style', ds.cornerStyle); }
+      if (ds.motionPref) { state.motionPref = ds.motionPref; SafeStorage.setItem('aura-motion', ds.motionPref); }
       if (window.applyDisplayPreferences) {
         window.applyDisplayPreferences();
       }

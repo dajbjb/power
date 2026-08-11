@@ -1,11 +1,13 @@
-const CACHE_NAME = '1.9.0';
-const UPDATE_DESCRIPTION = 'שדרוג 1.9.0: תיקון סנכרון הענן, שחזור מצב אופליין מלא, אבטחת קונסולת הניהול, תיקון כפתורי המשקל והחזרות ושיפורי דיוק במעקב הריצה';
+const CACHE_NAME = '1.10.0';
+const UPDATE_DESCRIPTION = 'שדרוג 1.10.0: עיצוב Liquid Glass חדש לחלוטין, אנימציות נוזליות, ושליטה מלאה בתצוגה - שקיפות, צפיפות, גודל טקסט, עיגול פינות ואנימציות';
 
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './styles/variables.css',
+  './styles/tokens.css',
+  './styles/glass.css',
   './styles/layout.css',
   './styles/navigation.css',
   './styles/components.css',

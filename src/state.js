@@ -113,7 +113,15 @@ export const state = {
   displayOpacity: parseInt(SafeStorage.getItem('aura-display-opacity') || '85'),
   accentColor: SafeStorage.getItem('aura-accent-color') || '#007aff',
   cardBgColor: SafeStorage.getItem('aura-card-bg-color') || '#16161c',
-  wallpaper: SafeStorage.getItem('aura-wallpaper') || 'default'
+  wallpaper: SafeStorage.getItem('aura-wallpaper') || 'default',
+
+  // Liquid Glass appearance controls (v1.10.0)
+  // null = 'auto': defer to the OS prefers-reduced-transparency setting
+  glassBlur: SafeStorage.getItem('aura-glass-blur') === null ? null : parseInt(SafeStorage.getItem('aura-glass-blur')),
+  density: SafeStorage.getItem('aura-density') || 'comfortable',
+  fontSize: SafeStorage.getItem('aura-font-size') || 'normal',
+  cornerStyle: SafeStorage.getItem('aura-corner-style') || 'rounded',
+  motionPref: SafeStorage.getItem('aura-motion') || 'full'
 };
 
 

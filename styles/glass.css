@@ -1,0 +1,700 @@
+/* ==========================================================================
+   AuraApp — Liquid Glass Engine  (v1.10.0)
+
+   Loaded LAST so it can normalise the 34% of elements that carry inline
+   styles and the many legacy `!important` rules. Targets the real class
+   names already in index.html, so no markup changes are required for the
+   engine itself to take effect.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. PLATFORM BASE — iOS + Android + desktop hardening
+   ========================================================================== */
+
+html {
+  /* Stops iOS from silently scaling text up in landscape */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  /* dvh tracks Android Chrome's collapsing address bar; vh does not.
+     The vh line is the fallback for browsers without dvh. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--surface-base);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  /* Prevents the whole page rubber-banding behind fixed glass surfaces */
+  overscroll-behavior-y: none;
+}
+
+/* Kill the grey flash Android draws on every tap; we provide our own
+   press feedback below, which is both nicer and consistent across OSes. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Removes the 300ms click delay on older mobile browsers without
+   disabling pinch-zoom (which `touch-action: none` would). */
+button,
+a,
+[role="button"],
+.ios-setting-row,
+.nav-tab,
+.filter-pill-btn,
+.muscle-card,
+.emoji-pick-btn,
+.stepper-chip,
+.stepper-btn,
+.sets-option-chip,
+.rest-option-chip {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* iOS zooms the viewport when a focused input is under 16px. Locking the
+   minimum kills that jump without affecting the visual scale elsewhere. */
+input,
+select,
+textarea {
+  font-size: max(16px, var(--fs-base));
+  font-family: inherit;
+}
+
+/* Momentum scrolling + contained overscroll on every scroll region */
+.ios-settings-scroll-container,
+.ios-analytics-scroll-container,
+.exercises-list-container,
+.workout-history-list,
+.modal-body,
+.tab-pane {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Anything that scrolls horizontally must not push the page sideways */
+.premium-filter-bar-container,
+.exercise-category-filters,
+#exercise-category-filters,
+.premium-exercise-sets-container,
+.ios-segmented-control {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.premium-filter-bar-container::-webkit-scrollbar,
+.exercise-category-filters::-webkit-scrollbar,
+#exercise-category-filters::-webkit-scrollbar,
+.ios-segmented-control::-webkit-scrollbar { display: none; }
+
+/* Hard guarantee against the horizontal-scroll bug that long Hebrew
+   exercise names were causing inside cards. */
+.ios-settings-card-group,
+.workout-modal-card,
+.exercise-card,
+.premium-workout-card {
+  max-width: 100%;
+  min-width: 0;
+}
+.ios-row-label,
+.ios-row-detail-text,
+.ex-card-name-label,
+.premium-exercise-name,
+.workout-log-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   2. THE GLASS SURFACE
+   Uses --card-bg-rgb / --card-bg-opacity so the existing card-tint and
+   transparency controls in Settings keep working unchanged.
+   ========================================================================== */
+
+.glass,
+.ios-settings-card-group,
+.workout-modal-card,
+.glass-modal-card,
+.ios-modal-card,
+.exercise-card,
+.premium-workout-card,
+.location-tile,
+.premium-metric-card,
+.wallpaper-preset-card {
+  position: relative;
+  background:
+    linear-gradient(160deg, var(--glass-tint) 0%, var(--glass-tint-soft) 55%, transparent 100%),
+    rgba(var(--card-bg-rgb, 22 22 28), var(--card-bg-opacity, 0.72)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--r-lg) !important;
+  box-shadow: var(--glass-inset), var(--glass-shadow) !important;
+  /* Promote to its own layer so blur is composited on the GPU rather than
+     re-rasterised on every scroll frame. This is what keeps 60fps. */
+  transform: translateZ(0);
+}
+
+/* The specular sheen along the top edge — the detail that reads as
+   "liquid glass" rather than "translucent box". */
+.glass::before,
+.ios-settings-card-group::before,
+.workout-modal-card::before,
+.glass-modal-card::before,
+.exercise-card::before,
+.premium-workout-card::before,
+.location-tile::before,
+.premium-metric-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 48%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--glass-specular) 0%, transparent 100%);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep real content above the sheen */
+.ios-settings-card-group > *,
+.workout-modal-card > *,
+.exercise-card > *,
+.premium-workout-card > *,
+.location-tile > *,
+.premium-metric-card > * { position: relative; z-index: 1; }
+
+/* Outdoor mode: no sheen, no blur — sunlight legibility beats aesthetics */
+:root[data-theme="outdoor"] .glass::before,
+:root[data-theme="outdoor"] .ios-settings-card-group::before,
+:root[data-theme="outdoor"] .workout-modal-card::before,
+:root[data-theme="outdoor"] .exercise-card::before,
+:root[data-theme="outdoor"] .premium-workout-card::before,
+:root[data-theme="outdoor"] .location-tile::before,
+:root[data-theme="outdoor"] .premium-metric-card::before { display: none; }
+
+/* ==========================================================================
+   3. TYPOGRAPHY — 14 sizes and 6 weights collapsed onto the scale
+   ========================================================================== */
+
+.ios-settings-group-title,
+.settings-sub-title {
+  font-size: var(--fs-xs) !important;
+  font-weight: var(--fw-semi) !important;
+  /* Section headers were bright blue. A heading is not an action; colour is
+     reserved for things you can tap. */
+  color: var(--ink-tertiary) !important;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  margin: var(--sp-5) var(--sp-2) var(--sp-2) !important;
+}
+
+.ios-settings-header,
+.modal-title { font-size: var(--fs-lg) !important; font-weight: var(--fw-bold) !important; color: var(--ink-primary) !important; }
+.ios-row-label { font-size: var(--fs-base) !important; font-weight: var(--fw-regular) !important; color: var(--ink-primary) !important; }
+.ios-row-detail-text { font-size: var(--fs-sm) !important; color: var(--ink-secondary) !important; font-weight: var(--fw-regular) !important; }
+.ios-row-chevron { color: var(--ink-tertiary) !important; opacity: 0.8; }
+
+/* ==========================================================================
+   4. SETTINGS ROWS
+   ========================================================================== */
+
+.ios-settings-card-group { padding: var(--sp-1) var(--sp-3) !important; margin-bottom: var(--sp-3) !important; overflow: hidden; }
+
+.ios-setting-row {
+  min-height: var(--tap-min);
+  padding: var(--sp-3) var(--sp-1) !important;
+  gap: var(--sp-3);
+  border-bottom: 1px solid var(--glass-border);
+  transition: background var(--dur-fast) var(--ease-liquid);
+  border-radius: var(--r-sm);
+}
+.ios-settings-card-group .ios-setting-row:last-child { border-bottom: none; }
+
+.ios-setting-row:not(.no-hover):active {
+  background: var(--glass-tint) !important;
+  transform: scale(0.985);
+  transition: transform var(--dur-fast) var(--ease-liquid);
+}
+
+/* The rainbow of per-row icon colours (red / blue / purple / green …) was
+   the single biggest source of visual noise. One tinted badge instead. */
+.ios-row-icon-badge {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px;
+  border-radius: var(--r-sm) !important;
+  background: color-mix(in srgb, var(--accent) 20%, transparent) !important;
+  color: var(--accent) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm) !important;
+  box-shadow: inset 0 1px 0 var(--glass-specular);
+}
+@supports not (background: color-mix(in srgb, red 20%, transparent)) {
+  .ios-row-icon-badge { background: var(--accent-glow) !important; }
+}
+/* Destructive rows stay red — that is meaning, not decoration. */
+.ios-row-icon-badge.danger,
+.btn-logout .ios-row-icon-badge { background: rgba(255, 69, 58, 0.18) !important; color: var(--color-danger) !important; }
+
+/* ==========================================================================
+   5. BUTTONS — one press behaviour everywhere (235 of them)
+   ========================================================================== */
+
+.btn,
+.sync-action-btn,
+.ios-back-btn,
+.btn-cancel-link {
+  min-height: var(--tap-min);
+  border-radius: var(--r-md) !important;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base) !important;
+  font-weight: var(--fw-semi) !important;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform var(--dur-fast) var(--ease-liquid),
+    filter    var(--dur-fast) var(--ease-liquid),
+    box-shadow var(--dur-base) var(--ease-liquid);
+}
+
+/* The press: a short squash that springs back. Transform only, so it never
+   triggers layout and stays on the compositor. */
+.btn:active,
+.sync-action-btn:active,
+.ios-back-btn:active,
+.location-tile:active,
+.muscle-card:active,
+.emoji-pick-btn:active,
+.wallpaper-preset-card:active,
+.filter-pill-btn:active {
+  transform: scale(0.955);
+  filter: brightness(1.12);
+}
+
+/* Glass sweep across the button on press */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--px, 50%) var(--py, 50%), var(--glass-specular) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+}
+.btn:active::after { opacity: 0.85; transition-duration: 0s; }
+
+.btn-primary {
+  background: linear-gradient(165deg,
+      color-mix(in srgb, var(--accent) 92%, white 8%),
+      var(--accent)) !important;
+  color: #fff !important;
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, white 25%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 6px 20px color-mix(in srgb, var(--accent) 40%, transparent) !important;
+}
+@supports not (background: color-mix(in srgb, red 20%, transparent)) {
+  .btn-primary { background: var(--accent) !important; border-color: var(--accent-light) !important; }
+}
+
+.btn-secondary {
+  background: var(--glass-tint) !important;
+  color: var(--ink-primary) !important;
+  border: 1px solid var(--glass-border) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+}
+
+.btn-logout,
+.btn-danger {
+  background: rgba(255, 69, 58, 0.14) !important;
+  color: var(--color-danger) !important;
+  border: 1px solid rgba(255, 69, 58, 0.30) !important;
+}
+
+.btn-cancel-link {
+  background: none !important;
+  border: none !important;
+  color: var(--ink-secondary) !important;
+  font-weight: var(--fw-regular) !important;
+  box-shadow: none !important;
+}
+
+/* Keyboard focus must be visible — it was invisible before, which made the
+   app unusable with an external keyboard or a switch device. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ==========================================================================
+   6. TOGGLES
+   ========================================================================== */
+
+.ios-toggle-slider {
+  background: var(--glass-tint) !important;
+  border: 1px solid var(--glass-border) !important;
+  transition: background var(--dur-base) var(--ease-liquid) !important;
+}
+.ios-toggle-switch input:checked + .ios-toggle-slider {
+  background: var(--color-success) !important;
+  border-color: color-mix(in srgb, var(--color-success) 70%, white 20%) !important;
+}
+.ios-toggle-slider::before {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  transition: transform var(--dur-base) var(--ease-liquid) !important;
+}
+
+/* ==========================================================================
+   7. NAVIGATION — glass bar with a pill that slides between tabs
+   ========================================================================== */
+
+.ios-bottom-nav {
+  background: rgba(var(--card-bg-rgb, 22 22 28), 0.62) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(200%) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(200%) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--r-xl) !important;
+  box-shadow: var(--glass-inset), var(--glass-shadow-lg) !important;
+  /* Clears the iPhone home indicator and Android gesture bar */
+  padding-bottom: max(var(--sp-1), var(--safe-bottom)) !important;
+  transition: transform var(--dur-base) var(--ease-liquid), opacity var(--dur-base) var(--ease-liquid);
+  transform: translateZ(0);
+}
+.ios-bottom-nav.nav-hidden {
+  transform: translateY(140%) translateZ(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-tab {
+  position: relative;
+  min-height: var(--tap-min);
+  border-radius: var(--r-md);
+  color: var(--ink-tertiary) !important;
+  transition: color var(--dur-base) var(--ease-liquid);
+  isolation: isolate;
+}
+.nav-tab .tab-label { font-size: var(--fs-xs) !important; font-weight: var(--fw-semi) !important; }
+.nav-tab.active { color: var(--accent) !important; }
+
+/* The pill itself: scales up from the centre with a spring, rather than
+   appearing instantly. */
+.nav-tab::before {
+  content: '';
+  position: absolute;
+  inset: 4px 6px;
+  border-radius: var(--r-md);
+  background: var(--glass-tint);
+  border: 1px solid transparent;
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity   var(--dur-base) var(--ease-liquid),
+    transform var(--dur-base) var(--ease-liquid);
+  z-index: -1;
+}
+.nav-tab.active::before {
+  opacity: 1;
+  transform: scale(1);
+  border-color: var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--glass-specular);
+}
+.nav-tab.active .tab-icon-wrapper { animation: nav-pop var(--dur-base) var(--ease-liquid); }
+
+@keyframes nav-pop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   8. TAB + VIEW TRANSITIONS
+   ========================================================================== */
+
+.tab-pane.active { animation: pane-in var(--dur-base) var(--ease-out); }
+@keyframes pane-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.995); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Settings sub-views slide in from the trailing edge (RTL-aware: the app is
+   dir="rtl", so translateX(-N) enters from the correct side). */
+#settings-account-view:not(.hide),
+#settings-display-view:not(.hide),
+#settings-sync-view:not(.hide),
+#settings-admin-view:not(.hide),
+#settings-feedback-view:not(.hide),
+#settings-messages-view:not(.hide) {
+  animation: subview-in var(--dur-base) var(--ease-out);
+}
+@keyframes subview-in {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Staggered entrance for card groups — reads as "assembling" rather than
+   "flashing". Capped at 6 so long lists do not feel slow. */
+.tab-pane.active .ios-settings-card-group { animation: card-in var(--dur-base) var(--ease-out) backwards; }
+.tab-pane.active .ios-settings-card-group:nth-of-type(1) { animation-delay: 0.02s; }
+.tab-pane.active .ios-settings-card-group:nth-of-type(2) { animation-delay: 0.05s; }
+.tab-pane.active .ios-settings-card-group:nth-of-type(3) { animation-delay: 0.08s; }
+.tab-pane.active .ios-settings-card-group:nth-of-type(4) { animation-delay: 0.11s; }
+.tab-pane.active .ios-settings-card-group:nth-of-type(5) { animation-delay: 0.14s; }
+.tab-pane.active .ios-settings-card-group:nth-of-type(n+6) { animation-delay: 0.16s; }
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   9. MODALS
+   ========================================================================== */
+
+.workout-modal-overlay,
+.ios-modal-overlay {
+  background: rgba(0, 0, 0, 0.55) !important;
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.7)) !important;
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.7)) !important;
+  padding: max(var(--sp-4), var(--safe-top)) var(--sp-4) max(var(--sp-4), var(--safe-bottom)) !important;
+}
+
+.workout-modal-overlay:not(.hide) .workout-modal-card,
+.ios-modal-overlay.show .ios-modal-card {
+  animation: modal-rise var(--dur-base) var(--ease-liquid);
+}
+@keyframes modal-rise {
+  from { opacity: 0; transform: translateY(22px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Modals must never exceed the visible viewport — this is what was causing
+   the cut-off content on shorter Android screens. */
+.workout-modal-card,
+.glass-modal-card {
+  max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - var(--sp-8)) !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.modal-body { flex: 1 1 auto; overflow-y: auto; min-height: 0; }
+.modal-header,
+.modal-footer { flex: 0 0 auto; }
+
+.modal-header {
+  padding: var(--sp-4) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+  gap: var(--sp-3);
+}
+.modal-footer {
+  padding: var(--sp-3) var(--sp-4) max(var(--sp-3), var(--safe-bottom)) !important;
+  border-top: 1px solid var(--glass-border) !important;
+}
+
+/* ==========================================================================
+   10. CHIPS, PILLS, SEGMENTS
+   ========================================================================== */
+
+.filter-pill-btn,
+.sets-option-chip,
+.rest-option-chip,
+.stepper-chip,
+.category-filter-btn,
+.segmented-btn,
+.theme-segment-btn {
+  min-height: 36px;
+  padding: var(--sp-2) var(--sp-3) !important;
+  border-radius: var(--r-full) !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: var(--fw-semi) !important;
+  background: var(--glass-tint-soft) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--ink-secondary) !important;
+  white-space: nowrap;
+  transition:
+    background var(--dur-fast) var(--ease-liquid),
+    color      var(--dur-fast) var(--ease-liquid),
+    transform  var(--dur-fast) var(--ease-liquid);
+}
+.filter-pill-btn.active,
+.filter-pill-btn.active-filter,
+.sets-option-chip.active,
+.rest-option-chip.active,
+.category-filter-btn.active,
+.segmented-btn.active,
+.theme-segment-btn.active {
+  background: color-mix(in srgb, var(--accent) 22%, transparent) !important;
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent) !important;
+  color: var(--accent) !important;
+  box-shadow: inset 0 1px 0 var(--glass-specular);
+}
+@supports not (background: color-mix(in srgb, red 20%, transparent)) {
+  .filter-pill-btn.active, .sets-option-chip.active, .rest-option-chip.active,
+  .category-filter-btn.active, .segmented-btn.active, .theme-segment-btn.active {
+    background: var(--accent-glow) !important; border-color: var(--accent) !important;
+  }
+}
+
+.stepper-btn {
+  width: var(--tap-min) !important;
+  height: var(--tap-min) !important;
+  border-radius: var(--r-full) !important;
+  background: var(--glass-tint) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--ink-primary) !important;
+  font-size: var(--fs-lg) !important;
+  transition: transform var(--dur-fast) var(--ease-liquid), background var(--dur-fast) var(--ease-liquid);
+}
+.stepper-btn:active { transform: scale(0.88); background: var(--glass-tint) !important; }
+
+/* Selection grids (27 muscle cards + 27 emoji buttons) */
+.muscle-card,
+.emoji-pick-btn {
+  min-height: var(--tap-min);
+  border-radius: var(--r-md) !important;
+  background: var(--glass-tint-soft) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--ink-secondary) !important;
+  font-size: var(--fs-sm) !important;
+  transition: all var(--dur-fast) var(--ease-liquid);
+}
+.muscle-card.active,
+.emoji-pick-btn.active,
+.premium-metric-card.active,
+.wallpaper-preset-card.active {
+  border-color: var(--accent) !important;
+  color: var(--ink-primary) !important;
+  box-shadow: 0 0 0 1px var(--accent), var(--glass-inset) !important;
+}
+
+/* Colour swatches get a ring instead of a border colour, so the swatch's own
+   colour stays readable. */
+.accent-color-swatch,
+.card-color-swatch {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: var(--r-full) !important;
+  border: 2px solid transparent !important;
+  transition: transform var(--dur-fast) var(--ease-liquid), box-shadow var(--dur-fast) var(--ease-liquid);
+}
+.accent-color-swatch.active,
+.card-color-swatch.active {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 2px var(--surface-base), 0 0 0 4px var(--ink-primary) !important;
+}
+.accent-color-swatch:active,
+.card-color-swatch:active { transform: scale(0.92); }
+
+/* ==========================================================================
+   11. RANGE SLIDERS
+   ========================================================================== */
+
+.premium-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 30px;
+  background: transparent !important;
+}
+.premium-range-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: var(--r-full);
+  background: var(--glass-tint);
+  border: 1px solid var(--glass-border);
+}
+.premium-range-slider::-moz-range-track {
+  height: 6px;
+  border-radius: var(--r-full);
+  background: var(--glass-tint);
+  border: 1px solid var(--glass-border);
+}
+.premium-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  margin-top: -11px;
+  border-radius: var(--r-full);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: transform var(--dur-fast) var(--ease-liquid);
+}
+.premium-range-slider::-moz-range-thumb {
+  width: 26px; height: 26px;
+  border-radius: var(--r-full);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.premium-range-slider:active::-webkit-slider-thumb { transform: scale(1.18); }
+
+/* ==========================================================================
+   12. TOASTS
+   ========================================================================== */
+
+.premium-toast-container {
+  bottom: calc(var(--tap-min) + var(--sp-8) + var(--safe-bottom)) !important;
+  padding: 0 var(--sp-4);
+}
+.premium-toast {
+  background: rgba(var(--card-bg-rgb, 22 22 28), 0.86) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--glass-inset), var(--glass-shadow-lg) !important;
+  font-size: var(--fs-sm) !important;
+  transform: translateY(16px) scale(0.96);
+  opacity: 0;
+  transition: transform var(--dur-base) var(--ease-liquid), opacity var(--dur-base) var(--ease-liquid);
+}
+.premium-toast.show { transform: none; opacity: 1; }
+
+/* ==========================================================================
+   13. SAFE-AREA / CLIPPING FIXES
+   ========================================================================== */
+
+.tab-pane {
+  padding-top: max(var(--sp-3), var(--safe-top));
+  padding-left: max(var(--sp-3), var(--safe-left));
+  padding-right: max(var(--sp-3), var(--safe-right));
+  box-sizing: border-box;
+}
+
+/* The bottom nav is fixed and translucent, so every scroll container needs
+   room underneath or the last row sits permanently behind the glass. */
+.ios-settings-scroll-container,
+.ios-analytics-scroll-container,
+.exercises-list-container,
+.workout-history-list {
+  padding-bottom: calc(var(--tap-min) + var(--sp-8) + var(--safe-bottom)) !important;
+}
+
+.ios-settings-header {
+  padding-top: max(var(--sp-2), var(--safe-top));
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+/* ==========================================================================
+   14. MOTION OFF
+   ========================================================================== */
+
+:root[data-motion="off"] *,
+:root[data-motion="off"] *::before,
+:root[data-motion="off"] *::after {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.001s !important;
+}

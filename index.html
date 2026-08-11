@@ -82,13 +82,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   
-  <link rel="preload" href="style.css" as="style">
-  <link rel="modulepreload" href="app.js">
+  <link rel="preload" href="style.css?v=1.10.0" as="style">
+  <link rel="modulepreload" href="app.js?v=1.10.0">
   <link rel="modulepreload" href="src/state.js">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.10.0">
 
   <!-- Leaflet.js mapping library for GPS Tracking -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -895,6 +895,67 @@
               </div>
 
               <!-- Card Tint Color Card Group -->
+              <!-- ===== Liquid Glass controls (v1.10.0) ===== -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">זכוכית נוזלית</div>
+
+                <div class="ios-setting-block">
+                  <div class="ios-setting-block-header">
+                    <span id="display-glass-blur-value-text" class="ios-row-detail-text">24px</span>
+                    <span class="ios-row-label">עוצמת הטשטוש</span>
+                  </div>
+                  <input type="range" id="display-glass-blur-slider" class="premium-range-slider"
+                         min="0" max="40" step="1" value="24"
+                         aria-label="עוצמת טשטוש הזכוכית">
+                  <div class="ios-slider-hint">0 = אטום לגמרי · 40 = זכוכית מלאה. הורד אם הגלילה מגמגמת במכשיר שלך.</div>
+                </div>
+
+                <div class="ios-setting-block">
+                  <div class="ios-setting-block-header">
+                    <span class="ios-row-label">צפיפות התצוגה</span>
+                  </div>
+                  <div class="ios-segmented-control" id="density-segment">
+                    <button type="button" class="segmented-btn" data-density="compact">צפוף</button>
+                    <button type="button" class="segmented-btn active" data-density="comfortable">רגיל</button>
+                    <button type="button" class="segmented-btn" data-density="spacious">מרווח</button>
+                  </div>
+                </div>
+
+                <div class="ios-setting-block">
+                  <div class="ios-setting-block-header">
+                    <span class="ios-row-label">גודל טקסט</span>
+                  </div>
+                  <div class="ios-segmented-control" id="fontsize-segment">
+                    <button type="button" class="segmented-btn" data-fontsize="small">קטן</button>
+                    <button type="button" class="segmented-btn active" data-fontsize="normal">רגיל</button>
+                    <button type="button" class="segmented-btn" data-fontsize="large">גדול</button>
+                    <button type="button" class="segmented-btn" data-fontsize="xlarge">ענק</button>
+                  </div>
+                </div>
+
+                <div class="ios-setting-block">
+                  <div class="ios-setting-block-header">
+                    <span class="ios-row-label">עיגול פינות</span>
+                  </div>
+                  <div class="ios-segmented-control" id="radius-segment">
+                    <button type="button" class="segmented-btn" data-radius="sharp">חד</button>
+                    <button type="button" class="segmented-btn active" data-radius="rounded">מעוגל</button>
+                    <button type="button" class="segmented-btn" data-radius="pill">עגלגל</button>
+                  </div>
+                </div>
+
+                <div class="ios-setting-block">
+                  <div class="ios-setting-block-header">
+                    <span class="ios-row-label">אנימציות</span>
+                  </div>
+                  <div class="ios-segmented-control" id="motion-segment">
+                    <button type="button" class="segmented-btn active" data-motion="full">מלא</button>
+                    <button type="button" class="segmented-btn" data-motion="reduced">מופחת</button>
+                    <button type="button" class="segmented-btn" data-motion="off">כבוי</button>
+                  </div>
+                </div>
+              </div>
+
               <div class="ios-settings-card-group">
                 <div class="ios-settings-group-title">צבע גוון הכרטיסיות (Card Tint Theme)</div>
                 <div class="ios-setting-block">
@@ -2626,7 +2687,7 @@
 
   <!-- Load global Firebase credential settings -->
   <script src="firebase-config.js"></script>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=1.10.0"></script>
 
   <!-- Stale Workout Recovery Modal -->
   <div id="stale-workout-modal" class="workout-modal-overlay hide" style="z-index: 1900; align-items: center; justify-content: center;">

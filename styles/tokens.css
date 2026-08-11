@@ -1,0 +1,192 @@
+/* ==========================================================================
+   AuraApp — Design Tokens  (v1.10.0)
+   Single source of truth for colour, type, spacing, radius and motion.
+   Every value here is user-controllable from Settings → Display via the
+   data-* attributes on <html>, so the whole app re-themes from one place.
+   ========================================================================== */
+
+:root {
+  /* ---------- TYPE SCALE ----------------------------------------------
+     Replaces the 14 arbitrary sizes (13.33px, 12.8px, 15.68px …) that the
+     old rem-on-rem maths produced. --fs-scale is driven by the font-size
+     control in Settings. */
+  --fs-scale: 1;
+  --fs-xs:   calc(11.5px * var(--fs-scale));
+  --fs-sm:   calc(13px   * var(--fs-scale));
+  --fs-base: calc(15px   * var(--fs-scale));
+  --fs-md:   calc(17px   * var(--fs-scale));
+  --fs-lg:   calc(20px   * var(--fs-scale));
+  --fs-xl:   calc(25px   * var(--fs-scale));
+  --fs-2xl:  calc(32px   * var(--fs-scale));
+
+  /* 6 weights collapsed to 3 */
+  --fw-regular: 400;
+  --fw-semi:    600;
+  --fw-bold:    800;
+
+  --lh-tight: 1.2;
+  --lh-base:  1.45;
+
+  /* ---------- SPACING ---------------------------------------------------
+     --density is set by the Compact / Comfortable / Spacious control. */
+  --density: 1;
+  --sp-1: calc(4px  * var(--density));
+  --sp-2: calc(8px  * var(--density));
+  --sp-3: calc(12px * var(--density));
+  --sp-4: calc(16px * var(--density));
+  --sp-5: calc(20px * var(--density));
+  --sp-6: calc(24px * var(--density));
+  --sp-8: calc(32px * var(--density));
+
+  /* ---------- RADIUS ----------------------------------------------------
+     10 ad-hoc radii collapsed to 4 steps, scaled by the corner control. */
+  --r-scale: 1;
+  --r-sm:   calc(10px * var(--r-scale));
+  --r-md:   calc(16px * var(--r-scale));
+  --r-lg:   calc(22px * var(--r-scale));
+  --r-xl:   calc(28px * var(--r-scale));
+  --r-full: 999px;
+
+  /* ---------- LIQUID GLASS ---------------------------------------------
+     The signature surface. Blur and opacity are both user-controlled so the
+     look can be dialled from "frosted" all the way down to "solid" on
+     low-end devices. */
+  --glass-blur: 24px;
+  --glass-saturate: 180%;
+  --glass-opacity: 0.72;
+
+  --glass-tint:        rgba(255, 255, 255, 0.10);
+  --glass-tint-soft:   rgba(255, 255, 255, 0.04);
+  --glass-border:      rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.22);
+  --glass-specular:    rgba(255, 255, 255, 0.20);
+  --glass-shadow:      0 8px 32px rgba(0, 0, 0, 0.45);
+  --glass-shadow-lg:   0 24px 64px rgba(0, 0, 0, 0.55);
+  --glass-inset:       inset 0 1px 0 var(--glass-specular);
+
+  /* ---------- NEUTRAL RAMP ---------------------------------------------
+     21 text colours collapsed to 4 roles. */
+  --ink-primary:   #ffffff;
+  --ink-secondary: rgba(235, 235, 245, 0.66);
+  --ink-tertiary:  rgba(235, 235, 245, 0.38);
+  --ink-inverse:   #0a0a0c;
+
+  --surface-base:  #0a0a0c;
+  --surface-raised: rgba(28, 28, 32, 0.72);
+
+  /* ---------- SEMANTIC (never repurposed as accent) --------------------- */
+  --color-success: #30d158;
+  --color-danger:  #ff453a;
+  --color-warning: #ff9f0a;
+
+  /* ---------- MOTION ----------------------------------------------------
+     One easing curve for everything, tuned to feel like iOS spring decay. */
+  --ease-liquid: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --motion: 1;                                  /* 0 disables all animation */
+  --dur-fast:  calc(0.16s * var(--motion));
+  --dur-base:  calc(0.32s * var(--motion));
+  --dur-slow:  calc(0.48s * var(--motion));
+
+  /* ---------- TOUCH -----------------------------------------------------
+     44px is Apple HIG, 48dp is Material. 46 satisfies both. */
+  --tap-min: 46px;
+
+  /* Safe areas, resolved once so nothing has to repeat the env() dance */
+  --safe-top:    env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left, 0px);
+  --safe-right:  env(safe-area-inset-right, 0px);
+}
+
+/* ==========================================================================
+   USER CONTROLS — driven by data-* attributes on <html>
+   ========================================================================== */
+
+/* Density */
+:root[data-density="compact"]     { --density: 0.78; }
+:root[data-density="comfortable"] { --density: 1;    }
+:root[data-density="spacious"]    { --density: 1.28; }
+
+/* Text size */
+:root[data-fontsize="small"]  { --fs-scale: 0.9;  }
+:root[data-fontsize="normal"] { --fs-scale: 1;    }
+:root[data-fontsize="large"]  { --fs-scale: 1.14; }
+:root[data-fontsize="xlarge"] { --fs-scale: 1.28; }
+
+/* Corner style */
+:root[data-radius="sharp"]   { --r-scale: 0.35; }
+:root[data-radius="rounded"] { --r-scale: 1;    }
+:root[data-radius="pill"]    { --r-scale: 1.5;  }
+
+/* Motion */
+:root[data-motion="reduced"] { --motion: 0.5; }
+:root[data-motion="off"]     { --motion: 0;   }
+
+/* Respect the OS-level accessibility setting unless the user explicitly
+   asked for full motion inside the app. */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) { --motion: 0; }
+}
+
+/* ==========================================================================
+   LIGHT THEME — the old build only ever inverted a handful of surfaces,
+   which is why light mode looked broken. Re-map the ramp instead.
+   ========================================================================== */
+:root[data-theme="light"] {
+  --ink-primary:   #0a0a0c;
+  --ink-secondary: rgba(60, 60, 67, 0.68);
+  --ink-tertiary:  rgba(60, 60, 67, 0.38);
+  --ink-inverse:   #ffffff;
+
+  --surface-base:  #f2f2f7;
+  --surface-raised: rgba(255, 255, 255, 0.78);
+
+  --glass-tint:      rgba(255, 255, 255, 0.62);
+  --glass-tint-soft: rgba(255, 255, 255, 0.40);
+  --glass-border:    rgba(0, 0, 0, 0.10);
+  --glass-border-strong: rgba(0, 0, 0, 0.16);
+  --glass-specular:  rgba(255, 255, 255, 0.90);
+  --glass-shadow:    0 8px 32px rgba(0, 0, 0, 0.12);
+  --glass-shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.18);
+}
+
+/* Outdoor = maximum legibility in direct sunlight: kill translucency and
+   push contrast, because frosted glass is unreadable at 100k lux. */
+:root[data-theme="outdoor"] {
+  --ink-primary:   #000000;
+  --ink-secondary: #1c1c1e;
+  --ink-tertiary:  #3a3a3c;
+  --surface-base:  #ffffff;
+  --surface-raised: #ffffff;
+  --glass-blur: 0px;
+  --glass-opacity: 1;
+  --glass-tint:    #ffffff;
+  --glass-tint-soft: #f2f2f7;
+  --glass-border:  rgba(0, 0, 0, 0.28);
+  --glass-border-strong: rgba(0, 0, 0, 0.42);
+  --glass-specular: transparent;
+  --glass-shadow:  0 2px 8px rgba(0, 0, 0, 0.20);
+  --glass-shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.28);
+}
+
+/* ==========================================================================
+   GRACEFUL DEGRADATION
+   Older Android WebViews and Firefox builds without backdrop-filter would
+   otherwise render these surfaces as near-invisible washes.
+   ========================================================================== */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass-tint: rgba(28, 28, 32, 0.94);
+    --glass-tint-soft: rgba(28, 28, 32, 0.88);
+  }
+  :root[data-theme="light"] {
+    --glass-tint: rgba(255, 255, 255, 0.96);
+    --glass-tint-soft: rgba(248, 248, 250, 0.94);
+  }
+}
+
+/* Devices that ask for less transparency (iOS "Reduce Transparency") */
+@media (prefers-reduced-transparency: reduce) {
+  :root { --glass-blur: 0px; --glass-opacity: 0.98; }
+}
