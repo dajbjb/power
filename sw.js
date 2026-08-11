@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.10.1';
+const CACHE_NAME = '1.10.2';
 
 // ---------------------------------------------------------------------------
 // AUTO_UPDATE
@@ -16,7 +16,7 @@ const CACHE_NAME = '1.10.1';
 // To restore the ask-first flow later, set this to false. Nothing else changes.
 // ---------------------------------------------------------------------------
 const AUTO_UPDATE = true;
-const UPDATE_DESCRIPTION = 'שדרוג 1.10.0: עיצוב Liquid Glass חדש לחלוטין, אנימציות נוזליות, ושליטה מלאה בתצוגה - שקיפות, צפיפות, גודל טקסט, עיגול פינות ואנימציות';
+const UPDATE_DESCRIPTION = 'שדרוג 1.10.2: עדכוני גרסה מותקנים אוטומטית ללא צורך באישור';
 
 const ASSETS = [
   './',
