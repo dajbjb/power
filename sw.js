@@ -1,4 +1,21 @@
-const CACHE_NAME = '1.10.0';
+const CACHE_NAME = '1.10.1';
+
+// ---------------------------------------------------------------------------
+// AUTO_UPDATE
+// true  = a new version installs and activates on its own, then app.js reloads
+//         the page via its `controllerchange` listener. No prompt, no tapping.
+// false = the previous behaviour: cache the new version but wait in the
+//         `waiting` state until the user taps "רענן כעת" in the update toast.
+//
+// This flag lives in sw.js on purpose. sw.js is the ONLY file the browser
+// re-fetches from the network on every registration.update(); everything else
+// is served from the cache. Putting the logic anywhere else would mean the new
+// behaviour only starts working after the user had already updated once —
+// which is the exact chicken-and-egg problem we are solving.
+//
+// To restore the ask-first flow later, set this to false. Nothing else changes.
+// ---------------------------------------------------------------------------
+const AUTO_UPDATE = true;
 const UPDATE_DESCRIPTION = 'שדרוג 1.10.0: עיצוב Liquid Glass חדש לחלוטין, אנימציות נוזליות, ושליטה מלאה בתצוגה - שקיפות, צפיפות, גודל טקסט, עיגול פינות ואנימציות';
 
 const ASSETS = [
@@ -39,8 +56,33 @@ const ASSETS = [
 let restTimerTimeout = null;
 
 self.addEventListener('install', (event) => {
-  console.log('Service Worker: Installed. Assets will be cached on-demand.');
-  event.waitUntil(Promise.resolve());
+  if (!AUTO_UPDATE) {
+    console.log('Service Worker: Installed. Waiting for the user to confirm the update.');
+    event.waitUntil(Promise.resolve());
+    return;
+  }
+
+  // Pre-cache before skipping the wait. `activate` deletes every cache whose
+  // name is not CACHE_NAME, so if we activated first the new cache would be
+  // empty and an offline user would be left with nothing.
+  console.log('Service Worker: Installing v' + CACHE_NAME + ' and activating automatically.');
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => Promise.all(
+        ASSETS.map((url) =>
+          fetch(new Request(url, { cache: 'reload' }))
+            .then((res) => (res.ok || res.status === 0) ? cache.put(url, res) : null)
+            // A single unreachable asset must not abort the whole install,
+            // otherwise one hiccup leaves the user stuck on the old version.
+            .catch((err) => { console.warn('Service Worker: could not pre-cache', url, err); })
+        )
+      ))
+      .then(() => self.skipWaiting())
+      .catch((err) => {
+        console.error('Service Worker: pre-cache failed, activating anyway:', err);
+        return self.skipWaiting();
+      })
+  );
 });
 
 // Activate state - clean up old caches safely

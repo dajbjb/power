@@ -694,7 +694,9 @@ body,
 .pwa-update-toast.show {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(-230px);
+  /* Sit just above the floating nav bar. The old -230px was a magic number
+     that put the toast off-screen once the nav height changed. */
+  transform: translateX(-50%) translateY(calc(-100px - 74px - env(safe-area-inset-bottom, 0px)));
   pointer-events: auto;
 }
 
