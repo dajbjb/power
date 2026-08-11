@@ -1951,39 +1951,13 @@ button:focus,
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#stale-workout-modal {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface-1);
-  border: 1px solid rgba(228, 228, 230, 0.08);
-  border-radius: 20px;
-  padding: 24px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  z-index: 1300;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-#stale-workout-modal h2 {
-  font-size: 1.4rem;
-  margin-bottom: 12px;
-  color: #fff;
-}
-
-#stale-workout-modal p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin-bottom: 24px;
-  line-height: 1.5;
-}
-
-#stale-workout-modal .modal-actions {
-  display: flex;
-  gap: 12px;
-  flex-direction: column;
-}
+/* #stale-workout-modal used to BE the card. The markup now wraps a
+   .workout-modal-card inside it and the element carries .workout-modal-overlay,
+   which is `position: fixed; inset: 0`. The old card rules (width: 90%,
+   max-width: 400px, padding, border, background) fought that: the overlay
+   stopped covering the screen, sat ~19px off centre, and drew a stray bordered
+   panel around the real card. The h2 / p / .modal-actions selectors below it
+   matched nothing in the current markup. All of it removed. */
 
 .exercise-card.saved:hover {
   transform: translateY(-2px);
@@ -2052,7 +2026,14 @@ button:focus,
   -webkit-overflow-scrolling: touch !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  padding: 1rem 1.25rem calc(110px + env(safe-area-inset-bottom, 24px)) 1.25rem !important;
+  /* This container's own box already ends 36px above the floating nav on every
+     viewport height tested (667 / 812 / 800), so the old 110px was clearing an
+     obstacle that is not there — it left ~165px of blank space under the last
+     row. 32px is a comfortable resting gap; the safe-area inset still applies
+     for devices with a home indicator. Three other rules also declare this
+     padding (settings.css:749, components.css:1181, glass.css); this one wins
+     on ID specificity and is the one that takes effect. */
+  padding: 1rem 1.25rem calc(32px + env(safe-area-inset-bottom, 0px)) 1.25rem !important;
   background: transparent !important;
 }
 
@@ -2079,7 +2060,11 @@ button:focus,
   font-size: 0.75rem !important;
   font-weight: 700 !important;
   color: #fff !important;
-  background: var(--color-danger, #ff3b30) !important;
+  /* Not --color-danger: white on #FF453A measures 3.41:1, under the 4.5:1
+     needed at this size. This is the darker iOS system red, still unmistakably
+     the same colour, but 5.4:1 against the white count. --color-danger keeps
+     its brighter value everywhere else, where it is used on dark backgrounds. */
+  background: #d70015 !important;
 }
 
 /* Task 6 & 22: Account View Header Dark Background & Card Group light mode conflict */

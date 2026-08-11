@@ -262,7 +262,14 @@ export function applyNavStyle(style) {
   state.navStyle = targetStyle;
   SafeStorage.setItem('aura-nav-style', targetStyle);
 
-  const scrollContainers = document.querySelectorAll('.ios-settings-scroll-container, .ios-analytics-scroll-container, .exercises-list-container, .tab-pane');
+  // .ios-settings-scroll-container is deliberately NOT in this list. Writing an
+  // inline `!important` padding here outranks every stylesheet, which is why the
+  // four CSS declarations of this same property (settings.css:749 and :2036,
+  // components.css:1181, glass.css) had no effect and kept getting raised —
+  // 200px, 140px, 110px — by anyone trying to fix spacing from the CSS side.
+  // The settings container's own box already ends ~30px above the nav in both
+  // nav styles, so it needs no JS clearance at all; settings.css:2036 owns it.
+  const scrollContainers = document.querySelectorAll('.ios-analytics-scroll-container, .exercises-list-container, .tab-pane');
   scrollContainers.forEach(el => {
     if (targetStyle === 'fixed') {
       el.style.setProperty('padding-bottom', 'calc(90px + env(safe-area-inset-bottom, 16px))', 'important');

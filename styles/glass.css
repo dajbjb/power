@@ -57,10 +57,17 @@ a,
 }
 
 /* iOS zooms the viewport when a focused input is under 16px. Locking the
-   minimum kills that jump without affecting the visual scale elsewhere. */
+   minimum kills that jump without affecting the visual scale elsewhere.
+   The [class] variants exist only to raise specificity to (0,1,1): the bare
+   element selector was (0,0,1) and lost to any class rule, which is how
+   .date-picker-input kept its 0.85rem and made the schedule modal zoom on tap.
+   No input in the app is intentionally larger than 16px, so clamping up only. */
 input,
 select,
-textarea {
+textarea,
+input[class],
+select[class],
+textarea[class] {
   font-size: max(16px, var(--fs-base));
   font-family: inherit;
 }
@@ -288,6 +295,104 @@ textarea {
   pointer-events: none;
 }
 .btn:active::after { opacity: 0.85; transition-duration: 0s; }
+
+/* --------------------------------------------------------------------------
+   5b. TAP TARGETS
+   Measured on a 375px viewport: every modal close button was 10–18px wide
+   (only as wide as its "×" glyph), and the chips/segments were 26–36px tall.
+   Both sit well under the 44px minimum this app already declares in --tap-min.
+   -------------------------------------------------------------------------- */
+
+/* Close buttons widen for real: each one sits alone in a space-between header,
+   so the extra width pushes against nothing. */
+.btn-cancel-link {
+  min-width: var(--tap-min);
+  padding-left: var(--sp-3);
+  padding-right: var(--sp-3);
+  text-align: center;
+}
+
+/* Chips and segments keep their compact look — growing them to 44px would
+   wreck the row rhythm. Instead the hit area alone is grown, and only
+   vertically, so siblings in the same row can never overlap each other. */
+.sets-option-chip,
+.rest-option-chip,
+.segmented-btn,
+.theme-segment-btn,
+.filter-pill-btn,
+.btn-open-full-preview,
+.stepper-btn,
+.state-switch-btn,
+.run-map-toggle-btn {
+  position: relative;
+}
+
+/* Dropdowns landed at 41px — three short of the minimum, and unlike the chips
+   they have room to simply grow. */
+select,
+.premium-filter-select {
+  min-height: var(--tap-min);
+}
+
+/* At 150% browser zoom (or a 250px-wide window) a settings row's two halves
+   want 225px inside a 209px row, and the label is nowrap with overflow
+   visible — so in RTL the text ran off the left edge of the screen. Letting
+   the label side shrink and truncate only engages once space is genuinely
+   short; at 375px and above nothing moves. */
+.ios-setting-row .ios-row-right {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+/* Wrap rather than ellipsis: "סנכרון וגיבוי לענן" truncated to 49px is not a
+   readable label, and a settings row has the vertical room to grow. At 375px
+   and above nothing wraps, because nothing is short of space there. */
+.ios-setting-row .ios-row-label {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* The theme picker ran off the screen at 150% zoom, and even at 375px its three
+   segments wanted 297px inside a 291px control — the third label is the long
+   "שטח (ניגודיות)". Trimming the side padding buys back 24px so all three fit
+   on one row at normal sizes, and wrapping (rather than clipping or equal
+   thirds) means the labels stay fully readable at any width. */
+.theme-segmented-control {
+  flex-wrap: wrap;
+}
+.theme-segmented-control .theme-segment-btn {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  padding-left: var(--sp-2) !important;
+  padding-right: var(--sp-2) !important;
+}
+
+.sets-option-chip::after,
+.rest-option-chip::after,
+.segmented-btn::after,
+.theme-segment-btn::after,
+.filter-pill-btn::after,
+.btn-open-full-preview::after,
+.stepper-btn::after,
+.state-switch-btn::after,
+.run-map-toggle-btn::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: var(--tap-min);
+  transform: translateY(-50%);
+  /* No paint of its own — this exists purely to be hit-tested. */
+}
+
+/* The four admin tabs need 385px of button in a 335px row, so the first one
+   was cut off past the screen edge. Scroll the row rather than clip it. */
+.admin-segmented-control {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.admin-segmented-control::-webkit-scrollbar { display: none; }
+.admin-segmented-control .segmented-btn { flex: 0 0 auto; }
 
 .btn-primary {
   background: linear-gradient(165deg,
