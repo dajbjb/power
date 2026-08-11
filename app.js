@@ -262,14 +262,21 @@ export function applyNavStyle(style) {
   state.navStyle = targetStyle;
   SafeStorage.setItem('aura-nav-style', targetStyle);
 
-  // .ios-settings-scroll-container is deliberately NOT in this list. Writing an
-  // inline `!important` padding here outranks every stylesheet, which is why the
-  // four CSS declarations of this same property (settings.css:749 and :2036,
-  // components.css:1181, glass.css) had no effect and kept getting raised —
-  // 200px, 140px, 110px — by anyone trying to fix spacing from the CSS side.
-  // The settings container's own box already ends ~30px above the nav in both
-  // nav styles, so it needs no JS clearance at all; settings.css:2036 owns it.
-  const scrollContainers = document.querySelectorAll('.ios-analytics-scroll-container, .exercises-list-container, .tab-pane');
+  // Neither .tab-pane nor .ios-settings-scroll-container belongs in this list.
+  //
+  // .tab-pane is a full-height layout shell, not a scroll region. Padding it
+  // shrank its *content box* — so #workout-idle-view, which is a card with its
+  // own background and border, stopped 144px above the bottom of the screen and
+  // drew a visible seam with bare app background underneath. That is the
+  // "screen is cut off above the toolbar" report. The nav floats above the
+  // panes; only the scrolling children need to clear it.
+  //
+  // .ios-settings-scroll-container is out because an inline `!important` here
+  // outranks every stylesheet, which is why the four CSS declarations of this
+  // property (settings.css:749 and :2036, components.css:1181, glass.css) had
+  // no effect and kept getting raised — 200px, 140px, 110px — by anyone trying
+  // to fix the spacing from the CSS side. settings.css:2036 owns it now.
+  const scrollContainers = document.querySelectorAll('.ios-analytics-scroll-container, .exercises-list-container');
   scrollContainers.forEach(el => {
     if (targetStyle === 'fixed') {
       el.style.setProperty('padding-bottom', 'calc(90px + env(safe-area-inset-bottom, 16px))', 'important');

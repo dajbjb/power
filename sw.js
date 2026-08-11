@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.10.4';
+const CACHE_NAME = '1.10.5';
 
 // ---------------------------------------------------------------------------
 // AUTO_UPDATE
@@ -16,7 +16,7 @@ const CACHE_NAME = '1.10.4';
 // To restore the ask-first flow later, set this to false. Nothing else changes.
 // ---------------------------------------------------------------------------
 const AUTO_UPDATE = true;
-const UPDATE_DESCRIPTION = 'שדרוג 1.10.4: כפתורים גדולים יותר למגע, תיקון חלון שחזור אימון ותצוגה תקינה בזום';
+const UPDATE_DESCRIPTION = 'שדרוג 1.10.5: תיקון אייקוני סרגל הניווט שנחתכו והמסך שנגמר מוקדם מדי';
 
 const ASSETS = [
   './',

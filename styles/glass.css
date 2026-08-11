@@ -451,8 +451,15 @@ select,
   border: 1px solid var(--glass-border) !important;
   border-radius: var(--r-xl) !important;
   box-shadow: var(--glass-inset), var(--glass-shadow-lg) !important;
-  /* Clears the iPhone home indicator and Android gesture bar */
-  padding-bottom: max(var(--sp-1), var(--safe-bottom)) !important;
+  /* NO padding-bottom here. navigation.css gives this bar a fixed
+     `height: 54px` with `overflow: hidden`, and it is border-box — so on a
+     phone with a home indicator a 34px bottom inset left the .nav-container
+     19px of the 52px it needs, and the tab icons (which sit above the labels)
+     were sliced off. The bar already clears the indicator from the outside via
+     `bottom: calc(20px + env(safe-area-inset-bottom, 0px))`; padding on top of
+     that was counting the inset twice.
+     This never showed up in desktop testing because env(safe-area-inset-bottom)
+     is 0 there — it only appears on real hardware. */
   transition: transform var(--dur-base) var(--ease-liquid), opacity var(--dur-base) var(--ease-liquid);
   will-change: transform;
 }
@@ -472,7 +479,21 @@ select,
   transition: color var(--dur-base) var(--ease-liquid);
   isolation: isolate;
 }
-.nav-tab .tab-label { font-size: var(--fs-xs) !important; font-weight: var(--fw-semi) !important; }
+/* A wrapped label is fatal in these bars: they are a fixed 54px with
+   overflow:hidden, so a second line pushes the icon out of the top and it gets
+   sliced off. "לוח שנה" needed ~45px but the tab's 16px side padding left it
+   34px, so it wrapped and clipped its own icon. Keep labels on one line, and
+   give the five-item sub-nav room to actually hold them. */
+.nav-tab .tab-label {
+  font-size: var(--fs-xs) !important;
+  font-weight: var(--fw-semi) !important;
+  white-space: nowrap;
+}
+
+#metrics-sub-nav .nav-tab {
+  padding-left: var(--sp-1) !important;
+  padding-right: var(--sp-1) !important;
+}
 .nav-tab.active { color: var(--accent) !important; }
 
 /* The pill itself: scales up from the centre with a spring, rather than

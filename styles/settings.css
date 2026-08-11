@@ -2026,14 +2026,14 @@ button:focus,
   -webkit-overflow-scrolling: touch !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  /* This container's own box already ends 36px above the floating nav on every
-     viewport height tested (667 / 812 / 800), so the old 110px was clearing an
-     obstacle that is not there — it left ~165px of blank space under the last
-     row. 32px is a comfortable resting gap; the safe-area inset still applies
-     for devices with a home indicator. Three other rules also declare this
-     padding (settings.css:749, components.css:1181, glass.css); this one wins
-     on ID specificity and is the one that takes effect. */
-  padding: 1rem 1.25rem calc(32px + env(safe-area-inset-bottom, 0px)) 1.25rem !important;
+  /* The floating nav sits `20px + safe-inset` off the bottom and is 54px tall,
+     so its top edge is 74px + inset above the bottom of the screen. The pane
+     behind this container is now full height (applyNavStyle no longer pads
+     .tab-pane), so this container reaches the bottom edge and has to clear the
+     nav on its own — 94px + inset leaves a 20px breathing gap under the last
+     row. Three other rules also declare this padding (settings.css:749,
+     components.css:1181, glass.css); this one wins on ID specificity. */
+  padding: 1rem 1.25rem calc(94px + env(safe-area-inset-bottom, 0px)) 1.25rem !important;
   background: transparent !important;
 }
 
