@@ -191,7 +191,6 @@ textarea {
   color: var(--ink-tertiary) !important;
   letter-spacing: 0.04em;
   text-transform: none;
-  margin: var(--sp-5) var(--sp-2) var(--sp-2) !important;
 }
 
 .ios-settings-header,
@@ -204,12 +203,8 @@ textarea {
    4. SETTINGS ROWS
    ========================================================================== */
 
-.ios-settings-card-group { padding: var(--sp-1) var(--sp-3) !important; margin-bottom: var(--sp-3) !important; overflow: hidden; }
-
 .ios-setting-row {
   min-height: var(--tap-min);
-  padding: var(--sp-3) var(--sp-1) !important;
-  gap: var(--sp-3);
   border-bottom: 1px solid var(--glass-border);
   transition: background var(--dur-fast) var(--ease-liquid);
   border-radius: var(--r-sm);
@@ -260,7 +255,6 @@ textarea {
   letter-spacing: 0.01em;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
   transition:
     transform var(--dur-fast) var(--ease-liquid),
     filter    var(--dur-fast) var(--ease-liquid),
@@ -287,6 +281,7 @@ textarea {
   position: absolute;
   inset: 0;
   border-radius: inherit;
+  overflow: hidden;
   background: radial-gradient(circle at var(--px, 50%) var(--py, 50%), var(--glass-specular) 0%, transparent 60%);
   opacity: 0;
   transition: opacity var(--dur-slow) var(--ease-out);
@@ -339,24 +334,6 @@ textarea {
   border-radius: var(--r-sm);
 }
 :focus:not(:focus-visible) { outline: none; }
-
-/* ==========================================================================
-   6. TOGGLES
-   ========================================================================== */
-
-.ios-toggle-slider {
-  background: var(--glass-tint) !important;
-  border: 1px solid var(--glass-border) !important;
-  transition: background var(--dur-base) var(--ease-liquid) !important;
-}
-.ios-toggle-switch input:checked + .ios-toggle-slider {
-  background: var(--color-success) !important;
-  border-color: color-mix(in srgb, var(--color-success) 70%, white 20%) !important;
-}
-.ios-toggle-slider::before {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
-  transition: transform var(--dur-base) var(--ease-liquid) !important;
-}
 
 /* ==========================================================================
    7. NAVIGATION — glass bar with a pill that slides between tabs
@@ -442,18 +419,6 @@ textarea {
   to   { opacity: 1; transform: none; }
 }
 
-/* Staggered entrance for card groups — reads as "assembling" rather than
-   "flashing". Capped at 6 so long lists do not feel slow. */
-.tab-pane.active .ios-settings-card-group { animation: card-in var(--dur-base) var(--ease-out) backwards; }
-.tab-pane.active .ios-settings-card-group:nth-of-type(1) { animation-delay: 0.02s; }
-.tab-pane.active .ios-settings-card-group:nth-of-type(2) { animation-delay: 0.05s; }
-.tab-pane.active .ios-settings-card-group:nth-of-type(3) { animation-delay: 0.08s; }
-.tab-pane.active .ios-settings-card-group:nth-of-type(4) { animation-delay: 0.11s; }
-.tab-pane.active .ios-settings-card-group:nth-of-type(5) { animation-delay: 0.14s; }
-.tab-pane.active .ios-settings-card-group:nth-of-type(n+6) { animation-delay: 0.16s; }
-@keyframes card-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: none; }
 }
 
 /* ==========================================================================
