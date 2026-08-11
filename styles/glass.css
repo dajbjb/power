@@ -128,15 +128,16 @@ textarea {
   position: relative;
   background:
     linear-gradient(160deg, var(--glass-tint) 0%, var(--glass-tint-soft) 55%, transparent 100%),
-    rgba(var(--card-bg-rgb, 22 22 28), var(--card-bg-opacity, 0.72)) !important;
+    rgba(var(--card-bg-rgb, 22, 22, 28), var(--card-bg-opacity, 0.72)) !important;
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: var(--r-lg) !important;
   box-shadow: var(--glass-inset), var(--glass-shadow) !important;
-  /* Promote to its own layer so blur is composited on the GPU rather than
-     re-rasterised on every scroll frame. This is what keeps 60fps. */
-  transform: translateZ(0);
+  /* Promote to a compositor layer so blur is not re-rasterised on every
+     scroll frame. NEVER use `transform` for this: several of these elements
+     are centred with translateX(-50%) and setting transform here wipes it. */
+  will-change: transform;
 }
 
 /* The specular sheen along the top edge — the detail that reads as
@@ -362,7 +363,7 @@ textarea {
    ========================================================================== */
 
 .ios-bottom-nav {
-  background: rgba(var(--card-bg-rgb, 22 22 28), 0.62) !important;
+  background: rgba(var(--card-bg-rgb, 22, 22, 28), 0.62) !important;
   -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(200%) !important;
   backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(200%) !important;
   border: 1px solid var(--glass-border) !important;
@@ -371,10 +372,12 @@ textarea {
   /* Clears the iPhone home indicator and Android gesture bar */
   padding-bottom: max(var(--sp-1), var(--safe-bottom)) !important;
   transition: transform var(--dur-base) var(--ease-liquid), opacity var(--dur-base) var(--ease-liquid);
-  transform: translateZ(0);
+  will-change: transform;
 }
+/* The bar is centred with translateX(-50%), so the hidden state has to keep
+   that component or it slides off to the side instead of down. */
 .ios-bottom-nav.nav-hidden {
-  transform: translateY(140%) translateZ(0);
+  transform: translateX(-50%) translateY(140%);
   opacity: 0;
   pointer-events: none;
 }
@@ -423,12 +426,6 @@ textarea {
 /* ==========================================================================
    8. TAB + VIEW TRANSITIONS
    ========================================================================== */
-
-.tab-pane.active { animation: pane-in var(--dur-base) var(--ease-out); }
-@keyframes pane-in {
-  from { opacity: 0; transform: translateY(8px) scale(0.995); }
-  to   { opacity: 1; transform: none; }
-}
 
 /* Settings sub-views slide in from the trailing edge (RTL-aware: the app is
    dir="rtl", so translateX(-N) enters from the correct side). */
@@ -643,11 +640,11 @@ textarea {
    ========================================================================== */
 
 .premium-toast-container {
-  bottom: calc(var(--tap-min) + var(--sp-8) + var(--safe-bottom)) !important;
-  padding: 0 var(--sp-4);
+  /* anchored from the top in components.css - do not add `bottom` here */
+  max-width: min(420px, calc(100vw - 32px));
 }
 .premium-toast {
-  background: rgba(var(--card-bg-rgb, 22 22 28), 0.86) !important;
+  background: rgba(var(--card-bg-rgb, 22, 22, 28), 0.86) !important;
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate)) !important;
   border: 1px solid var(--glass-border) !important;
@@ -664,13 +661,6 @@ textarea {
    13. SAFE-AREA / CLIPPING FIXES
    ========================================================================== */
 
-.tab-pane {
-  padding-top: max(var(--sp-3), var(--safe-top));
-  padding-left: max(var(--sp-3), var(--safe-left));
-  padding-right: max(var(--sp-3), var(--safe-right));
-  box-sizing: border-box;
-}
-
 /* The bottom nav is fixed and translucent, so every scroll container needs
    room underneath or the last row sits permanently behind the glass. */
 .ios-settings-scroll-container,
@@ -682,9 +672,6 @@ textarea {
 
 .ios-settings-header {
   padding-top: max(var(--sp-2), var(--safe-top));
-  position: sticky;
-  top: 0;
-  z-index: 5;
 }
 
 /* ==========================================================================

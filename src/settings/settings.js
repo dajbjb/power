@@ -138,9 +138,10 @@ export function applyDisplayPreferences() {
   // 3. Apply Card Tint Color Theme
   const cardColor = state.cardBgColor || '#16161c';
   const cardRgb = hexToRgbValues(cardColor);
+  // Comma form on purpose: every consumer writes rgba(var(--card-bg-rgb), a),
+  // and rgba() only accepts a comma before alpha when the channels are also
+  // comma-separated. The space-separated form silently invalidates the rule.
   document.documentElement.style.setProperty('--card-bg-rgb', cardRgb);
-  // glass.css uses the modern space-separated form inside rgba()
-  document.documentElement.style.setProperty('--card-bg-rgb', cardRgb.split(',').map(v => v.trim()).join(' '));
 
   const cardColorPicker = document.getElementById('display-custom-card-color-picker');
   if (cardColorPicker) cardColorPicker.value = cardColor;
