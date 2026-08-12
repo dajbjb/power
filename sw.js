@@ -1,4 +1,4 @@
-const CACHE_NAME = '1.10.5';
+const CACHE_NAME = '1.10.6';
 
 // ---------------------------------------------------------------------------
 // AUTO_UPDATE
@@ -16,7 +16,7 @@ const CACHE_NAME = '1.10.5';
 // To restore the ask-first flow later, set this to false. Nothing else changes.
 // ---------------------------------------------------------------------------
 const AUTO_UPDATE = true;
-const UPDATE_DESCRIPTION = 'שדרוג 1.10.5: תיקון אייקוני סרגל הניווט שנחתכו והמסך שנגמר מוקדם מדי';
+const UPDATE_DESCRIPTION = 'שדרוג 1.10.6: תיקון הרקע השחור במסך פרטי החשבון - הטפט מוצג גם שם';
 
 const ASSETS = [
   './',

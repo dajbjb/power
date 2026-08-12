@@ -1358,9 +1358,14 @@ body:not(.light-theme) .ios-settings-header {
   /* iOS Native Dark Green status toggle */
 }
 
-/* Sub-view 2: Account Details Screen (Dark Theme overrides) */
+/* Sub-view 2: Account Details Screen (Dark Theme overrides)
+   Text colour only. This selector carries two IDs, so any background it
+   declared outranked `body.has-custom-wallpaper #settings-account-view`
+   (one ID + one class) and survived the wallpaper transparency pass — the
+   account screen stayed opaque black while every sibling sub-view went
+   transparent and showed the wallpaper. The shared sub-view rule further
+   down already supplies the background for all seven views. */
 #tab-settings.dark-theme #settings-account-view {
-  background-color: #000000 !important;
   color: #ffffff !important;
 }
 
