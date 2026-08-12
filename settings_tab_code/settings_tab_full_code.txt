@@ -1,0 +1,4464 @@
+===============================================================================
+AURAAPP - SETTINGS TAB COMPLETE CODEBASE & STYLING EXPORT
+===============================================================================
+Export Date: 2026-07-26T06:42:32.810Z
+
+===============================================================================
+PART 1: HTML DOM STRUCTURE (#tab-settings)
+Source File: index.html
+Original Location: index.html (Lines ~228 to ~880)
+Description: Complete HTML structure for Settings Tab and all 7 sub-views (#settings-main-view, #settings-account-view, #settings-display-view, #settings-sync-view, #settings-feedback-view, #settings-messages-view, #settings-admin-view).
+===============================================================================
+
+<div id="tab-settings" class="tab-pane active dark-theme">
+          
+          <!-- Sub-view 1: Main iOS Settings Screen -->
+          <div id="settings-main-view" style="width: 100%; height: 100%; flex: 1 1 100%; min-height: 0; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <h2 class="settings-main-title" style="margin: 0; font-size: 1.6rem; font-weight: 900;">הגדרות</h2>
+            </div>
+            
+            <div class="ios-settings-scroll-container" style="width: 100%; flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+              <!-- Group 1: Profile & Account -->
+              <div class="ios-settings-group-title">חשבון ופרופיל</div>
+              <div class="ios-settings-card-group">
+                <!-- Row 1: Account Settings (Clickable Profile Row) -->
+                <div id="go-to-account-btn" class="ios-setting-row ios-profile-card" role="button" tabindex="0">
+                  <div class="ios-row-left">
+                    <span class="ios-row-chevron">←</span>
+                  </div>
+                  <div class="ios-profile-right">
+                    <div class="ios-profile-avatar-wrapper">
+                      <img id="settings-user-photo-main" class="ios-profile-avatar" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="User Settings Profile">
+                      <span class="avatar-glow-ring"></span>
+                    </div>
+                    <div class="ios-profile-info">
+                      <span id="settings-user-name-main" class="ios-profile-name">משתמש</span>
+                      <span class="ios-profile-subtext">פרופיל, אבטחה, התנתקות</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Group 2: Cloud Services -->
+              <div class="ios-settings-group-title">שירותי ענן</div>
+              <div class="ios-settings-card-group">
+                <div id="go-to-cloud-sync-btn" class="ios-setting-row" role="button" tabindex="0">
+                  <div class="ios-row-left">
+                    <span id="settings-sync-status-badge" class="ios-row-detail-text">מחובר</span>
+                    <span class="ios-row-chevron">←</span>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-blue" style="background-color: #0a84ff;">☁️</span>
+                    <span class="ios-row-label">סנכרון וגיבוי לענן</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Group 3: Display Settings -->
+              <div class="ios-settings-group-title">תצוגה ומראה</div>
+              <div class="ios-settings-card-group">
+                <div id="go-to-display-settings-btn" class="ios-setting-row" role="button" tabindex="0">
+                  <div class="ios-row-left"><span class="ios-row-chevron">←</span></div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-purple" style="background-color: #5856d6;">🎨</span>
+                    <span class="ios-row-label">הגדרות תצוגה</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Group 4: App Version/Updates -->
+              <div class="ios-settings-group-title">גרסה ועדכונים</div>
+              <div class="ios-settings-card-group">
+
+                <!-- System Version -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <span id="settings-system-version" class="ios-row-detail-text">v1.2.0</span>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-blue">ℹ️</span>
+                    <span class="ios-row-label">גרסת המערכת</span>
+                  </div>
+                </div>
+
+                <!-- Notifications Switch -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="toggle-settings-notifications" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-red">🔔</span>
+                    <span class="ios-row-label">התראות פעילות</span>
+                  </div>
+                </div>
+
+                <!-- Search for Updates -->
+                <div class="ios-setting-row" id="row-settings-check-update" role="button" tabindex="0">
+                  <div class="ios-row-left">
+                    <span id="settings-update-status" class="ios-row-detail-text">בדוק</span>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-green">🔄</span>
+                    <span class="ios-row-label">בדוק עדכוני תוכנה</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Group 5: Feedback & Administration -->
+              <div class="ios-settings-group-title">תמיכה וניהול</div>
+              <div class="ios-settings-card-group">
+                <!-- Send Feedback -->
+                <div id="go-to-feedback-btn" class="ios-setting-row" role="button" tabindex="0">
+                  <div class="ios-row-left"><span class="ios-row-chevron">←</span></div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-orange" style="background-color: #ff9500;">💬</span>
+                    <span class="ios-row-label">שליחת משוב למפתח</span>
+                  </div>
+                </div>
+
+                <!-- System Messages -->
+                <div id="go-to-messages-btn" class="ios-setting-row" role="button" tabindex="0">
+                  <div class="ios-row-left">
+                    <span id="unread-messages-badge" class="ios-badge hide">0</span>
+                    <span class="ios-row-chevron">←</span>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-blue" style="background-color: #007aff;">📬</span>
+                    <span class="ios-row-label">הודעות מהמערכת</span>
+                  </div>
+                </div>
+
+                <!-- Admin Console (Admin users only) -->
+                <div id="settings-admin-group">
+                  <div id="go-to-admin-console-btn" class="ios-setting-row" role="button" tabindex="0">
+                    <div class="ios-row-left"><span class="ios-row-chevron">←</span></div>
+                    <div class="ios-row-right">
+                      <span class="ios-row-label">פאנל ניהול מנהל</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sub-view 2: Account Details Screen (Hidden by default) -->
+          <div id="settings-account-view" class="hide" style="width: 100%; height: 100%; flex: 1 1 100%; min-height: 0; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <button id="back-to-settings-btn" class="ios-back-btn">
+                חזרה <span class="back-arrow">→</span>
+              </button>
+              <h2 class="settings-sub-title">פרטי חשבון</h2>
+            </div>
+            
+            <div class="ios-settings-scroll-container" style="width: 100%; height: 100%; flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+              <div class="ios-account-profile-card">
+                <div class="ios-settings-avatar-glow">
+                  <img id="settings-user-photo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="User Profile">
+                </div>
+                <h3 class="welcome-text">היי, <span id="user-display-name">User</span>!</h3>
+                <p class="settings-subtitle">מרכז הגדרות פרופיל מאובטח</p>
+              </div>
+
+              <!-- Profile Info Fields -->
+              <div class="ios-settings-field-group">
+                <div class="ios-settings-field-row">
+                  <span id="settings-user-name-field" class="field-value">User</span>
+                  <span class="field-label">שם משתמש</span>
+                </div>
+                <div class="ios-settings-field-row">
+                  <span id="settings-user-email-field" class="field-value">user@gmail.com</span>
+                  <span class="field-label">אימייל</span>
+                </div>
+                <div class="ios-settings-field-row">
+                  <span id="settings-user-role-field" class="field-value">משתמש רגיל</span>
+                  <span class="field-label">סוג חשבון</span>
+                </div>
+              </div>
+
+              <div class="settings-actions" style="margin-top: 1.5rem; display: flex; justify-content: center; width: 100%;">
+                <button id="app-logout-btn" class="btn btn-logout hide" style="width: 100%; max-width: 240px;">
+                  <span class="btn-icon">🚪</span> יציאה מהחשבון
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-view 3: Admin Console Panel (Hidden by default) -->
+          <div id="settings-admin-view" class="hide" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <button id="back-from-admin-btn" class="ios-back-btn">
+                חזרה <span class="back-arrow">→</span>
+              </button>
+              <h2 class="settings-sub-title">פאנל ניהול</h2>
+            </div>
+
+            <!-- Admin Segmented Tab Bar -->
+            <div class="ios-segmented-control admin-segmented-control">
+              <button class="segmented-btn active" data-admin-tab="users">ניהול משתמשים</button>
+              <button class="segmented-btn" data-admin-tab="feedback">משובים</button>
+              <button class="segmented-btn" data-admin-tab="announcement">הודעה גלובלית</button>
+              <button class="segmented-btn" data-admin-tab="system-update">עדכון גרסה</button>
+            </div>
+
+            <div class="ios-settings-scroll-container">
+              
+              <!-- Tab A: User Management -->
+              <div id="admin-tab-users" class="admin-tab-content active" style="direction: rtl; text-align: right;">
+                <!-- Stats Row -->
+                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+                  <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">משתמשים רשומים</div>
+                    <div id="admin-stat-users-count" style="font-size: 1.5rem; font-weight: 800; color: var(--electric-blue); margin-top: 4px;">0</div>
+                  </div>
+                  <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">סך הכל אימונים</div>
+                    <div id="admin-stat-workouts-count" style="font-size: 1.5rem; font-weight: 800; color: var(--electric-blue); margin-top: 4px;">0</div>
+                  </div>
+                </div>
+
+                <!-- Search Input -->
+                <div style="margin-bottom: 1.2rem;">
+                  <input type="text" id="admin-user-search-input" placeholder="🔍 חפש לפי שם או אימייל..." style="width: 100%; border-radius: 12px; padding: 10px 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-align: right; direction: rtl; outline: none;">
+                </div>
+
+                <!-- User list container -->
+                <div id="admin-users-list" style="display: flex; flex-direction: column; gap: 10px;">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+
+              <!-- Tab B: User Feedback -->
+              <div id="admin-tab-feedback" class="admin-tab-content hide" style="direction: rtl; text-align: right;">
+                <!-- Stats Row -->
+                <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06); text-align: center; margin-bottom: 1.5rem; width: 100%;">
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">משובים ממתינים לטיפול</div>
+                  <div id="admin-stat-pending-feedback-count" style="font-size: 1.5rem; font-weight: 800; color: #ff9500; margin-top: 4px;">0</div>
+                </div>
+
+                <div id="admin-feedbacks-list" style="display: flex; flex-direction: column; gap: 12px;">
+                  <!-- Injected dynamically -->
+                </div>
+              </div>
+
+              <!-- Tab C: Global Announcement -->
+              <div id="admin-tab-announcement" class="admin-tab-content hide" style="direction: rtl; text-align: right;">
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.2rem;">
+                  שליחת הודעה גלובלית תפיץ את ההודעה לכל המשתמשים הרשומים במערכת. הם יקבלו התראת פוש מקומית וכן ההודעה תופיע במרכז ההודעות שלהם.
+                </p>
+                <div class="custom-ex-field-group" style="margin-bottom: 1rem;">
+                  <label class="custom-ex-field-label">כותרת ההודעה</label>
+                  <input type="text" id="admin-announcement-title" placeholder="למשל: עדכון תוכנה חדש 🚀" style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #ffffff; text-align: right; direction: rtl; outline: none;">
+                </div>
+                <div class="custom-ex-field-group" style="margin-bottom: 1.5rem;">
+                  <label class="custom-ex-field-label">תוכן ההודעה</label>
+                  <textarea id="admin-announcement-content" placeholder="כתוב את ההודעה כאן..." style="width: 100%; height: 120px; border-radius: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-align: right; direction: rtl; outline: none; resize: none; font-family: var(--font-sans);"></textarea>
+                </div>
+                <button id="admin-send-announcement-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px;">שלח הודעה גלובלית 📢</button>
+              </div>
+
+              <!-- Tab D: System Update -->
+              <div id="admin-tab-system-update" class="admin-tab-content hide" style="direction: rtl; text-align: right;">
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.2rem; line-height: 1.4;">
+                  אזור זה מיועד למנהלי מערכת בלבד. כאן ניתן להפיץ עדכוני תוכנה גלובליים, לבצע רענון קבצים מיידי ולנטר את הקבצים השמורים בזיכרון המכשיר.
+                </p>
+                
+                <div class="ios-settings-card-group" style="margin-bottom: 1.5rem;">
+                  <div class="ios-settings-group-title">עדכון ורענון תוכנה גלובלי</div>
+                  <div class="ios-setting-row no-hover" style="flex-direction: column; align-items: flex-start; padding: 16px 12px;">
+                    <div style="font-size: 0.9rem; color: #ffffff; font-weight: 600; margin-bottom: 6px;">הפצת עדכון ורענון קבצים</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 12px;">
+                      בחר בין הפצת עדכון גרסה רשמי לבין רענון מיידי של כל קבצי המערכת ללא תלות במספר הגרסה.
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%;">
+                      <button id="admin-trigger-update-btn" class="btn btn-primary" style="flex: 1; min-width: 150px; padding: 14px; font-weight: bold; border-radius: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">🚀 הפץ עדכון גרסה</button>
+                      <button id="admin-force-refresh-assets-btn" class="btn" style="flex: 1; min-width: 150px; padding: 14px; font-weight: bold; border-radius: 14px; background: rgba(255, 149, 0, 0.15); border: 1px solid rgba(255, 149, 0, 0.4); color: #ff9500;">⚡ רענון קבצים מיידי</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Cache Inspector & File Storage Manager (Admin Only) -->
+                <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <button id="refresh-cache-inspector-btn" class="ios-back-btn" style="font-size: 0.8rem; padding: 6px 12px;">
+                      🔄 סרוק קבצים
+                    </button>
+                    <h3 style="font-size: 1rem; font-weight: 800; color: #ffffff;">📁 מנהל קבצים ומטמון שמור במכשיר</h3>
+                  </div>
+                  
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.2rem; line-height: 1.4;">
+                    להלן פירוט הקבצים והמסמכים שהאפליקציה הורידה ושמרה בזיכרון המקומי (Cache) של הטלפון, כולל משקלם ותפקידם במערכת.
+                  </p>
+
+                  <div id="admin-cache-stats-summary" style="display: flex; gap: 12px; margin-bottom: 1.2rem;">
+                    <!-- Injected dynamically -->
+                  </div>
+
+                  <div id="admin-cached-files-list" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Injected dynamically -->
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Sub-view 4: Feedback Submission Screen (Hidden by default) -->
+          <div id="settings-feedback-view" class="hide" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <button id="back-from-feedback-btn" class="ios-back-btn">
+                חזרה <span class="back-arrow">→</span>
+              </button>
+              <h2 class="settings-sub-title">שליחת משוב</h2>
+            </div>
+            <div class="ios-settings-scroll-container" style="text-align: right; direction: rtl;">
+              <div class="ios-settings-card-group" style="padding: 20px;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5;">
+                  יש לך הצעה לשיפור, דיווח על תקלה או סתם מילים חמות? נשמח לשמוע ממך! המשוב יישלח ישירות למנהל המערכת.
+                </p>
+                
+                <div class="custom-ex-field-group" style="margin-bottom: 1.2rem;">
+                  <label class="custom-ex-field-label">סוג המשוב</label>
+                  <select id="feedback-category-input" style="width: 100%; padding: 12px; background: rgba(20,20,24,0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #ffffff; text-align: right; direction: rtl; outline: none; font-family: var(--font-sans); font-size: 1rem;">
+                    <option value="💡 הצעת שיפור">💡 הצעת שיפור</option>
+                    <option value="🐛 דיווח על תקלה">🐛 דיווח על תקלה</option>
+                    <option value="❓ שאלה כללית">❓ שאלה כללית</option>
+                  </select>
+                </div>
+
+                <div class="custom-ex-field-group" style="margin-bottom: 1.5rem;">
+                  <label class="custom-ex-field-label">תוכן המשוב</label>
+                  <textarea id="feedback-text-input" placeholder="כתוב את המשוב שלך כאן..." style="width: 100%; height: 140px; border-radius: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-align: right; direction: rtl; outline: none; resize: none; font-family: var(--font-sans); line-height: 1.4;"></textarea>
+                </div>
+                <button id="send-feedback-submit-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px;">שלח משוב 🚀</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-view 5: System Messages Screen (Hidden by default) -->
+          <div id="settings-messages-view" class="hide" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <button id="back-from-messages-btn" class="ios-back-btn">
+                חזרה <span class="back-arrow">→</span>
+              </button>
+              <h2 class="settings-sub-title">הודעות מערכת</h2>
+            </div>
+            <div class="ios-settings-scroll-container" style="text-align: right; direction: rtl;">
+              <div id="user-messages-list" style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 680px; margin: 0 auto;">
+                <!-- Injected dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Sub-view 6: Cloud Sync & Backup Screen (Hidden by default) -->
+          <div id="settings-sync-view" class="hide" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <button id="back-from-sync-btn" class="ios-back-btn">
+                חזרה <span class="back-arrow">→</span>
+              </button>
+              <h2 class="settings-sub-title">סנכרון וגיבוי לענן</h2>
+            </div>
+            <div class="ios-settings-scroll-container" style="text-align: right; direction: rtl;">
+              
+              <!-- Connection Status Card -->
+              <div class="ios-settings-card-group">
+                <div class="ios-setting-row no-hover" style="padding: 16px 12px;">
+                  <div style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                      <span id="sync-menu-status" style="font-weight: 800; font-size: 1.1rem; color: #34c759;">מחובר ומסונכרן</span>
+                      <span style="color: var(--text-muted); font-size: 0.9rem;">סטטוס חיבור</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: 0.8rem; color: var(--text-muted);">
+                      <span id="sync-menu-last-time">--</span>
+                      <span>סנכרון אחרון</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Data Stats Card Group -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">נתונים מגובי ענן</div>
+                
+                <!-- Workouts History -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <strong id="sync-stat-history" class="ios-row-detail-text">0 אימונים</strong>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge" style="background-color: #5856d6;">📋</span>
+                    <span class="ios-row-label">היסטוריית אימונים</span>
+                  </div>
+                </div>
+
+                <!-- Custom Exercises -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <strong id="sync-stat-custom-ex" class="ios-row-detail-text">0 תרגילים</strong>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge" style="background-color: #ff9500;">✨</span>
+                    <span class="ios-row-label">תרגילים מותאמים אישית</span>
+                  </div>
+                </div>
+
+                <!-- Custom Locations -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <strong id="sync-stat-custom-loc" class="ios-row-detail-text">0 מיקומים</strong>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge" style="background-color: #ff3b30;">📍</span>
+                    <span class="ios-row-label">מיקומים מותאמים אישית</span>
+                  </div>
+                </div>
+
+                <!-- Favorite Exercises -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <strong id="sync-stat-favorites" class="ios-row-detail-text">0 תרגילים</strong>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge" style="background-color: #ffcc00;">⭐</span>
+                    <span class="ios-row-label">תרגילים מועדפים</span>
+                  </div>
+                </div>
+
+                <!-- Planned Workouts -->
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <strong id="sync-stat-future" class="ios-row-detail-text">0 אימונים</strong>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge" style="background-color: #007aff;">📅</span>
+                    <span class="ios-row-label">אימונים מתוכננים</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toggles Card Group: Choose what to sync -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">ניהול סנכרון</div>
+                
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-history" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">היסטוריית אימונים וביצועים</span>
+                  </div>
+                </div>
+
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-custom-ex" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">תרגילים מותאמים אישית</span>
+                  </div>
+                </div>
+
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-custom-loc" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">מיקומי אימונים וסוגי אימון</span>
+                  </div>
+                </div>
+
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-favorites" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">תרגילים מועדפים</span>
+                  </div>
+                </div>
+
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-defaults" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">הגדרות ברירת מחדל לתרגילים</span>
+                  </div>
+                </div>
+
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-future" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">אימונים עתידיים ומתוזמנים</span>
+                  </div>
+                </div>
+
+                <div class="ios-setting-row no-hover">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="sync-toggle-messages" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-label">הודעות מערכת ותיבת הודעות</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Controls Group -->
+              <div class="ios-settings-card-group">
+                <div id="sync-action-now" class="ios-setting-row sync-action-btn color-blue" role="button" tabindex="0">
+                  🔄 סנכרן כעת ורענן נתונים
+                </div>
+                <div id="sync-action-disconnect" class="ios-setting-row sync-action-btn color-orange" role="button" tabindex="0">
+                  ⏸️ השהה סנכרון
+                </div>
+                <div id="sync-action-connect" class="ios-setting-row sync-action-btn color-green hide" role="button" tabindex="0">
+                  ▶️ הפעל סנכרון מחדש
+                </div>
+              </div>
+
+              <!-- Danger Zone Group -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">אזור סכנה</div>
+                <div id="sync-action-delete" class="ios-setting-row sync-action-btn color-danger" role="button" tabindex="0">
+                  🗑️ מחק את כל הנתונים השמורים בענן
+                </div>
+              </div>
+
+              <!-- Granular Delete Group -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">ניהול ענן מתקדם</div>
+                <div id="sync-action-delete-history" class="ios-setting-row sync-action-btn color-orange" role="button" tabindex="0">
+                  🗑️ מחק היסטוריה מהענן בלבד
+                </div>
+                <div id="sync-action-inspect-items" class="ios-setting-row sync-action-btn color-blue" role="button" tabindex="0">
+                  🔍 צפה ונהל פריטים בודדים בענן
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Sub-view 7: Display Settings (Hidden by default) -->
+          <div id="settings-display-view" class="hide" style="width: 100%; flex: 1; display: flex; flex-direction: column;">
+            <div class="ios-settings-header" style="flex: 0 0 auto;">
+              <button id="back-from-display-btn" class="ios-back-btn">חזרה <span class="back-arrow">→</span></button>
+              <h2 class="settings-sub-title">הגדרות תצוגה ומראה</h2>
+            </div>
+            <div class="ios-settings-scroll-container" style="text-align: right; direction: rtl;">
+              
+              <!-- Display Modes Card Group -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">מצב תצוגה</div>
+                
+                <!-- Dark Mode Toggle Switch -->
+                <div class="ios-setting-row no-hover" id="row-settings-dark-mode">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="toggle-settings-dark-mode">
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-gray">🌙</span>
+                    <span class="ios-row-label">מצב כהה</span>
+                  </div>
+                </div>
+
+                <!-- High-Contrast Outdoor Mode Toggle -->
+                <div class="ios-setting-row no-hover" id="row-settings-outdoor-mode">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="toggle-settings-outdoor-mode">
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-orange" style="background-color: #ff9500;">☀️</span>
+                    <span class="ios-row-label">מצב שטח (ניגודיות גבוהה)</span>
+                  </div>
+                </div>
+
+                <!-- Show Ambient Glows Toggle -->
+                <div class="ios-setting-row no-hover" id="row-settings-show-glows">
+                  <div class="ios-row-left">
+                    <label class="ios-toggle-switch">
+                      <input type="checkbox" id="toggle-settings-show-glows" checked>
+                      <span class="ios-toggle-slider"></span>
+                    </label>
+                  </div>
+                  <div class="ios-row-right">
+                    <span class="ios-row-icon-badge bg-ios-purple" style="background-color: #5856d6;">✨</span>
+                    <span class="ios-row-label">הצג אפקטי זוהר</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nav Bar Style Picker Card Group -->
+              <div class="ios-settings-card-group">
+                <div class="ios-settings-group-title">סגנון סרגל ניווט תחתון</div>
+                
+                <div class="ios-setting-row no-hover" id="row-settings-nav-style" style="flex-direction: column; align-items: stretch; gap: 12px; padding: 14px 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <span id="nav-style-detail-text" style="font-size: 0.85rem; color: var(--electric-blue-light); font-weight: 700;">מרחף (דינמי)</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span class="ios-row-icon-badge" style="background-color: #007aff;">📱</span>
+                      <span class="ios-row-label">מראה והתנהגות הסרגל</span>
+                    </div>
+                  </div>
+                  
+                  <div class="ios-segmented-control" id="nav-style-segmented-control" style="display: flex; background: rgba(0, 0, 0, 0.4); border-radius: 12px; padding: 3px; border: 1px solid rgba(255, 255, 255, 0.08); width: 100%;">
+                    <button type="button" class="segmented-btn active" data-nav-style="floating" style="flex: 1; padding: 10px 8px; border: none; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.25s ease;">
+                      🎈 מרחף (דינמי)
+                    </button>
+                    <button type="button" class="segmented-btn" data-nav-style="fixed" style="flex: 1; padding: 10px 8px; border: none; border-radius: 9px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.25s ease;">
+                      📌 קבוע לתחתית
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- iOS Selection Modal Overlay (Custom iOS light modal sheet) -->
+          <div id="ios-selection-modal" class="ios-modal-overlay hide">
+            <div class="ios-modal-card">
+              <div class="ios-modal-header">
+                <button id="ios-modal-close" class="ios-modal-close-btn">ביטול</button>
+                <h4 id="ios-modal-title" class="ios-modal-title">בחר ערך</h4>
+              </div>
+              <div id="ios-modal-options" class="ios-modal-options-list">
+                <!-- Injected dynamically in app.js -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        
+
+===============================================================================
+PART 2: MAIN SETTINGS JAVASCRIPT LOGIC
+Source File: src/settings/settings.js
+Original Location: src/settings/settings.js (Entire File)
+Description: Manages theme toggles, notification permissions, sub-view navigation, account profile binding, cloud sync actions.
+===============================================================================
+
+import { state } from "../state.js";
+import { SafeStorage } from "../utils/storage.js";
+import { showPremiumToast } from "../utils/helpers.js";
+
+// Display "עדכן 🚀" button inside settings check update row
+export function showUpdateStateInSettings(waitingWorker) {
+  const updateStatus = document.getElementById('settings-update-status');
+  const checkUpdateRow = document.getElementById('row-settings-check-update');
+  if (updateStatus && checkUpdateRow) {
+    updateStatus.innerHTML = '<button id="settings-update-now-btn" class="ios-update-badge-btn">עדכן 🚀</button>';
+    checkUpdateRow.classList.remove('checking');
+    
+    const updateNowBtn = document.getElementById('settings-update-now-btn');
+    if (updateNowBtn) {
+      updateNowBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateNowBtn.disabled = true;
+        updateNowBtn.innerHTML = 'מוריד... ⏳';
+        waitingWorker.postMessage({ action: 'downloadAndActivate' });
+      });
+    }
+  }
+}
+
+// Initializer for the settings tab preferences
+export function initPremiumSettings() {
+  console.log("Initializing premium iOS Settings View...");
+
+  // Apply startup display preferences
+  if (state.outdoorMode) {
+    document.body.classList.add('outdoor-mode');
+  } else {
+    document.body.classList.remove('outdoor-mode');
+  }
+  if (!state.showGlows) {
+    document.body.classList.add('hide-glows');
+  } else {
+    document.body.classList.remove('hide-glows');
+  }
+
+  const allTabs = document.querySelectorAll('.tab-pane');
+  const toggleDarkMode = document.getElementById('toggle-settings-dark-mode');
+  const toggleNotifications = document.getElementById('toggle-settings-notifications');
+  const toggleOutdoorMode = document.getElementById('toggle-settings-outdoor-mode');
+  const toggleShowGlows = document.getElementById('toggle-settings-show-glows');
+  const settingsVer = document.getElementById('settings-system-version');
+  const checkUpdateRow = document.getElementById('row-settings-check-update');
+  const updateStatus = document.getElementById('settings-update-status');
+  
+  // Settings sub-views navigation buttons
+  const goToAccountBtn = document.getElementById('go-to-account-btn');
+  const backToSettingsBtn = document.getElementById('back-to-settings-btn');
+  const goToDisplayBtn = document.getElementById('go-to-display-settings-btn');
+  const backFromDisplayBtn = document.getElementById('back-from-display-btn');
+  const goToFeedbackBtn = document.getElementById('go-to-feedback-btn');
+  const backFromFeedbackBtn = document.getElementById('back-from-feedback-btn');
+  const goToMessagesBtn = document.getElementById('go-to-messages-btn');
+  const backFromMessagesBtn = document.getElementById('back-from-messages-btn');
+  const goToAdminBtn = document.getElementById('go-to-admin-console-btn');
+  const backFromAdminBtn = document.getElementById('back-from-admin-btn');
+
+  const settingsMainView = document.getElementById('settings-main-view');
+  const displayView = document.getElementById('settings-display-view');
+  const accountView = document.getElementById('settings-account-view');
+  const adminView = document.getElementById('settings-admin-view');
+  const feedbackView = document.getElementById('settings-feedback-view');
+  const messagesView = document.getElementById('settings-messages-view');
+  const syncView = document.getElementById('settings-sync-view');
+
+  const resetSettingsViews = () => {
+    if (settingsMainView) settingsMainView.classList.remove('hide');
+    if (displayView) displayView.classList.add('hide');
+    if (accountView) accountView.classList.add('hide');
+    if (adminView) adminView.classList.add('hide');
+    if (feedbackView) feedbackView.classList.add('hide');
+    if (messagesView) messagesView.classList.add('hide');
+    if (syncView) syncView.classList.add('hide');
+  };
+
+  resetSettingsViews();
+
+  const settingsNavBtn = document.querySelector('[data-tab="settings"]');
+  if (settingsNavBtn) {
+    settingsNavBtn.addEventListener('click', resetSettingsViews);
+  }
+
+  // Bind Account View
+  if (goToAccountBtn) {
+    goToAccountBtn.addEventListener('click', () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (accountView) accountView.classList.remove('hide');
+    });
+  }
+  if (backToSettingsBtn) {
+    backToSettingsBtn.addEventListener('click', () => {
+      if (accountView) accountView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Bind Display View
+  if (goToDisplayBtn) {
+    goToDisplayBtn.addEventListener('click', () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (displayView) displayView.classList.remove('hide');
+    });
+  }
+  if (backFromDisplayBtn) {
+    backFromDisplayBtn.addEventListener('click', () => {
+      if (displayView) displayView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Bind Feedback View
+  if (goToFeedbackBtn) {
+    goToFeedbackBtn.addEventListener('click', () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (feedbackView) feedbackView.classList.remove('hide');
+    });
+  }
+  if (backFromFeedbackBtn) {
+    backFromFeedbackBtn.addEventListener('click', () => {
+      if (feedbackView) feedbackView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Bind Messages View
+  if (goToMessagesBtn) {
+    goToMessagesBtn.addEventListener('click', () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (messagesView) messagesView.classList.remove('hide');
+    });
+  }
+  if (backFromMessagesBtn) {
+    backFromMessagesBtn.addEventListener('click', () => {
+      if (messagesView) messagesView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Bind Admin View
+  if (goToAdminBtn) {
+    goToAdminBtn.addEventListener('click', () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (adminView) adminView.classList.remove('hide');
+    });
+  }
+  if (backFromAdminBtn) {
+    backFromAdminBtn.addEventListener('click', () => {
+      if (adminView) adminView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Phase 3 Accessibility Enhancement: Bind keydown (Enter/Space) to all interactive rows with role="button" or tabindex="0"
+  const interactiveRows = document.querySelectorAll('#tab-settings [role="button"], #tab-settings [tabindex="0"]');
+  interactiveRows.forEach(row => {
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        row.click();
+      }
+    });
+  });
+
+  const isDarkMode = SafeStorage.getItem('settings_dark_mode') !== 'false';
+  const isNotificationsEnabled = SafeStorage.getItem('settings_notifications_enabled') !== 'false';
+
+  allTabs.forEach(tab => {
+    if (isDarkMode) {
+      tab.classList.add('dark-theme');
+    } else {
+      tab.classList.remove('dark-theme');
+    }
+  });
+
+  if (toggleDarkMode) {
+    toggleDarkMode.checked = isDarkMode;
+    toggleDarkMode.addEventListener('change', (e) => {
+      SafeStorage.setItem('settings_dark_mode', e.target.checked);
+      console.log('Saved settings dark mode preference:', e.target.checked);
+      allTabs.forEach(tab => {
+        if (e.target.checked) {
+          tab.classList.add('dark-theme');
+        } else {
+          tab.classList.remove('dark-theme');
+        }
+      });
+    });
+  }
+
+  if (toggleNotifications) {
+    toggleNotifications.checked = isNotificationsEnabled;
+    toggleNotifications.addEventListener('change', async (e) => {
+      SafeStorage.setItem('settings_notifications_enabled', e.target.checked);
+      console.log('Saved notifications preference:', e.target.checked);
+      if (e.target.checked) {
+        const { requestNotificationPermissionSafely } = await import("../utils/helpers.js");
+        requestNotificationPermissionSafely();
+      }
+    });
+  }
+
+  if (toggleOutdoorMode) {
+    toggleOutdoorMode.checked = state.outdoorMode;
+    toggleOutdoorMode.addEventListener('change', (e) => {
+      state.outdoorMode = e.target.checked;
+      SafeStorage.setItem('aura-outdoor-mode', state.outdoorMode ? 'true' : 'false');
+      console.log('Saved settings outdoor mode preference:', state.outdoorMode);
+      if (state.outdoorMode) {
+        document.body.classList.add('outdoor-mode');
+      } else {
+        document.body.classList.remove('outdoor-mode');
+      }
+    });
+  }
+
+  if (toggleShowGlows) {
+    toggleShowGlows.checked = state.showGlows;
+    toggleShowGlows.addEventListener('change', (e) => {
+      state.showGlows = e.target.checked;
+      SafeStorage.setItem('aura-show-glows', state.showGlows ? 'true' : 'false');
+      console.log('Saved settings show glows preference:', state.showGlows);
+      if (!state.showGlows) {
+        document.body.classList.add('hide-glows');
+      } else {
+        document.body.classList.remove('hide-glows');
+      }
+    });
+  }
+
+  // Nav Bar Style Segmented Picker binding
+  const navStyleSegmented = document.getElementById('nav-style-segmented-control');
+  const navStyleDetailText = document.getElementById('nav-style-detail-text');
+
+  const updateNavStyleUI = (style) => {
+    if (!navStyleSegmented) return;
+    const btns = navStyleSegmented.querySelectorAll('.segmented-btn');
+    btns.forEach(btn => {
+      if (btn.dataset.navStyle === style) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    if (navStyleDetailText) {
+      navStyleDetailText.textContent = style === 'fixed' ? 'קבוע לתחתית 📌' : 'מרחף (דינמי) 🎈';
+    }
+  };
+
+  if (navStyleSegmented) {
+    updateNavStyleUI(state.navStyle);
+    const btns = navStyleSegmented.querySelectorAll('.segmented-btn');
+    btns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedStyle = btn.dataset.navStyle || 'floating';
+        updateNavStyleUI(selectedStyle);
+        
+        state.navStyle = selectedStyle;
+        SafeStorage.setItem('aura-nav-style', selectedStyle);
+        if (selectedStyle === 'fixed') {
+          document.body.classList.add('nav-style-fixed');
+        } else {
+          document.body.classList.remove('nav-style-fixed');
+        }
+        if (window.applyNavStyle) {
+          window.applyNavStyle(selectedStyle);
+        }
+        showPremiumToast(
+          selectedStyle === 'fixed' 
+            ? 'סגנון הסרגל עודכן: קבוע לתחתית המסך 📌' 
+            : 'סגנון הסרגל עודכן: מרחף ודינמי 🎈',
+          'success'
+        );
+      });
+    });
+  }
+
+  if (settingsVer) {
+    const mainBadge = document.getElementById('app-version-display');
+    if (mainBadge && mainBadge.textContent) {
+      settingsVer.textContent = mainBadge.textContent;
+    } else {
+      settingsVer.textContent = 'v1.2.0';
+    }
+  }
+
+  if (checkUpdateRow && updateStatus) {
+    checkUpdateRow.addEventListener('click', async (e) => {
+      if (e.target.id === 'settings-update-now-btn') return;
+      if (checkUpdateRow.classList.contains('checking')) return;
+
+      checkUpdateRow.classList.add('checking');
+      updateStatus.innerHTML = 'בודק... <span class="ios-spinner"></span>';
+      
+      if ('serviceWorker' in navigator) {
+        try {
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (reg) {
+            await reg.update();
+            
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            const newWorker = reg.waiting || reg.installing;
+            if (newWorker) {
+              showUpdateStateInSettings(newWorker);
+            } else {
+              updateStatus.textContent = 'מעודכן ✓';
+              updateStatus.style.color = '#34c759'; // iOS Green
+              setTimeout(() => {
+                updateStatus.textContent = 'בדוק';
+                updateStatus.style.color = '';
+                checkUpdateRow.classList.remove('checking');
+              }, 3000);
+            }
+          } else {
+            updateStatus.textContent = 'מעודכן ✓';
+            updateStatus.style.color = '#34c759'; // iOS Green
+            setTimeout(() => {
+              updateStatus.textContent = 'בדוק';
+              updateStatus.style.color = '';
+              checkUpdateRow.classList.remove('checking');
+            }, 3000);
+          }
+        } catch (err) {
+          console.error('Manual PWA update check failed:', err);
+          updateStatus.textContent = 'מעודכן ✓';
+          setTimeout(() => {
+            updateStatus.textContent = 'בדוק';
+            checkUpdateRow.classList.remove('checking');
+          }, 3000);
+        }
+      } else {
+        updateStatus.textContent = 'מעודכן ✓';
+        setTimeout(() => {
+          updateStatus.textContent = 'בדוק';
+          checkUpdateRow.classList.remove('checking');
+        }, 3000);
+      }
+    });
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistration().then(reg => {
+      if (reg && reg.waiting) {
+        showUpdateStateInSettings(reg.waiting);
+      }
+    });
+  }
+
+  // --- CLOUD SYNC MENU BINDINGS ---
+  const goToSyncBtn = document.getElementById('go-to-cloud-sync-btn');
+  const backFromSyncBtn = document.getElementById('back-from-sync-btn');
+  const syncStatusBadge = document.getElementById('settings-sync-status-badge');
+
+  // Actions
+  const syncActionNow = document.getElementById('sync-action-now');
+  const syncActionDisconnect = document.getElementById('sync-action-disconnect');
+  const syncActionConnect = document.getElementById('sync-action-connect');
+  const syncActionDelete = document.getElementById('sync-action-delete');
+
+  // Status elements
+  const syncMenuStatus = document.getElementById('sync-menu-status');
+  const syncMenuLastTime = document.getElementById('sync-menu-last-time');
+
+  // Stats elements
+  const statHistory = document.getElementById('sync-stat-history');
+  const statCustomEx = document.getElementById('sync-stat-custom-ex');
+  const statCustomLoc = document.getElementById('sync-stat-custom-loc');
+  const statFavorites = document.getElementById('sync-stat-favorites');
+  const statFuture = document.getElementById('sync-stat-future');
+
+  // Toggles
+  const toggles = {
+    history: document.getElementById('sync-toggle-history'),
+    customEx: document.getElementById('sync-toggle-custom-ex'),
+    customLoc: document.getElementById('sync-toggle-custom-loc'),
+    favorites: document.getElementById('sync-toggle-favorites'),
+    defaults: document.getElementById('sync-toggle-defaults'),
+    future: document.getElementById('sync-toggle-future'),
+    messages: document.getElementById('sync-toggle-messages')
+  };
+
+  const getTogglesMap = () => ({
+    workoutHistory: toggles.history ? toggles.history.checked : true,
+    customExercises: toggles.customEx ? toggles.customEx.checked : true,
+    customLocations: toggles.customLoc ? toggles.customLoc.checked : true,
+    favoriteExercises: toggles.favorites ? toggles.favorites.checked : true,
+    exerciseDefaults: toggles.defaults ? toggles.defaults.checked : true,
+    futureWorkouts: toggles.future ? toggles.future.checked : true,
+    messages: toggles.messages ? toggles.messages.checked : true
+  });
+
+  const saveTogglesState = () => {
+    state.cloudSyncToggles = getTogglesMap();
+    SafeStorage.setItem('aura-cloud-sync-toggles', JSON.stringify(state.cloudSyncToggles));
+    // Save toggles preference to cloud
+    import("../utils/db.js").then(({ saveFieldToCloud }) => {
+      saveFieldToCloud("cloudSyncToggles", state.cloudSyncToggles);
+    });
+  };
+
+  const updateSyncUI = () => {
+    if (!state.currentUser) {
+      if (goToSyncBtn) goToSyncBtn.style.display = 'none';
+      return;
+    } else {
+      if (goToSyncBtn) goToSyncBtn.style.display = 'flex';
+    }
+
+    const enabled = state.cloudSyncEnabled;
+    if (syncStatusBadge) {
+      syncStatusBadge.textContent = enabled ? "מחובר" : "מנותק";
+      syncStatusBadge.style.color = enabled ? "#34c759" : "#ff9500";
+    }
+
+    if (syncMenuStatus) {
+      syncMenuStatus.textContent = enabled ? "מחובר ומסונכרן" : "סנכרון מנותק (מקומי בלבד)";
+      syncMenuStatus.style.color = enabled ? "#34c759" : "#ff9500";
+    }
+
+    // Toggle actions buttons visibility
+    if (enabled) {
+      if (syncActionDisconnect) syncActionDisconnect.classList.remove('hide');
+      if (syncActionConnect) syncActionConnect.classList.add('hide');
+      if (syncActionNow) {
+        syncActionNow.disabled = false;
+        syncActionNow.style.opacity = '1';
+        syncActionNow.style.pointerEvents = 'auto';
+      }
+    } else {
+      if (syncActionDisconnect) syncActionDisconnect.classList.add('hide');
+      if (syncActionConnect) syncActionConnect.classList.remove('hide');
+      if (syncActionNow) {
+        syncActionNow.disabled = true;
+        syncActionNow.style.opacity = '0.5';
+        syncActionNow.style.pointerEvents = 'none';
+      }
+    }
+
+    // Load Last Sync Time
+    const lastSyncTimeVal = SafeStorage.getItem(`aura-last-sync-time_${state.currentUser.uid}`);
+    if (syncMenuLastTime) {
+      syncMenuLastTime.textContent = lastSyncTimeVal ? new Date(Number(lastSyncTimeVal)).toLocaleString('he-IL') : "לא סונכרן מעולם";
+    }
+
+    // Populate local/cloud counts dynamically with Safe JSON Parsing (Phase 2 optimization)
+    const uid = state.currentUser.uid;
+    const safeParseArray = (storageKey) => {
+      try {
+        const item = SafeStorage.getItem(storageKey);
+        if (!item) return [];
+        const parsed = JSON.parse(item);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (err) {
+        console.warn(`JSON parse failed for ${storageKey}, falling back to []:`, err);
+        return [];
+      }
+    };
+
+    const localHistory = safeParseArray(`aura-workout-history_${uid}`);
+    const localCustomEx = safeParseArray(`aura-custom-exercises_${uid}`);
+    const localCustomLoc = safeParseArray(`aura-custom-locations_${uid}`);
+    const localFavorites = safeParseArray(`aura-favorite-exercises_${uid}`);
+    const localFuture = safeParseArray(`aura-future-workouts_${uid}`);
+
+    if (statHistory) statHistory.textContent = `${localHistory.length} אימונים`;
+    if (statCustomEx) statCustomEx.textContent = `${localCustomEx.length} תרגילים`;
+    if (statCustomLoc) statCustomLoc.textContent = `${localCustomLoc.length} מיקומים`;
+    if (statFavorites) statFavorites.textContent = `${localFavorites.length} תרגילים`;
+    if (statFuture) statFuture.textContent = `${localFuture.length} אימונים`;
+
+    // Populate toggles checkboxes state from state.cloudSyncToggles
+    const togglesState = state.cloudSyncToggles || {};
+    if (toggles.history) toggles.history.checked = togglesState.workoutHistory !== false;
+    if (toggles.customEx) toggles.customEx.checked = togglesState.customExercises !== false;
+    if (toggles.customLoc) toggles.customLoc.checked = togglesState.customLocations !== false;
+    if (toggles.favorites) toggles.favorites.checked = togglesState.favoriteExercises !== false;
+    if (toggles.defaults) toggles.defaults.checked = togglesState.exerciseDefaults !== false;
+    if (toggles.future) toggles.future.checked = togglesState.futureWorkouts !== false;
+    if (toggles.messages) toggles.messages.checked = togglesState.messages !== false;
+  };
+
+  if (goToSyncBtn && settingsMainView && syncView) {
+    goToSyncBtn.addEventListener('click', () => {
+      settingsMainView.classList.add('hide');
+      syncView.classList.remove('hide');
+      updateSyncUI();
+    });
+  }
+
+  if (backFromSyncBtn && settingsMainView && syncView) {
+    backFromSyncBtn.addEventListener('click', () => {
+      syncView.classList.add('hide');
+      settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Bind change listeners to toggles to immediately update preferences
+  Object.values(toggles).forEach(toggle => {
+    if (toggle) {
+      toggle.addEventListener('change', () => {
+        saveTogglesState();
+        updateSyncUI();
+      });
+    }
+  });
+
+  // Action: Sync Now
+  if (syncActionNow) {
+    syncActionNow.addEventListener('click', async () => {
+      if (!state.currentUser) return;
+      syncActionNow.disabled = true;
+      syncActionNow.textContent = "מסתנכרן... ⏳";
+      try {
+        const { syncUserSession } = await import("../utils/db.js");
+        await syncUserSession(state.currentUser.uid, true);
+        SafeStorage.setItem(`aura-last-sync-time_${state.currentUser.uid}`, Date.now().toString());
+      } catch (err) {
+        console.error("Manual sync failed:", err);
+      } finally {
+        syncActionNow.disabled = false;
+        syncActionNow.textContent = "🔄 סנכרן כעת ורענן נתונים";
+        updateSyncUI();
+      }
+    });
+  }
+
+  // Action: Disconnect Sync
+  if (syncActionDisconnect) {
+    syncActionDisconnect.addEventListener('click', () => {
+      state.cloudSyncEnabled = false;
+      SafeStorage.setItem('aura-cloud-sync-enabled', 'false');
+      showPremiumToast("הסנכרון לענן כובד. המידע יישמר רק על גבי המכשיר.", "info");
+      updateSyncUI();
+    });
+  }
+
+  // Action: Connect Sync
+  if (syncActionConnect) {
+    syncActionConnect.addEventListener('click', async () => {
+      state.cloudSyncEnabled = true;
+      SafeStorage.setItem('aura-cloud-sync-enabled', 'true');
+      
+      syncActionConnect.disabled = true;
+      syncActionConnect.textContent = "מתחבר לענן... ⏳";
+      try {
+        const { syncUserSession } = await import("../utils/db.js");
+        await syncUserSession(state.currentUser.uid, true);
+        SafeStorage.setItem(`aura-last-sync-time_${state.currentUser.uid}`, Date.now().toString());
+        showPremiumToast("הסנכרון לענן הופעל והנתונים הועלו בהצלחה! ⚡", "success");
+      } catch (err) {
+        console.error("Reconnecting sync failed:", err);
+      } finally {
+        syncActionConnect.disabled = false;
+        syncActionConnect.textContent = "⚡ הפעל סנכרון ענן והעלה נתונים";
+        updateSyncUI();
+      }
+    });
+  }
+
+  // Action: Delete Cloud Data
+  if (syncActionDelete) {
+    syncActionDelete.addEventListener('click', async () => {
+      if (!state.currentUser) return;
+      if (confirm("האם אתה בטוח שברצונך למחוק את כל הנתונים השמורים בענן? פעולה זו תמחק רק את הגיבוי בענן ולא תפגע במידע שבמכשיר שלך.")) {
+        syncActionDelete.disabled = true;
+        syncActionDelete.textContent = "מוחק מהענן... ⏳";
+        try {
+          const { deleteCloudDataOnly } = await import("../utils/db.js");
+          await deleteCloudDataOnly(state.currentUser.uid);
+          showPremiumToast("כל הנתונים בענן נמחקו בהצלחה! המידע המקומי שמור במכשיר.", "success");
+          SafeStorage.removeItem(`aura-last-sync-time_${state.currentUser.uid}`);
+        } catch (err) {
+          console.error("Deleting cloud data failed:", err);
+          showPremiumToast("מחיקת הנתונים מהענן נכשלה.", "error");
+        } finally {
+          syncActionDelete.disabled = false;
+          syncActionDelete.textContent = "🗑️ מחק את כל הנתונים השמורים בענן";
+          updateSyncUI();
+        }
+      }
+    });
+  }
+
+  // Initial update
+  updateSyncUI();
+
+  // Expose updates for state changes (e.g. login)
+  window.updateSyncUI = updateSyncUI;
+}
+
+// Binds global configurations
+export function initSettingsModule() {
+  window.initPremiumSettings = initPremiumSettings;
+  window.showUpdateStateInSettings = showUpdateStateInSettings;
+}
+
+
+
+===============================================================================
+PART 3: ADMIN CONSOLE JAVASCRIPT LOGIC
+Source File: src/settings/admin.js
+Original Location: src/settings/admin.js (Entire File)
+Description: Manages Admin Console sub-view controls, segmented tabs, data resets, and system message triggers.
+===============================================================================
+
+import { state } from "../state.js";
+import { SafeStorage } from "../utils/storage.js";
+import { showPremiumToast, triggerLocalNotification } from "../utils/helpers.js";
+import { getDb, saveFieldToCloud } from "../utils/db.js";
+import { 
+  collection, 
+  getDocs, 
+  getDoc,
+  doc, 
+  setDoc, 
+  deleteDoc, 
+  addDoc,
+  writeBatch
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+// Safe helper to update text contents safely
+const setElText = (id, text) => {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+};
+
+// Initialize Admin, Feedback & Inbox module
+export function initAdminModule() {
+  console.log("Initializing Admin Console & Feedback Center...");
+
+  // --- NAVIGATION LISTENERS ---
+  const settingsMainView = document.getElementById('settings-main-view');
+  const adminView = document.getElementById('settings-admin-view');
+  const feedbackView = document.getElementById('settings-feedback-view');
+  const messagesView = document.getElementById('settings-messages-view');
+
+  // Go to Admin Panel
+  const goToAdminBtn = document.getElementById('go-to-admin-console-btn');
+  if (goToAdminBtn) {
+    goToAdminBtn.addEventListener('click', async () => {
+      if (state.userRole !== 'admin') return;
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (adminView) adminView.classList.remove('hide');
+      
+      // Load data immediately
+      await loadAdminDashboardData();
+    });
+  }
+
+  // Back from Admin Panel
+  const backFromAdminBtn = document.getElementById('back-from-admin-btn');
+  if (backFromAdminBtn) {
+    backFromAdminBtn.addEventListener('click', () => {
+      if (adminView) adminView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Go to Feedback view
+  const goToFeedbackBtn = document.getElementById('go-to-feedback-btn');
+  if (goToFeedbackBtn) {
+    goToFeedbackBtn.addEventListener('click', () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (feedbackView) feedbackView.classList.remove('hide');
+      
+      // Reset inputs
+      const textInput = document.getElementById('feedback-text-input');
+      if (textInput) textInput.value = '';
+    });
+  }
+
+  // Back from Feedback view
+  const backFromFeedbackBtn = document.getElementById('back-from-feedback-btn');
+  if (backFromFeedbackBtn) {
+    backFromFeedbackBtn.addEventListener('click', () => {
+      if (feedbackView) feedbackView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // Go to Messages view
+  const goToMessagesBtn = document.getElementById('go-to-messages-btn');
+  if (goToMessagesBtn) {
+    goToMessagesBtn.addEventListener('click', async () => {
+      if (settingsMainView) settingsMainView.classList.add('hide');
+      if (messagesView) messagesView.classList.remove('hide');
+      
+      // Render and mark all messages as read
+      renderUserMessagesList();
+      await markAllMessagesAsRead();
+    });
+  }
+
+  // Back from Messages view
+  const backFromMessagesBtn = document.getElementById('back-from-messages-btn');
+  if (backFromMessagesBtn) {
+    backFromMessagesBtn.addEventListener('click', () => {
+      if (messagesView) messagesView.classList.add('hide');
+      if (settingsMainView) settingsMainView.classList.remove('hide');
+    });
+  }
+
+  // --- ADMIN TAB TRANSITIONS ---
+  const tabButtons = document.querySelectorAll('#settings-admin-view .ios-segmented-control .segmented-btn');
+  const tabContents = document.querySelectorAll('.admin-tab-content');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetTab = btn.dataset.adminTab;
+      tabContents.forEach(content => {
+        content.classList.add('hide');
+        if (content.id === `admin-tab-${targetTab}`) {
+          content.classList.remove('hide');
+        }
+      });
+    });
+  });
+
+  // --- USER SEARCH ---
+  const searchInput = document.getElementById('admin-user-search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      filterAdminUsersList(query);
+    });
+  }
+
+  // --- SEND GLOBAL ANNOUNCEMENT ---
+  const sendAnnouncementBtn = document.getElementById('admin-send-announcement-btn');
+  if (sendAnnouncementBtn) {
+    sendAnnouncementBtn.addEventListener('click', async () => {
+      const titleInput = document.getElementById('admin-announcement-title');
+      const contentInput = document.getElementById('admin-announcement-content');
+      
+      const title = titleInput ? titleInput.value.trim() : '';
+      const content = contentInput ? contentInput.value.trim() : '';
+
+      if (!title || !content) {
+        showPremiumToast("נא למלא את כותרת ותוכן ההודעה", "error");
+        return;
+      }
+
+      sendAnnouncementBtn.disabled = true;
+      sendAnnouncementBtn.textContent = 'שולח... ⏳';
+
+      const success = await sendGlobalAnnouncement(title, content);
+      
+      sendAnnouncementBtn.disabled = false;
+      sendAnnouncementBtn.textContent = 'שלח הודעה גלובלית 📢';
+
+      if (success) {
+        if (titleInput) titleInput.value = '';
+        if (contentInput) contentInput.value = '';
+        showPremiumToast("ההודעה הגלובלית נשלחה בהצלחה לכל המשתמשים! 📢", "success");
+        // Reload admin stats and data immediately
+        await loadAdminDashboardData();
+        // Sync own session if admin is a registered user, to instantly load it in their own inbox
+        if (state.currentUser) {
+          const { syncUserSession } = await import("../utils/db.js");
+          await syncUserSession(state.currentUser.uid);
+          updateAdminUI();
+          renderUserMessagesList();
+        }
+      }
+    });
+  }
+
+  // --- SUBMIT USER FEEDBACK ---
+  const sendFeedbackSubmitBtn = document.getElementById('send-feedback-submit-btn');
+  if (sendFeedbackSubmitBtn) {
+    sendFeedbackSubmitBtn.addEventListener('click', async () => {
+      const categorySelect = document.getElementById('feedback-category-input');
+      const textInput = document.getElementById('feedback-text-input');
+
+      const category = categorySelect ? categorySelect.value : '💡 הצעת שיפור';
+      const text = textInput ? textInput.value.trim() : '';
+
+      if (!text) {
+        showPremiumToast("נא לכתוב את תוכן המשוב", "error");
+        return;
+      }
+
+      sendFeedbackSubmitBtn.disabled = true;
+      sendFeedbackSubmitBtn.textContent = 'שולח... ⏳';
+
+      const success = await submitUserFeedback(category, text);
+
+      sendFeedbackSubmitBtn.disabled = false;
+      sendFeedbackSubmitBtn.textContent = 'שלח משוב 🚀';
+
+      if (success) {
+        if (textInput) textInput.value = '';
+        showPremiumToast("המשוב שלך נשלח בהצלחה! תודה על העזרה. ❤️", "success");
+        // Go back
+        const backBtn = document.getElementById('back-from-feedback-btn');
+        if (backBtn) backBtn.click();
+      }
+    });
+  }
+
+  // --- SYSTEM UPDATE TRIGGER ---
+  const triggerUpdateBtn = document.getElementById('admin-trigger-update-btn');
+  if (triggerUpdateBtn) {
+    triggerUpdateBtn.addEventListener('click', async () => {
+      if (!('serviceWorker' in navigator)) {
+        showPremiumToast('שירות Service Worker אינו זמין במכשיר זה.', 'error');
+        return;
+      }
+      triggerUpdateBtn.disabled = true;
+      triggerUpdateBtn.textContent = 'בודק עדכונים... 🔍';
+      try {
+        const reg = await navigator.serviceWorker.getRegistration();
+        if (!reg) { showPremiumToast('לא נמצא Service Worker רשום.', 'error'); triggerUpdateBtn.disabled = false; triggerUpdateBtn.textContent = '🚀 הפץ עדכון גרסה עכשיו'; return; }
+        triggerUpdateBtn.textContent = 'מחפש גרסה חדשה... 🔄';
+        await reg.update();
+        await new Promise(r => setTimeout(r, 2000));
+        if (reg.waiting) {
+          triggerUpdateBtn.textContent = 'מפעיל עדכון... 🚀';
+          reg.waiting.postMessage({ action: 'skipWaiting' });
+          showPremiumToast('עדכון גרסה הופעל! האפליקציה תתרענן בקרוב.', 'success');
+        } else if (reg.installing) {
+          triggerUpdateBtn.textContent = 'מתקין עדכון... ⚙️';
+          reg.installing.addEventListener('statechange', function() {
+            if (this.state === 'installed') {
+              this.postMessage({ action: 'skipWaiting' });
+              showPremiumToast('עדכון גרסה הופעל! האפליקציה תתרענן בקרוב.', 'success');
+            }
+          });
+        } else {
+          const worker = navigator.serviceWorker.controller || reg.active;
+          if (worker) {
+            triggerUpdateBtn.textContent = 'מרענן קבצים... 📦';
+            worker.postMessage({ action: 'downloadAndActivate' });
+            showPremiumToast('הופצת עדכון קבצים הופעלה. האפליקציה תתרענן בקרוב.', 'success');
+          } else {
+            showPremiumToast('לא נמצא Service Worker פעיל.', 'error');
+          }
+        }
+      } catch (err) {
+        console.error('Admin update error:', err);
+        showPremiumToast('שגיאה: ' + err.message, 'error');
+      }
+      triggerUpdateBtn.disabled = false;
+      triggerUpdateBtn.textContent = '🚀 הפץ עדכון גרסה';
+    });
+  }
+
+  // --- FORCE REFRESH ALL ASSETS BUTTON ---
+  const forceRefreshBtn = document.getElementById('admin-force-refresh-assets-btn');
+  if (forceRefreshBtn) {
+    forceRefreshBtn.addEventListener('click', async () => {
+      if (!('serviceWorker' in navigator)) {
+        showPremiumToast('שירות Service Worker אינו זמין במכשיר זה.', 'error');
+        return;
+      }
+      forceRefreshBtn.disabled = true;
+      forceRefreshBtn.textContent = 'רענון בתהליך... ⚡';
+      try {
+        const reg = await navigator.serviceWorker.getRegistration();
+        const worker = reg ? (reg.active || reg.waiting || reg.installing) : navigator.serviceWorker.controller;
+        if (worker) {
+          worker.postMessage({ action: 'downloadAndActivate' });
+          showPremiumToast('הוראה לרענון מיידי של הקבצים נשלחה בהצלחה! ⚡', 'success');
+        } else {
+          showPremiumToast('לא נמצא Service Worker פעיל.', 'error');
+        }
+      } catch (err) {
+        console.error('Force refresh error:', err);
+        showPremiumToast('שגיאה: ' + err.message, 'error');
+      }
+      setTimeout(() => {
+        forceRefreshBtn.disabled = false;
+        forceRefreshBtn.textContent = '⚡ רענון קבצים מיידי';
+      }, 3000);
+    });
+  }
+
+  // --- CACHE INSPECTOR REFRESH BUTTON ---
+  const scanCacheBtn = document.getElementById('refresh-cache-inspector-btn');
+  if (scanCacheBtn) {
+    scanCacheBtn.addEventListener('click', () => {
+      scanAppCacheFiles();
+    });
+  }
+
+  // Export globally
+  window.updateAdminUI = updateAdminUI;
+  window.loadAdminDashboardData = loadAdminDashboardData;
+  window.scanAppCacheFiles = scanAppCacheFiles;
+}
+
+// ==========================================================================
+// Cache Inspector & Storage Manager (Admin Only)
+// ==========================================================================
+export async function scanAppCacheFiles() {
+  const container = document.getElementById('admin-cached-files-list');
+  const summaryEl = document.getElementById('admin-cache-stats-summary');
+  if (!container) return;
+
+  container.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-muted);">סורק קבצים במטמון... ⏳</div>';
+
+  if (!('caches' in window)) {
+    container.innerHTML = '<div style="text-align:center; color: var(--color-danger); padding: 15px;">Cache API אינו נתמך בדפדפן זה.</div>';
+    return;
+  }
+
+  try {
+    const keys = await caches.keys();
+    if (!keys.length) {
+      container.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-muted);">לא נמצאו קבצים שמורים במטמון במכשיר זה.</div>';
+      if (summaryEl) summaryEl.innerHTML = '';
+      return;
+    }
+
+    let totalBytes = 0;
+    let filesList = [];
+
+    for (const key of keys) {
+      const cache = await caches.open(key);
+      const requests = await cache.keys();
+      for (const req of requests) {
+        try {
+          const res = await cache.match(req);
+          if (res) {
+            const blob = await res.blob();
+            const size = blob.size;
+            totalBytes += size;
+            const urlPath = new URL(req.url).pathname;
+            const cleanPath = urlPath.replace(/^\//, './');
+            filesList.push({
+              url: req.url,
+              path: cleanPath,
+              size: size,
+              cacheName: key
+            });
+          }
+        } catch (e) {
+          console.warn("Could not read cached file:", req.url, e);
+        }
+      }
+    }
+
+    // Sort by path
+    filesList.sort((a, b) => a.path.localeCompare(b.path));
+
+    const totalKB = (totalBytes / 1024).toFixed(1);
+    const totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
+    if (summaryEl) {
+      summaryEl.innerHTML = `
+        <div style="flex: 1; background: rgba(255,255,255,0.04); padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+          <div style="font-size: 0.75rem; color: var(--text-muted);">סה״כ קבצים שמורים</div>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--electric-blue-light); margin-top: 2px;">${filesList.length}</div>
+        </div>
+        <div style="flex: 1; background: rgba(255,255,255,0.04); padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); text-align: center;">
+          <div style="font-size: 0.75rem; color: var(--text-muted);">נפח אחסון במכשיר</div>
+          <div style="font-size: 1.3rem; font-weight: 800; color: #34c759; margin-top: 2px;">${totalBytes > 1024*1024 ? totalMB + ' MB' : totalKB + ' KB'}</div>
+        </div>
+      `;
+    }
+
+    const MEANINGS = {
+      'index.html': 'שלד ומבנה האפליקציה הראשי (HTML)',
+      'style.css': 'מערכת העיצוב, צבעים וסגנונות (CSS)',
+      'app.js': 'לוגיקת ניווט ראשית וטעינת מודולים (JS)',
+      'sw.js': 'מנהל Service Worker, מטמון והתראות',
+      'firebase-config.js': 'הגדרות התחברות ל-Firebase',
+      'manifest.json': 'הגדרות התקנת האפליקציה (PWA Manifest)',
+      'icon-192.png': 'אייקון אפליקציה ראשי (192px)',
+      'icon-512.png': 'אייקון אפליקציה ברזולוציה גבוהה (512px)',
+      'src/state.js': 'ניהול מצב האפליקציה והנתונים הזמניים',
+      'src/utils/storage.js': 'מנגנון שמירה מאובטח בזיכרון המקומי',
+      'src/utils/helpers.js': 'פונקציות עזר, התראות ועיצוב תאריכים',
+      'src/auth/auth.js': 'מערכת התחברות גוגל ואבטחת משתמשים',
+      'src/workouts/workouts.js': 'ניהול אימונים, תרגילים, סטופר ו-GPS',
+      'src/metrics/metrics.js': 'לוח מדדים, גרפים, ניתוח ביצועים ו-AI',
+      'src/settings/settings.js': 'מערכת הגדרות, תצוגה וסנכרון ענן'
+    };
+
+    container.innerHTML = filesList.map(f => {
+      const filename = f.path.split('/').pop() || f.path;
+      let matchedMeaning = 'מסמך/קובץ שמור במטמון המכשיר';
+      for (const [keyPath, desc] of Object.entries(MEANINGS)) {
+        if (f.path.includes(keyPath)) {
+          matchedMeaning = desc;
+          break;
+        }
+      }
+      const fileSizeFormatted = f.size > 1024 * 1024 
+        ? (f.size / (1024 * 1024)).toFixed(2) + ' MB'
+        : (f.size / 1024).toFixed(1) + ' KB';
+
+      return `
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; direction: rtl;">
+          <div style="display: flex; flex-direction: column; gap: 3px; max-width: 68%;">
+            <div style="font-weight: 700; font-size: 0.95rem; color: #ffffff; font-family: monospace;">${filename}</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">${matchedMeaning}</div>
+            <div style="font-size: 0.72rem; color: rgba(255,255,255,0.35); font-family: monospace;">${f.path}</div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <span style="font-weight: 800; font-size: 0.88rem; color: var(--electric-blue-light);">${fileSizeFormatted}</span>
+            <button class="delete-single-cache-file-btn" data-url="${f.url}" data-cache="${f.cacheName}" style="background: rgba(255,149,0,0.15); border: 1px solid rgba(255,149,0,0.35); color: #ff9500; font-size: 0.72rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: 600;">רענן קובץ 🔄</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Bind delete/refetch single file handlers
+    container.querySelectorAll('.delete-single-cache-file-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const fileUrl = btn.dataset.url;
+        const cacheName = btn.dataset.cache;
+        btn.disabled = true;
+        btn.textContent = 'מוריד... ⏳';
+        try {
+          // Offline-Safe Cache Refreshing: Fetch first before modifying existing cache
+          const res = await fetch(new Request(fileUrl, { cache: 'reload' }));
+          if (res.ok) {
+            const cache = await caches.open(cacheName);
+            await cache.put(fileUrl, res);
+            showPremiumToast('הקובץ רוענן מחדש מהשרת! ⚡', 'success');
+          } else {
+            showPremiumToast('רענון הקובץ נכשל: שגיאה מהשרת.', 'error');
+          }
+          await scanAppCacheFiles();
+        } catch (err) {
+          console.error("Single file refresh failed:", err);
+          showPremiumToast('רענון הקובץ נכשל. בדוק חיבור לרשת.', 'error');
+        }
+      });
+    });
+
+  } catch (err) {
+    console.error("Error scanning cache files:", err);
+    container.innerHTML = '<div style="text-align:center; color: var(--color-danger); padding: 15px;">שגיאה בסריקת קבצי המטמון.</div>';
+  }
+}
+
+// Update DOM elements relating to role and unread messages badge
+export function updateAdminUI() {
+  const adminGroup = document.getElementById('settings-admin-group');
+  const unreadBadge = document.getElementById('unread-messages-badge');
+  const unreadDot = document.getElementById('nav-settings-unread-dot');
+
+  // Admin options visibility
+  if (adminGroup) {
+    if (state.currentUser && state.userRole === 'admin') {
+      adminGroup.classList.remove('hide');
+    } else {
+      adminGroup.classList.add('hide');
+    }
+  }
+
+  const unreadCount = state.userMessages ? state.userMessages.filter(m => !m.read).length : 0;
+
+  // Unread messages badge count inside Settings main view
+  if (unreadBadge) {
+    if (unreadCount > 0) {
+      unreadBadge.textContent = unreadCount;
+      unreadBadge.classList.remove('hide');
+    } else {
+      unreadBadge.classList.add('hide');
+    }
+  }
+
+  // Glowing dot on Settings tab in the bottom nav bar
+  if (unreadDot) {
+    if (unreadCount > 0) {
+      unreadDot.classList.remove('hide');
+    } else {
+      unreadDot.classList.add('hide');
+    }
+  }
+}
+
+// Load admin dashboard statistics and items
+async function loadAdminDashboardData() {
+  const db = getDb();
+  if (!db) return;
+
+  try {
+    showPremiumToast("טוען נתוני ניהול... ⏳", "info");
+
+    // 1. Fetch Users List
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    const usersList = [];
+    let totalWorkouts = 0;
+    
+    usersSnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const userObj = {
+        uid: docSnap.id,
+        email: data.email || 'משתמש ללא אימייל',
+        displayName: data.displayName || 'משתמש Aura',
+        role: data.role || 'user',
+        workoutHistoryCount: data.workoutHistory ? data.workoutHistory.length : 0
+      };
+      usersList.push(userObj);
+      totalWorkouts += userObj.workoutHistoryCount;
+    });
+
+    state.usersList = usersList.sort((a, b) => b.workoutHistoryCount - a.workoutHistoryCount);
+
+    // 2. Fetch Feedbacks List
+    const feedbacksSnapshot = await getDocs(collection(db, "feedbacks"));
+    const feedbacksList = [];
+    let pendingCount = 0;
+
+    feedbacksSnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const feedbackObj = {
+        id: docSnap.id,
+        uid: data.uid,
+        email: data.email || '--',
+        displayName: data.displayName || 'משתמש',
+        category: data.category || '💡 הצעת שיפור',
+        text: data.text || '',
+        createdAt: data.createdAt || Date.now(),
+        status: data.status || 'pending'
+      };
+      feedbacksList.push(feedbackObj);
+      if (feedbackObj.status === 'pending') {
+        pendingCount++;
+      }
+    });
+
+    state.feedbacksList = feedbacksList.sort((a, b) => b.createdAt - a.createdAt);
+
+    // 3. Render Stats
+    setElText('admin-stat-users-count', state.usersList.length);
+    setElText('admin-stat-workouts-count', totalWorkouts);
+    setElText('admin-stat-pending-feedback-count', pendingCount);
+
+    // 4. Render Lists
+    renderAdminUsersList(state.usersList);
+    renderAdminFeedbacksList(state.feedbacksList);
+  } catch (err) {
+    console.error("Failed to load admin data:", err);
+    showPremiumToast("טעינת נתוני ניהול נכשלה. בדוק הרשאות Firestore.", "error");
+  }
+}
+
+// Render user rows in admin tab
+function renderAdminUsersList(list) {
+  const container = document.getElementById('admin-users-list');
+  if (!container) return;
+
+  if (list.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px;">לא נמצאו משתמשים.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(user => {
+    const isTargetAdmin = user.role === 'admin';
+    const roleBadge = isTargetAdmin 
+      ? '<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; font-weight: bold; margin-right: 6px;">מנהל</span>'
+      : '<span style="background: rgba(255, 255, 255, 0.08); color: var(--text-muted); font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; margin-right: 6px;">משתמש</span>';
+      
+    return `
+      <div class="ios-workout-log-card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.02);">
+        <div style="display: flex; justify-content: space-between; align-items: start; direction: rtl;">
+          <div style="text-align: right;">
+            <div style="font-weight: 700; color: #fff; font-size: 0.98rem; display: flex; align-items: center; gap: 6px;">
+              ${user.displayName}
+              ${roleBadge}
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; font-family: var(--font-sans);">${user.email}</div>
+          </div>
+          <div style="text-align: left; font-family: var(--font-sans);">
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--electric-blue);">${user.workoutHistoryCount}</div>
+            <div style="font-size: 0.68rem; color: var(--text-muted);">אימונים</div>
+          </div>
+        </div>
+        
+        <!-- Admin Actions grid -->
+        <div style="display: flex; gap: 8px; direction: rtl; margin-top: 4px;">
+          <button class="btn btn-secondary admin-action-btn" data-uid="${user.uid}" data-action="toggle-role" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+            ${isTargetAdmin ? 'הורד למשתמש 👤' : 'שדרג למנהל 👑'}
+          </button>
+          <button class="btn btn-secondary admin-action-btn" data-uid="${user.uid}" data-action="send-msg" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
+            הודעה אישית ✉️
+          </button>
+          <button class="btn btn-logout admin-action-btn" data-uid="${user.uid}" data-action="delete" style="flex: 0 0 auto; padding: 8px 12px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171;">
+            מחק 🗑️
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Bind Actions
+  container.querySelectorAll('.admin-action-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const uid = btn.dataset.uid;
+      const action = btn.dataset.action;
+      const user = state.usersList.find(u => u.uid === uid);
+      if (!user) return;
+
+      if (action === 'toggle-role') {
+        const nextRole = user.role === 'admin' ? 'user' : 'admin';
+        const confirmMsg = nextRole === 'admin'
+          ? `האם אתה בטוח שברצונך לשדרג את ${user.displayName} לתפקיד מנהל?`
+          : `האם אתה בטוח שברצונך להוריד את ${user.displayName} לתפקיד משתמש רגיל?`;
+        
+        if (confirm(confirmMsg)) {
+          btn.disabled = true;
+          const ok = await updateUserRole(uid, nextRole);
+          if (ok) {
+            showPremiumToast("תפקיד המשתמש עודכן בהצלחה!", "success");
+            await loadAdminDashboardData();
+          } else {
+            btn.disabled = false;
+          }
+        }
+      } else if (action === 'send-msg') {
+        const title = prompt(`הודעה אישית אל ${user.displayName}\nהכנס כותרת להודעה:`);
+        if (title === null) return;
+        const cleanTitle = title.trim();
+        if (!cleanTitle) {
+          showPremiumToast("חובה להזין כותרת", "error");
+          return;
+        }
+
+        const content = prompt("הכנס את תוכן ההודעה:");
+        if (content === null) return;
+        const cleanContent = content.trim();
+        if (!cleanContent) {
+          showPremiumToast("חובה להזין תוכן", "error");
+          return;
+        }
+
+        btn.disabled = true;
+        const ok = await sendDirectMessage(uid, cleanTitle, cleanContent);
+        btn.disabled = false;
+        if (ok) {
+          showPremiumToast(`ההודעה האישית נשלחה אל ${user.displayName}!`, "success");
+          // Reload admin stats and data immediately
+          await loadAdminDashboardData();
+          // Sync own session if admin sent a message to themselves
+          if (state.currentUser && uid === state.currentUser.uid) {
+            const { syncUserSession } = await import("../utils/db.js");
+            await syncUserSession(state.currentUser.uid);
+            updateAdminUI();
+            renderUserMessagesList();
+          }
+        }
+      } else if (action === 'delete') {
+        if (confirm(`⚠️ אזהרה חמורה!\nהאם אתה בטוח שברצונך למחוק לצמיתות את המשתמש ${user.displayName} וכל נתוני Firestore שלו מהמערכת?\nפעולה זו אינה ניתנת לביטול!`)) {
+          btn.disabled = true;
+          const ok = await deleteUserAccount(uid);
+          if (ok) {
+            showPremiumToast("המשתמש נמחק בהצלחה מהמערכת 🗑️", "success");
+            await loadAdminDashboardData();
+          } else {
+            btn.disabled = false;
+          }
+        }
+      }
+    });
+  });
+}
+
+// Filter users list on search input
+function filterAdminUsersList(query) {
+  if (!state.usersList) return;
+  const filtered = state.usersList.filter(user => {
+    return user.displayName.toLowerCase().includes(query) || 
+           user.email.toLowerCase().includes(query);
+  });
+  renderAdminUsersList(filtered);
+}
+
+// Render user feedback cards
+function renderAdminFeedbacksList(list) {
+  const container = document.getElementById('admin-feedbacks-list');
+  if (!container) return;
+
+  if (list.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px;">אין משובים זמינים.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(item => {
+    const isPending = item.status === 'pending';
+    const statusBadge = isPending 
+      ? '<span style="background: rgba(255, 149, 0, 0.15); color: #ff9500; font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; font-weight: bold; margin-right: 6px;">ממתין</span>'
+      : '<span style="background: rgba(52, 199, 89, 0.15); color: #34c759; font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; font-weight: bold; margin-right: 6px;">טופל</span>';
+      
+    const dateStr = new Date(item.createdAt).toLocaleDateString('he-IL', {
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    return `
+      <div class="ios-workout-log-card" style="padding: 14px; display: flex; flex-direction: column; gap: 10px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(255, 255, 255, 0.02);">
+        <div style="display: flex; justify-content: space-between; align-items: start; direction: rtl;">
+          <div style="text-align: right;">
+            <div style="font-weight: 700; color: #fff; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+              ${item.displayName}
+              ${statusBadge}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; font-family: var(--font-sans);">${item.email}</div>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-sans); text-align: left;">
+            ${dateStr}
+          </div>
+        </div>
+        
+        <div style="background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 10px; font-size: 0.88rem; color: #e4e4e7; line-height: 1.4; direction: rtl; text-align: right; border: 1px solid rgba(255,255,255,0.02);">
+          <div style="font-weight: bold; font-size: 0.75rem; color: var(--electric-blue); margin-bottom: 4px;">סוג: ${item.category}</div>
+          ${item.text}
+        </div>
+
+        ${isPending ? `
+          <div style="display: flex; gap: 8px; direction: rtl; margin-top: 2px;">
+            <button class="btn btn-secondary admin-feedback-btn" data-id="${item.id}" data-action="resolve" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
+              סמן כטופל ✓
+            </button>
+            <button class="btn btn-secondary admin-feedback-btn" data-id="${item.id}" data-action="reply" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
+              שלח מענה ✉️
+            </button>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+
+  // Bind Feedback actions
+  container.querySelectorAll('.admin-feedback-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      const item = state.feedbacksList.find(f => f.id === id);
+      if (!item) return;
+
+      if (action === 'resolve') {
+        btn.disabled = true;
+        const ok = await markFeedbackResolved(id);
+        if (ok) {
+          showPremiumToast("המשוב סומן כטופל בהצלחה!", "success");
+          await loadAdminDashboardData();
+        } else {
+          btn.disabled = false;
+        }
+      } else if (action === 'reply') {
+        const replyText = prompt(`הודעת מענה אישי אל ${item.displayName}\nהכנס את תוכן ההודעה:`);
+        if (replyText === null) return;
+        const cleanReply = replyText.trim();
+        if (!cleanReply) {
+          showPremiumToast("חובה להזין תוכן", "error");
+          return;
+        }
+
+        btn.disabled = true;
+        const msgOk = await sendDirectMessage(item.uid, "מענה למשוב שלך 💬", cleanReply);
+        if (msgOk) {
+          // Auto resolve the feedback too
+          await markFeedbackResolved(id);
+          showPremiumToast("המענה נשלח בהצלחה והמשוב סומן כטופל!", "success");
+          await loadAdminDashboardData();
+        } else {
+          btn.disabled = false;
+        }
+      }
+    });
+  });
+}
+
+// Render regular user inbox list
+function renderUserMessagesList() {
+  const container = document.getElementById('user-messages-list');
+  if (!container) return;
+
+  const list = state.userMessages || [];
+  if (list.length === 0) {
+    container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 40px; font-size: 0.95rem;">אין הודעות מערכת זמינות.</div>';
+    return;
+  }
+
+  container.innerHTML = list.map(item => {
+    const dateStr = new Date(item.date).toLocaleDateString('he-IL', {
+      day: 'numeric',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    const isNew = !item.read;
+
+    return `
+      <div class="ios-workout-log-card" style="padding: 16px; border-radius: 18px; border: 1px solid ${isNew ? 'rgba(0,122,255,0.25)' : 'rgba(255,255,255,0.05)'}; background: ${isNew ? 'rgba(0,122,255,0.03)' : 'rgba(255,255,255,0.01)'}; position: relative; direction: rtl; text-align: right;">
+        ${isNew ? '<span style="position: absolute; top: 16px; left: 16px; width: 8px; height: 8px; border-radius: 50%; background: #007aff; box-shadow: 0 0 8px #007aff;"></span>' : ''}
+        <div style="font-weight: 800; color: #fff; font-size: 1.05rem; margin-bottom: 4px; padding-left: 20px;">${item.title}</div>
+        <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-sans); margin-bottom: 10px;">${dateStr}</div>
+        <div style="font-size: 0.88rem; color: #d4d4d8; line-height: 1.5; white-space: pre-wrap;">${item.content}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// --- FIRESTORE WRITING AND DB INTERACTION ---
+
+// Submit user feedback to database
+async function submitUserFeedback(category, text) {
+  const db = getDb();
+  if (!db) return false;
+  try {
+    const data = {
+      uid: state.currentUser ? state.currentUser.uid : 'anonymous',
+      email: state.currentUser ? state.currentUser.email : 'anonymous@gmail.com',
+      displayName: state.currentUser ? state.currentUser.displayName : 'משתמש Aura',
+      category,
+      text,
+      createdAt: Date.now(),
+      status: 'pending'
+    };
+    await addDoc(collection(db, "feedbacks"), data);
+    console.log("Feedback submitted to Firestore successfully.");
+    return true;
+  } catch (err) {
+    console.error("Failed to submit feedback:", err);
+    showPremiumToast("שליחת המשוב נכשלה. אנא בדוק את החיבור לרשת.", "error");
+    return false;
+  }
+}
+
+// Broadcast message to ALL users in Firestore using Batched Writes (Phase 2 optimization)
+async function sendGlobalAnnouncement(title, content) {
+  const db = getDb();
+  if (!db) return false;
+
+  try {
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    if (usersSnapshot.empty) return true;
+
+    // Use Firestore writeBatch for scalable performance & network reliability
+    let batch = writeBatch(db);
+    let count = 0;
+
+    for (const userDoc of usersSnapshot.docs) {
+      const userData = userDoc.data();
+      const userMessages = userData.messages || [];
+      const newMessage = {
+        id: String(Date.now() + Math.random()),
+        title,
+        content,
+        date: Date.now(),
+        read: false
+      };
+      
+      const newMessages = [newMessage, ...userMessages];
+      const userRef = doc(db, "users", userDoc.id);
+      batch.set(userRef, { messages: newMessages }, { merge: true });
+      count++;
+
+      // Firestore batch limit is 500 operations
+      if (count % 450 === 0) {
+        await batch.commit();
+        batch = writeBatch(db);
+      }
+    }
+
+    if (count % 450 !== 0) {
+      await batch.commit();
+    }
+
+    console.log(`Global announcement broadcasted to ${count} users via batched writes.`);
+    return true;
+  } catch (err) {
+    console.error("Failed to send global announcement:", err);
+    showPremiumToast("שליחת ההודעה הגלובלית נכשלה.", "error");
+    return false;
+  }
+}
+
+// Send a direct message to a specific user using direct getDoc read (Phase 2 optimization)
+async function sendDirectMessage(targetUid, title, content) {
+  const db = getDb();
+  if (!db) return false;
+
+  try {
+    const userRef = doc(db, "users", targetUid);
+    // Direct document read instead of fetching the entire users collection
+    const userSnap = await getDoc(userRef);
+    
+    let currentMessages = [];
+    if (userSnap.exists()) {
+      currentMessages = userSnap.data().messages || [];
+    }
+
+    const newMessage = {
+      id: String(Date.now() + Math.random()),
+      title,
+      content,
+      date: Date.now(),
+      read: false
+    };
+
+    const newMessages = [newMessage, ...currentMessages];
+    await setDoc(userRef, { messages: newMessages }, { merge: true });
+    console.log(`Direct message sent to ${targetUid} via direct document read.`);
+    return true;
+  } catch (err) {
+    console.error("Failed to send direct message:", err);
+    showPremiumToast("שליחת ההודעה הישירה נכשלה.", "error");
+    return false;
+  }
+}
+
+// Change user role in Firestore
+async function updateUserRole(targetUid, newRole) {
+  const db = getDb();
+  if (!db) return false;
+  try {
+    const userRef = doc(db, "users", targetUid);
+    await setDoc(userRef, { role: newRole, updatedAt: Date.now() }, { merge: true });
+    console.log(`User role for uid: ${targetUid} updated to: ${newRole} successfully.`);
+    return true;
+  } catch (err) {
+    console.error("Failed to update user role:", err);
+    showPremiumToast("שינוי תפקיד המשתמש נכשל.", "error");
+    return false;
+  }
+}
+
+// Delete user document from Firestore
+async function deleteUserAccount(targetUid) {
+  const db = getDb();
+  if (!db) return false;
+  try {
+    const userRef = doc(db, "users", targetUid);
+    await deleteDoc(userRef);
+    console.log(`User document for uid: ${targetUid} deleted successfully from Firestore.`);
+    return true;
+  } catch (err) {
+    console.error("Failed to delete user document:", err);
+    showPremiumToast("מחיקת המשתמש נכשלה.", "error");
+    return false;
+  }
+}
+
+// Mark feedback as resolved
+async function markFeedbackResolved(feedbackId) {
+  const db = getDb();
+  if (!db) return false;
+  try {
+    const docRef = doc(db, "feedbacks", feedbackId);
+    await setDoc(docRef, { status: 'resolved' }, { merge: true });
+    console.log(`Feedback doc id: ${feedbackId} resolved successfully.`);
+    return true;
+  } catch (err) {
+    console.error("Failed to resolve feedback doc:", err);
+    return false;
+  }
+}
+
+// Mark all logged in user messages as read
+async function markAllMessagesAsRead() {
+  if (!state.currentUser) return;
+  
+  const uid = state.currentUser.uid;
+  const list = state.userMessages || [];
+  let changed = false;
+
+  const updatedList = list.map(m => {
+    if (!m.read) {
+      m.read = true;
+      changed = true;
+    }
+    return m;
+  });
+
+  if (changed) {
+    state.userMessages = updatedList;
+    SafeStorage.setItem(`aura-messages_${uid}`, JSON.stringify(updatedList));
+    updateAdminUI(); // refresh badge count
+    
+    // Save to Firestore
+    await saveFieldToCloud('messages', updatedList);
+    
+    // Trigger local push notification to simulate PWA Web Push notification logic (A1 response choice)
+    if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+      try {
+        const lastMsg = updatedList[0];
+        if (lastMsg) {
+          triggerLocalNotification(
+            "קראת הודעות חדשות ✉️",
+            `סומנו כנקראו הודעות ממערכת האפליקציה.`
+          );
+        }
+      } catch (err) {
+        console.warn("Could not fire local notification:", err);
+      }
+    }
+  }
+}
+
+
+===============================================================================
+PART 4: CSS STYLING & DESIGN SYSTEM
+Source File: styles/settings.css
+Original Location: styles/settings.css (Entire File)
+Description: All layout rules, card groups, toggle switches, headers, dark theme overrides, sub-views, and flexbox containers for Settings.
+===============================================================================
+
+/* ==========================================================================
+   AuraApp Modular CSS: settings.css
+   ========================================================================== */
+
+/* ==========================================================================
+   9. SETTINGS PANEL (Drawer & Hacker JSON Pre)
+   ========================================================================== */
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.settings-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  /* Restricts scrolling to the drawer inner content */
+  background: linear-gradient(135deg, hsla(225, 20%, 9%, 0.95) 0%, hsla(225, 20%, 5%, 0.98) 100%);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  border-right: 1px solid var(--border-card);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 24px 0 60px rgba(0, 0, 0, 0.7);
+  direction: ltr;
+  /* keep details left to right */
+}
+
+/* RTL override for layout details in Hebrew */
+[dir="rtl"] .settings-drawer {
+  left: auto;
+  right: 0;
+  border-right: none;
+  border-left: 1px solid var(--border-card);
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.7);
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  direction: rtl;
+}
+
+.settings-drawer.open {
+  transform: translateX(0);
+}
+
+[dir="rtl"] .settings-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(1.5rem + env(safe-area-inset-top)) 1.5rem 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawer-brand .aura-logo-svg {
+  width: 32px;
+  height: 32px;
+}
+
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.drawer-profile-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.avatar-container-large {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--electric-blue) 0%, var(--neon-orange) 100%);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 20px var(--electric-blue-glow-subtle);
+}
+
+.user-avatar-large {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--bg-app);
+  background: var(--bg-card);
+}
+
+.active-status-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-success);
+  border-radius: 50%;
+  border: 3.5px solid var(--bg-app);
+  box-shadow: none;
+}
+
+.drawer-user-info {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.profile-name-large {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.profile-email-large {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.drawer-details-list {
+  display: flex;
+  flex-direction: column;
+  background: hsla(225, 20%, 4%, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.drawer-details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.85rem;
+}
+
+.drawer-details-row:last-child {
+  border-bottom: none;
+}
+
+.drawer-row-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.drawer-row-value {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.select-all {
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.security-status-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-success);
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+.status-label-mini {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.drawer-json-card {
+  display: flex;
+  flex-direction: column;
+  background: hsla(225, 20%, 4%, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.drawer-json-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  cursor: pointer;
+  user-select: none;
+  background: hsla(225, 20%, 8%, 0.5);
+  transition: var(--transition-smooth);
+}
+
+.drawer-json-header:hover {
+  background: hsla(225, 20%, 10%, 0.8);
+}
+
+.drawer-json-header.active {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.showcase-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.showcase-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.toggle-arrow {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.drawer-json-header.active .toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.terminal-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  background: #020408;
+}
+
+.terminal-container.expanded {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.terminal-container pre {
+  margin: 0;
+  padding: 14px;
+  font-size: 0.75rem;
+  font-family: "Courier New", Courier, monospace;
+  color: #39ff14;
+  /* Hacker retro green */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.drawer-footer {
+  padding: 1.5rem;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.drawer-logout-btn {
+  width: 100%;
+}
+
+/* Section 10 and 11 Workout Summary and Old Nav Capsule styles removed */
+
+/* ==========================================================================
+   iOS 26 Multi-Tab Screens & Coming Soon Cards
+   ========================================================================== */
+
+.tab-content-container {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom, 24px));
+  /* Prevent bottom nav overlay overlapping content */
+}
+
+.tab-pane {
+  display: none;
+  opacity: 0;
+  transform: scale(0.97) translateY(15px);
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.tab-pane.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Force full-screen width and bleed layout for Settings Tab specifically */
+#tab-settings {
+  padding: 0 !important;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+/* Premium iOS Settings Card & Navigation */
+.ios-settings-card {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+.settings-main-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  padding: calc(1.5rem + env(safe-area-inset-top, 24px)) 1.5rem 1rem 1.5rem;
+  text-align: right;
+  direction: rtl;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.settings-sub-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.ios-settings-list {
+  display: flex;
+  flex-direction: column;
+  background: hsla(225, 20%, 8%, 0.4);
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  width: 100%;
+}
+
+.ios-settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  text-align: right;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-settings-row:last-child {
+  border-bottom: none;
+}
+
+.ios-settings-row:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ios-settings-row.disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.row-left-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-right-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  direction: rtl;
+}
+
+.row-chevron {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ios-settings-row:hover:not(.disabled) .row-chevron {
+  color: var(--electric-blue-light);
+  transform: translateX(-4px);
+}
+
+.row-icon {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.row-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+}
+
+.row-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.45);
+  padding: 3px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Account Details Sub-View styling & Sticky Settings Headers */
+.ios-settings-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-bottom: none !important;
+  border: none !important;
+  padding: calc(1rem + env(safe-area-inset-top, 16px)) 1.5rem 14px 1.5rem !important;
+  margin: 0 !important;
+  direction: rtl !important;
+  background: rgba(14, 14, 18, 0.94) !important;
+  backdrop-filter: blur(25px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  flex: 0 0 auto !important;
+}
+
+#tab-settings.dark-theme .ios-settings-header,
+body:not(.light-theme) .ios-settings-header {
+  background: rgba(14, 14, 18, 0.94) !important;
+  border-bottom: none !important;
+  border: none !important;
+}
+
+.ios-back-btn {
+  background: transparent;
+  border: none;
+  color: var(--electric-blue-light);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  outline: none;
+  transition: all 0.25s ease;
+  direction: rtl;
+}
+
+.ios-back-btn:hover {
+  transform: translateX(4px);
+  color: #ffffff;
+}
+
+.back-arrow {
+  font-size: 1.1rem;
+}
+
+.account-profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0 1.5rem 0;
+}
+
+.settings-avatar-glow {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3.5px solid #090a0f;
+  background: var(--bg-card);
+  z-index: 2;
+  box-shadow: 0 0 25px var(--electric-blue-glow-subtle);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.minimal-avatar-btn {
+  background: transparent;
+  border: none;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.ios-settings-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  width: 100%;
+  direction: rtl;
+}
+
+.ios-settings-field:last-child {
+  border-bottom: none;
+}
+
+.field-label {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.field-value {
+  font-size: 0.9rem;
+  color: var(--text-heading);
+  font-weight: 700;
+  user-select: all;
+  -webkit-user-select: all;
+  font-family: 'Inter', sans-serif;
+}
+
+.minimal-avatar-btn:hover .settings-avatar {
+  transform: scale(1.05);
+}
+
+/* Coming Soon Cards */
+.coming-soon-card {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 28px;
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.coming-soon-emoji {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+  filter: none;
+  animation: cs-float 3s ease-in-out infinite alternate;
+}
+
+@keyframes cs-float {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+.coming-soon-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.coming-soon-desc {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+  direction: rtl;
+}
+
+.badge-soon {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   AuraApp Redesigned Settings Tab - Classic iOS Light Theme
+   ========================================================================== */
+/* Tab Content Container & Active Tab Layout Framework */
+.tab-content-container {
+  width: 100% !important;
+  height: 100% !important;
+  flex: 1 1 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: relative !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Strict Tab Isolation Engine - Completely hides inactive tabs from layout and touch hierarchy */
+.tab-pane:not(.active),
+#tab-settings:not(.active),
+#tab-workouts:not(.active),
+#tab-analytics:not(.active),
+#tab-meals:not(.active) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: -9999 !important;
+}
+
+#tab-settings,
+#tab-workouts,
+#tab-analytics,
+#tab-meals {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  direction: rtl !important;
+  overflow: hidden !important;
+}
+
+#tab-settings.active,
+#tab-workouts.active,
+#tab-analytics.active,
+#tab-meals.active {
+  display: flex !important;
+  flex-direction: column !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  z-index: 10 !important;
+}
+
+/* Custom scrollbars inside settings for unified appearance */
+.ios-settings-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ios-settings-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+/* Scroll Container */
+.ios-settings-scroll-container {
+  padding: 1rem 1.25rem calc(100px + env(safe-area-inset-bottom, 24px)) 1.25rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Settings Main Title (Phase 1 Directive 2: High-contrast visibility) */
+.settings-main-title,
+#tab-settings .settings-main-title {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 1.875rem;
+  font-weight: 800;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  letter-spacing: -0.5px;
+}
+
+#tab-settings.dark-theme .settings-main-title {
+  color: #ffffff;
+}
+
+/* iOS Group Title (Phase 1 Directive 3: Native iOS Group Title sitting gracefully above card) */
+.ios-settings-group-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted, #94a3b8);
+  margin: 18px 8px 6px 8px;
+  padding: 0;
+  letter-spacing: 0.4px;
+  direction: rtl;
+  text-align: right;
+}
+
+/* ==========================================================================
+   AuraApp Redesigned iOS 18 Native Settings System
+   ========================================================================== */
+
+/* iOS Cards (Rounded Glass Segments with Crisp Glass Outline) */
+.ios-settings-card-group {
+  background: rgba(255, 255, 255, 0.035);
+  border-radius: 18px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  overflow: visible;
+  height: auto;
+  min-height: fit-content;
+  padding: 0;
+  width: 100%;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+/* Single Setting Row (Borderless & Always Visible) */
+.ios-setting-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 15px 18px !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 56px !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  transition: background-color 0.2s ease, transform 0.15s ease !important;
+  text-decoration: none !important;
+  color: #ffffff !important;
+  font-family: var(--font-sans) !important;
+  direction: rtl !important;
+  text-align: right !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+.ios-setting-row:last-child {
+  border-bottom: none !important;
+  border: none !important;
+}
+
+.ios-setting-row:hover:not(.no-hover),
+.ios-setting-row:active:not(.no-hover) {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* Left part (Action, Toggle, or Chevron) */
+.ios-row-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ios-row-detail-text {
+  font-size: 0.92rem !important;
+  color: #a1a1aa !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.2px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ios-row-chevron {
+  font-size: 1rem !important;
+  color: #71717a !important;
+  font-weight: 600 !important;
+  margin-left: 2px !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ios-setting-row:hover .ios-row-chevron {
+  color: #ffffff !important;
+  transform: translateX(-4px) !important;
+}
+
+/* Right part (Icon + Label) */
+.ios-row-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  flex-shrink: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ios-row-icon-badge {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 9px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.15rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  flex-shrink: 0 !important;
+}
+
+.ios-row-label {
+  font-size: 1.02rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  letter-spacing: -0.3px !important;
+}
+
+/* iOS Colored Badges styles */
+.bg-ios-blue {
+  background: linear-gradient(135deg, #007aff 0%, #0056b3 100%) !important;
+}
+
+.bg-ios-orange {
+  background: linear-gradient(135deg, #ff9500 0%, #c67400 100%) !important;
+}
+
+.bg-ios-green {
+  background: linear-gradient(135deg, #34c759 0%, #248a3d 100%) !important;
+}
+
+.bg-ios-purple {
+  background: linear-gradient(135deg, #af52de 0%, #7d26a5 100%) !important;
+}
+
+.bg-ios-red {
+  background: linear-gradient(135deg, #ff3b30 0%, #c41c12 100%) !important;
+}
+
+.bg-ios-pink {
+  background: linear-gradient(135deg, #ff2d55 0%, #b81636 100%) !important;
+}
+
+.bg-ios-gray {
+  background: linear-gradient(135deg, #8e8e93 0%, #545456 100%) !important;
+}
+
+.bg-ios-teal {
+  background: linear-gradient(135deg, #5ac8fa 0%, #1a9bd7 100%) !important;
+}
+
+.bg-ios-indigo {
+  background: linear-gradient(135deg, #5856d6 0%, #3634a3 100%) !important;
+}
+
+/* Top Profile Card Specific */
+.ios-profile-card {
+  padding: 16px 16px !important;
+}
+
+.ios-profile-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+.ios-profile-avatar-wrapper {
+  position: relative !important;
+  width: 60px !important;
+  height: 60px !important;
+  flex-shrink: 0 !important;
+}
+
+.ios-profile-avatar {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.ios-profile-avatar-wrapper .avatar-glow-ring {
+  border-color: #007aff !important;
+}
+
+.ios-profile-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  text-align: right !important;
+}
+
+.ios-profile-name {
+  font-family: var(--font-display) !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: -0.3px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.ios-profile-subtext {
+  font-size: 0.85rem !important;
+  color: #8e8e93 !important;
+}
+
+/* Apple/Aura Intelligence Premium Promo Card */
+.ios-intelligence-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f8ff 50%, #fffbf5 100%) !important;
+  border: 1.5px solid transparent !important;
+  background-clip: padding-box !important;
+  border-radius: 12px !important;
+  margin-bottom: 20px !important;
+  padding: 16px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 12px rgba(0, 122, 255, 0.05) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.ios-intelligence-card::after {
+  content: "" !important;
+  position: absolute !important;
+  top: -1.5px !important;
+  left: -1.5px !important;
+  right: -1.5px !important;
+  bottom: -1.5px !important;
+  border-radius: inherit !important;
+  padding: 1.5px !important;
+  background: linear-gradient(135deg, #007aff 0%, transparent 40%, transparent 60%, #ff9500 100%) !important;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) !important;
+  -webkit-mask-composite: xor !important;
+  mask-composite: exclude !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  opacity: 0.3 !important;
+}
+
+.ios-intelligence-text-box {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  text-align: right !important;
+}
+
+.ios-intelligence-title {
+  font-family: var(--font-display) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+}
+
+.ios-intelligence-desc {
+  font-size: 0.85rem !important;
+  color: #8e8e93 !important;
+}
+
+/* Custom iOS Switch Toggle Slider */
+.ios-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+  flex-shrink: 0;
+}
+
+.ios-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ios-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e9e9ea;
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.ios-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 27px;
+  width: 27px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.ios-toggle-switch input:checked+.ios-toggle-slider {
+  background-color: #34c759;
+}
+
+.ios-toggle-switch input:checked+.ios-toggle-slider:before {
+  transform: translateX(20px);
+}
+
+/* Sub-view 2: Account Details Screen (Light Theme Styles) */
+#settings-account-view {
+  background-color: #f2f2f7 !important;
+  color: #1c1c1e !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+#settings-account-view .ios-settings-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 2rem !important;
+  direction: rtl !important;
+}
+
+#settings-account-view .ios-back-btn {
+  background: none !important;
+  border: none !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  color: #007aff !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 0 !important;
+  font-family: inherit !important;
+}
+
+#settings-account-view .settings-sub-title {
+  font-family: var(--font-display) !important;
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  margin: 0 !important;
+}
+
+.ios-account-profile-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 2rem !important;
+  text-align: center !important;
+}
+
+.ios-settings-avatar-glow {
+  position: relative !important;
+  width: 90px !important;
+  height: 90px !important;
+}
+
+.ios-settings-avatar-glow img {
+  width: 90px !important;
+  height: 90px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+}
+
+#settings-account-view .welcome-text {
+  font-family: var(--font-display) !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  margin-bottom: 2px !important;
+}
+
+#settings-account-view .settings-subtitle {
+  font-size: 0.9rem !important;
+  color: #8e8e93 !important;
+  margin: 0 !important;
+}
+
+/* Light Field Info List */
+.ios-settings-field-group {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  margin-bottom: 24px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  overflow: visible !important;
+  height: auto !important;
+  min-height: fit-content !important;
+}
+
+.ios-settings-field-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 15px 18px !important;
+  border-bottom: 0.5px solid #e5e5ea !important;
+  background: #ffffff !important;
+  min-height: 56px !important;
+  box-sizing: border-box !important;
+  direction: rtl !important;
+}
+
+.ios-settings-field-row:last-child {
+  border-bottom: none !important;
+}
+
+.ios-settings-field-row .field-label {
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+  color: #1c1c1e !important;
+}
+
+.ios-settings-field-row .field-value {
+  font-size: 1rem !important;
+  color: #8e8e93 !important;
+}
+
+/* Redesigned iOS Modal Panel for values selection */
+.ios-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  /* Bottom sheet style on mobile */
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.ios-modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.ios-modal-overlay.hide,
+.ios-modal-overlay:not(.show) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: -9999 !important;
+}
+
+.ios-modal-card {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  direction: rtl;
+}
+
+.ios-modal-overlay.show .ios-modal-card {
+  transform: translateY(0);
+}
+
+.ios-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 0.5px solid #e5e5ea;
+  padding-bottom: 12px;
+}
+
+.ios-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+.ios-modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #007aff;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.ios-modal-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.ios-modal-option {
+  width: 100%;
+  padding: 14px 16px;
+  background: #f2f2f7;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1c1c1e;
+  cursor: pointer;
+  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.15s ease;
+  font-family: inherit;
+}
+
+.ios-modal-option:hover {
+  background: #e5e5ea;
+}
+
+.ios-modal-option.selected {
+  background: #e8f3ff;
+  color: #007aff;
+}
+
+.ios-modal-option-check {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* iOS Dark Mode overrides for toggle controls */
+#tab-settings.dark-theme .ios-toggle-slider {
+  background-color: #3a3a3c !important;
+}
+
+#tab-settings.dark-theme .ios-toggle-switch input:checked+.ios-toggle-slider {
+  background-color: #30d158 !important;
+  /* iOS Native Dark Green status toggle */
+}
+
+/* Sub-view 2: Account Details Screen (Dark Theme overrides) */
+#tab-settings.dark-theme #settings-account-view {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+#tab-settings.dark-theme #settings-account-view .settings-sub-title,
+#tab-settings.dark-theme #settings-account-view .welcome-text {
+  color: #ffffff !important;
+}
+
+#tab-settings.dark-theme #settings-account-view .ios-back-btn {
+  color: #0a84ff !important;
+  /* iOS Native Dark Mode Active Link Blue */
+}
+
+#tab-settings.dark-theme .ios-settings-field-group {
+  background: #1c1c1e !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+#tab-settings.dark-theme .ios-settings-field-row {
+  background: #1c1c1e !important;
+  border-bottom: 0.5px solid #2c2c2e !important;
+}
+
+#tab-settings.dark-theme .ios-settings-field-row .field-label {
+  color: #ffffff !important;
+}
+
+#tab-settings.dark-theme .ios-settings-field-row .field-value {
+  color: #8e8e93 !important;
+}
+
+/* Selection modal sheets inside dark settings */
+#tab-settings.dark-theme .ios-modal-card {
+  background: #1c1c1e !important;
+  border-top: 0.5px solid #2c2c2e !important;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+#tab-settings.dark-theme .ios-modal-title {
+  color: #ffffff !important;
+}
+
+#tab-settings.dark-theme .ios-modal-close-btn {
+  color: #0a84ff !important;
+}
+
+#tab-settings.dark-theme .ios-modal-option {
+  background: #2c2c2e !important;
+  color: #ffffff !important;
+}
+
+#tab-settings.dark-theme .ios-modal-option:hover {
+  background: #3a3a3c !important;
+}
+
+#tab-settings.dark-theme .ios-modal-option.selected {
+  background: #1a3b5c !important;
+  color: #0a84ff !important;
+}
+
+/* ==========================================================================
+   AuraApp Redesigned Multi-Tab Theme System - Dark & Light Mode Overrides
+   ========================================================================== */
+
+/* 1. Global Tab Titles styling (Aligned large bold top-right RTL, exactly like settings) */
+.tab-pane .settings-main-title {
+  color: #1c1c1e !important;
+  font-family: var(--font-display) !important;
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: right !important;
+  text-shadow: none !important;
+  letter-spacing: -0.5px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.tab-pane.dark-theme .settings-main-title {
+  color: #ffffff !important;
+}
+
+/* 2. Expanded Dark Theme overrides for all four tabs */
+#tab-settings.dark-theme,
+#tab-workouts.dark-theme,
+#tab-analytics.dark-theme,
+#tab-meals.dark-theme {
+  background-color: #0d0e12 !important;
+  color: #ffffff !important;
+}
+
+/* 3. CLASSIC iOS LIGHT THEME OVERRIDES FOR WORKOUTS, HISTORY & MEALS TABS */
+
+/* General background & text in light mode */
+.tab-pane:not(.dark-theme) {
+  background-color: #f2f2f7 !important;
+  color: #1c1c1e !important;
+}
+
+/* Location Selector Grid & Coming Soon Cards */
+.tab-pane:not(.dark-theme) .location-select-title,
+.tab-pane:not(.dark-theme) .coming-soon-title {
+  color: #000000 !important;
+}
+
+.tab-pane:not(.dark-theme) .coming-soon-desc {
+  color: #3a3a3c !important;
+}
+
+.tab-pane:not(.dark-theme) .coming-soon-card,
+.tab-pane:not(.dark-theme) .location-tile {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #1c1c1e !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.tab-pane:not(.dark-theme) .location-tile:hover {
+  background: #e5e5ea !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.tab-pane:not(.dark-theme) .location-tile .tile-label {
+  color: #1c1c1e !important;
+}
+
+.tab-pane:not(.dark-theme) .btn-cancel-link {
+  color: #007aff !important;
+  /* Premium iOS blue link */
+}
+
+/* Active Tracker Headers */
+.tab-pane:not(.dark-theme) .active-workout-header-bar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.tab-pane:not(.dark-theme) .active-location-badge,
+.tab-pane:not(.dark-theme) .active-timer-box {
+  color: #1c1c1e !important;
+}
+
+/* Exercises Tracking Cards & Set Rows */
+.tab-pane:not(.dark-theme) .exercise-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #1c1c1e !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.tab-pane:not(.dark-theme) .exercise-card.saved .exercise-name-input {
+  color: #16a34a !important;
+}
+
+.tab-pane:not(.dark-theme) .exercise-name-input {
+  color: #000000 !important;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.tab-pane:not(.dark-theme) .exercise-name-input::placeholder {
+  color: #c7c7cc !important;
+}
+
+.tab-pane:not(.dark-theme) .sets-header-row {
+  color: #8e8e93 !important;
+}
+
+.tab-pane:not(.dark-theme) .set-row {
+  background: #f2f2f7 !important;
+  border: 1px solid rgba(0, 0, 0, 0.04) !important;
+}
+
+.tab-pane:not(.dark-theme) .set-row.completed {
+  background: rgba(34, 197, 94, 0.06) !important;
+  border-color: rgba(34, 197, 94, 0.25) !important;
+}
+
+.tab-pane:not(.dark-theme) .set-number-label {
+  color: #1c1c1e !important;
+}
+
+.tab-pane:not(.dark-theme) .set-input {
+  background: #ffffff !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+  color: #000000 !important;
+}
+
+.tab-pane:not(.dark-theme) .set-input:focus:not(:disabled) {
+  border-color: #007aff !important;
+}
+
+.tab-pane:not(.dark-theme) .set-input:disabled {
+  background: #e5e5ea !important;
+  color: #8e8e93 !important;
+}
+
+.tab-pane:not(.dark-theme) .set-checkmark-btn {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #8e8e93 !important;
+}
+
+.tab-pane:not(.dark-theme) .set-checkmark-btn:hover:not(:disabled) {
+  border-color: #007aff !important;
+  color: #007aff !important;
+}
+
+.tab-pane:not(.dark-theme) .add-set-btn {
+  border: 1px dashed rgba(0, 0, 0, 0.15) !important;
+  color: #3a3a3c !important;
+}
+
+.tab-pane:not(.dark-theme) .add-set-btn:hover {
+  border-color: #007aff !important;
+  color: #007aff !important;
+}
+
+.tab-pane:not(.dark-theme) .edit-exercise-btn {
+  background: #e5e5ea !important;
+  color: #1c1c1e !important;
+}
+
+/* Analytics Tab: Workout History logs */
+.tab-pane:not(.dark-theme) .history-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  color: #1c1c1e !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.tab-pane:not(.dark-theme) .history-card:hover {
+  background: #f2f2f7 !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.tab-pane:not(.dark-theme) .history-card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.tab-pane:not(.dark-theme) .history-card-date {
+  color: #000000 !important;
+}
+
+.tab-pane:not(.dark-theme) .history-stat {
+  color: #8e8e93 !important;
+}
+
+.tab-pane:not(.dark-theme) .history-stat strong {
+  color: #000000 !important;
+}
+
+.tab-pane:not(.dark-theme) .history-exercise-row {
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.06) !important;
+}
+
+.tab-pane:not(.dark-theme) .history-exercise-name {
+  color: #000000 !important;
+}
+
+.tab-pane:not(.dark-theme) .history-set-pill {
+  background: #f2f2f7 !important;
+  color: #1c1c1e !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.tab-pane:not(.dark-theme) .history-empty-state p {
+  color: #8e8e93 !important;
+}
+
+/* ==========================================================================
+   LIGHT MODE STYLING COMPATIBILITY
+   ========================================================================== */
+
+.tab-pane:not(.dark-theme) .exercise-list-item {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.tab-pane:not(.dark-theme) .exercise-list-item:hover {
+  background: #f2f2f7 !important;
+  border-color: var(--electric-blue-light) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.tab-pane:not(.dark-theme) .ex-list-name {
+  color: #1c1c1e !important;
+}
+
+.tab-pane:not(.dark-theme) .ex-list-arrow {
+  color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.tab-pane:not(.dark-theme) .exercise-list-item:hover .ex-list-arrow {
+  color: var(--electric-blue-light) !important;
+}
+
+.tab-pane:not(.dark-theme) .muscle-card {
+  background: #f2f2f7 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.tab-pane:not(.dark-theme) .muscle-card:hover {
+  background: #e5e5ea !important;
+}
+
+.tab-pane:not(.dark-theme) .muscle-card.active {
+  background: rgba(220, 38, 38, 0.08) !important;
+}
+
+/* iOS Settings Profile Header Card (Flows naturally in scroll view) */
+.sticky-profile-container {
+  position: relative !important;
+  top: auto !important;
+  z-index: 1 !important;
+  margin-top: 0 !important;
+  margin-bottom: 20px !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+}
+
+#tab-settings.dark-theme .sticky-profile-container {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* iOS Group Title (System Label) */
+.ios-settings-group-title {
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #0a84ff !important;
+  text-transform: uppercase !important;
+  padding: 12px 16px 4px 16px !important;
+  margin: 0 !important;
+  letter-spacing: 0.5px !important;
+  display: block !important;
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* ==========================================================================
+   AuraApp Redesigned Settings Tab - Manual Update Button & Spinner
+   ========================================================================== */
+.ios-update-badge-btn {
+  background: #34c759 !important;
+  /* iOS Green */
+  color: #ffffff !important;
+  border: none !important;
+  padding: 4px 12px !important;
+  border-radius: 12px !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  font-family: inherit !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(52, 199, 89, 0.2) !important;
+  outline: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ios-update-badge-btn:hover {
+  background: #30d158 !important;
+  transform: scale(1.05);
+}
+
+.ios-update-badge-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+}
+
+#tab-settings.dark-theme .ios-update-badge-btn {
+  background: #30d158 !important;
+}
+
+#tab-settings.dark-theme .ios-update-badge-btn:hover {
+  background: #34c759 !important;
+}
+
+/* Premium iOS Mini Spinner */
+@keyframes ios-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.ios-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid rgba(0, 122, 255, 0.2);
+  border-top-color: #007aff;
+  border-radius: 50%;
+  animation: ios-spin 0.8s linear infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+#tab-settings.dark-theme .ios-spinner {
+  border-color: rgba(10, 132, 255, 0.2);
+  border-top-color: #0a84ff;
+}
+
+/* ==========================================================================
+   AuraApp Matte Steel / Slate Aesthetic Overrides
+   ========================================================================== */
+
+/* Active & focus states: drop glowing shadows, replace with thin platinum 1px borders */
+.btn:active,
+.btn:focus,
+.btn.active,
+button:active,
+button:focus,
+.ios-setting-row:active,
+.segmented-btn.active,
+.filter-pill-btn.active,
+.muscle-card.active,
+.ios-settings-card-group:active,
+.workout-dashboard-card:active,
+.slider-adjust-btn:active,
+.premium-range-slider:focus {
+  box-shadow: none;
+  border: 1px solid rgba(228, 228, 230, 0.15);
+}
+
+/* Stepper Layout Custom Styling */
+.stepper-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  font-size: 1.4rem !important;
+  font-weight: bold !important;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.stepper-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.stepper-btn:active {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-color: rgba(228, 228, 230, 0.6) !important;
+  /* platinum active border */
+  transform: scale(0.95);
+}
+
+.stepper-chip {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+  padding: 6px 12px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: var(--font-sans);
+}
+
+.stepper-chip:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.stepper-chip:active {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(228, 228, 230, 0.6) !important;
+  /* platinum active border */
+  color: #ffffff !important;
+  transform: scale(0.95);
+}
+
+/* Tone down ambient glow base opacity */
+.ambient-glow {
+  opacity: 0.05 !important;
+}
+
+/* ==========================================================================
+   Display Preferences: Outdoor Mode & Hide Glows
+   ========================================================================== */
+
+/* Disables ambient glow animation blobs */
+.hide-glows .ambient-glow {
+  display: none !important;
+  animation: none !important;
+}
+
+.hide-glows .avatar-glow-ring,
+.hide-glows .avatar-glow-ring::after,
+.hide-glows .coming-soon-badge-glow {
+  box-shadow: none;
+  text-shadow: none;
+  filter: none !important;
+  animation: none !important;
+}
+
+/* High-Contrast Outdoor Mode (solid black background, maximum contrast, flat buttons) */
+.outdoor-mode {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+.outdoor-mode .app-viewport,
+.outdoor-mode .tab-pane,
+.outdoor-mode .screen {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+.outdoor-mode .ambient-glow {
+  display: none !important;
+}
+
+.outdoor-mode * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Max contrast and flat styling for buttons & settings rows */
+.outdoor-mode .btn,
+.outdoor-mode button,
+.outdoor-mode .stepper-btn,
+.outdoor-mode .stepper-chip,
+.outdoor-mode .ios-setting-row,
+.outdoor-mode .ios-settings-card-group,
+.outdoor-mode .location-tile,
+.outdoor-mode .exercise-list-item-wrapper,
+.outdoor-mode .workout-dashboard-card,
+.outdoor-mode .custom-ex-name-input {
+  box-shadow: none !important;
+  background-color: #000000 !important;
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  /* maximum contrast flat buttons with white borders */
+  color: #ffffff !important;
+  border-radius: 4px !important;
+  /* flat look */
+}
+
+.outdoor-mode .btn-primary,
+.outdoor-mode button.btn-primary {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 900 !important;
+}
+
+.outdoor-mode .ios-row-chevron,
+.outdoor-mode .ios-row-label,
+.outdoor-mode .field-label,
+.outdoor-mode .field-value {
+  color: #ffffff !important;
+}
+
+.outdoor-mode .text-muted,
+.outdoor-mode span[style*="color: var(--text-muted)"] {
+  color: #ffffff !important;
+}
+
+
+.exercise-card.saved {
+  border-left: 3px solid #16a34a;
+  background: rgba(16, 16, 20, 0.95) !important;
+  border-top: 1px solid rgba(228, 228, 230, 0.08) !important;
+  border-right: 1px solid rgba(228, 228, 230, 0.08) !important;
+  border-bottom: 1px solid rgba(228, 228, 230, 0.08) !important;
+  box-shadow: none !important;
+  transform: translateY(0);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#stale-workout-modal {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-1);
+  border: 1px solid rgba(228, 228, 230, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  z-index: 1300;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+#stale-workout-modal h2 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+#stale-workout-modal p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+#stale-workout-modal .modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.exercise-card.saved:hover {
+  transform: translateY(-2px);
+  border-color: rgba(34, 197, 94, 0.35) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+#tab-settings {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  direction: rtl !important;
+  z-index: 10 !important;
+  overflow: hidden !important;
+  background: linear-gradient(180deg, #0e0f17 0%, #0a0b10 100%) !important;
+}
+
+#tab-settings.active {
+  display: flex !important;
+  flex-direction: column !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Sub-views structural integrity inside #tab-settings */
+#settings-main-view,
+#settings-account-view,
+#settings-admin-view,
+#settings-feedback-view,
+#settings-messages-view,
+#settings-sync-view,
+#settings-display-view {
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+  background: linear-gradient(180deg, #0e0f17 0%, #0a0b10 100%) !important;
+}
+
+#settings-main-view:not(.hide),
+#settings-account-view:not(.hide),
+#settings-admin-view:not(.hide),
+#settings-feedback-view:not(.hide),
+#settings-messages-view:not(.hide),
+#settings-sync-view:not(.hide),
+#settings-display-view:not(.hide) {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#tab-settings .ios-settings-scroll-container {
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 1rem 1.25rem calc(100px + env(safe-area-inset-bottom, 24px)) 1.25rem !important;
+  background: transparent !important;
+}
+
+/* iOS 18 Native Dynamic Cards & Container Responsive Rules */
+.ios-settings-card-group,
+.ios-account-profile-card,
+.ios-settings-field-group,
+.ios-intelligence-card,
+.admin-tab-content,
+.feedback-card-group,
+#user-messages-list {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin: 0 auto 18px auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Additional fixes for AuraApp UI consistency */
+/* Task 4: .ios-badge */
+.ios-badge {
+  display: inline-block !important;
+  padding: 2px 8px !important;
+  border-radius: 12px !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  background: var(--color-danger, #ff3b30) !important;
+}
+
+/* Task 6 & 22: Account View Header Dark Background & Card Group light mode conflict */
+.tab-pane:not(.dark-theme) #settings-account-view .ios-settings-header {
+  background: #f2f2f7 !important;
+}
+.tab-pane:not(.dark-theme) .ios-settings-card-group {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+.tab-pane:not(.dark-theme) .ios-setting-row {
+  color: #1c1c1e !important;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08) !important;
+}
+.tab-pane:not(.dark-theme) .ios-setting-row:hover:not(.no-hover),
+.tab-pane:not(.dark-theme) .ios-setting-row:active:not(.no-hover) {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Task 14: .ios-intelligence-card dark mode */
+#tab-settings.dark-theme .ios-intelligence-card {
+  background: linear-gradient(135deg, #1c1c1e 0%, #1c2333 50%, #1f1b14 100%) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 122, 255, 0.1) !important;
+}
+#tab-settings.dark-theme .ios-intelligence-title {
+  color: #ffffff !important;
+}
+
+/* Task 15: Back button hover direction (RTL) */
+.ios-back-btn:hover,
+#tab-settings.dark-theme .ios-back-btn:hover,
+.tab-pane:not(.dark-theme) .ios-back-btn:hover {
+  transform: translateX(4px) !important;
+}
+
+/* Task 16, 17, 20: Admin segmented control */
+.admin-segmented-control {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin: 12px auto 16px auto !important;
+  display: flex !important;
+  background: rgba(142, 142, 147, 0.12) !important;
+  padding: 3px !important;
+  border-radius: 9px !important;
+  direction: rtl !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+.segmented-btn {
+  flex: 1 0 auto !important;
+  padding: 8px 12px !important;
+  background: none !important;
+  border: none !important;
+  color: #1c1c1e !important;
+  border-radius: 7px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 0.85rem !important;
+  transition: background 0.2s, box-shadow 0.2s !important;
+  font-family: inherit !important;
+  text-align: center !important;
+}
+.dark-theme .segmented-btn {
+  color: #ffffff !important;
+}
+.segmented-btn.active {
+  background: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+  color: #000000 !important;
+}
+.dark-theme .segmented-btn.active {
+  background: #636366 !important;
+  color: #ffffff !important;
+}
+
+/* Task 19: Sync action buttons inline colors */
+.sync-action-btn {
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border: none !important;
+  width: 100% !important;
+}
+.sync-action-btn.color-blue {
+  color: var(--electric-blue-light, #0a84ff) !important;
+}
+.sync-action-btn.color-orange {
+  color: #ff9500 !important;
+}
+.sync-action-btn.color-green {
+  color: #34c759 !important;
+}
+.sync-action-btn.color-danger {
+  color: var(--color-danger, #ff3b30) !important;
+}
+
