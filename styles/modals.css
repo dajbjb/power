@@ -359,11 +359,25 @@
   letter-spacing: -0.2px !important;
 }
 
+/* Matches Settings' .ios-row-icon-badge sizing/shape (styles/glass.css) — a
+   contained, evenly-sized tinted badge instead of a bare colored icon
+   floating loose on the row. The per-category color still comes from the
+   inline style each row sets (categoryColors map in workouts.js); this just
+   gives every icon the same badge frame Settings already uses everywhere. */
 .ex-list-emoji {
-  font-size: 1.3rem !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  border-radius: var(--r-sm, 10px) !important;
+  font-size: 1rem !important;
   line-height: 1 !important;
   flex-shrink: 0 !important;
   margin-left: 8px !important;
+}
+
+.ex-list-emoji svg {
+  width: 16px !important;
+  height: 16px !important;
 }
 
 /* Category Badge and Arrow Alignments */
@@ -646,7 +660,9 @@
    CUSTOM EXERCISE MODAL — Enhanced Visual Design
    ========================================================================== */
 
-#custom-exercise-modal .save-custom-exercise-btn-styled,
+/* Sizing/base styling only — the background gradient is owned by the
+   #save-custom-exercise-btn rule in styles/workouts.css (it needs to load
+   after this one to apply var(--accent); see the comment there). */
 #save-custom-exercise-btn {
   width: 100% !important;
   padding: 15px !important;
@@ -654,8 +670,6 @@
   font-weight: 800 !important;
   border-radius: 16px !important;
   margin-top: 6px !important;
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
-  box-shadow: none;
   border: none !important;
   color: #fff !important;
   cursor: pointer !important;

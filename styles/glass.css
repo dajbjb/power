@@ -88,6 +88,7 @@ textarea[class] {
 .exercise-category-filters,
 #exercise-category-filters,
 .premium-exercise-sets-container,
+.premium-filter-scroll-row,
 .ios-segmented-control {
   max-width: 100%;
   overflow-x: auto;
@@ -96,7 +97,22 @@ textarea[class] {
 .premium-filter-bar-container::-webkit-scrollbar,
 .exercise-category-filters::-webkit-scrollbar,
 #exercise-category-filters::-webkit-scrollbar,
+.premium-filter-scroll-row::-webkit-scrollbar,
 .ios-segmented-control::-webkit-scrollbar { display: none; }
+
+/* These rows are all wider than their container by design (more chips/pills
+   than fit at once), so whichever end isn't scrolled into view gets
+   hard-clipped by the container edge — a pill or icon sliced in half with
+   no hint that there's more to swipe to. A soft fade at both edges reads as
+   "scroll for more" instead of a layout bug, and is symmetric so it's
+   correct regardless of scroll direction (these rows are RTL). */
+.premium-filter-bar-container,
+.exercise-category-filters,
+#exercise-category-filters,
+.premium-filter-scroll-row {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 20px, black calc(100% - 20px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, black 20px, black calc(100% - 20px), transparent 100%);
+}
 
 /* Hard guarantee against the horizontal-scroll bug that long Hebrew
    exercise names were causing inside cards. */

@@ -2394,8 +2394,15 @@
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
+/* Was a hardcoded indigo/violet gradient, unrelated to the user's chosen
+   accent color — every other primary action in the app (start workout, save
+   settings, ...) follows var(--accent) via .btn-primary (styles/glass.css).
+   This is the same var(--accent)-based formula, just scoped to this ID since
+   an ID selector is what was already winning the cascade here. */
 #save-custom-exercise-btn {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+  background: linear-gradient(165deg,
+      color-mix(in srgb, var(--accent) 92%, white 8%),
+      var(--accent)) !important;
   box-shadow: none;
   border-radius: 16px !important;
   font-weight: 800 !important;

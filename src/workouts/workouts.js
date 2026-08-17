@@ -61,14 +61,14 @@ export const PARK_EXERCISES = [
 ];
 
 export const HEBREW_QUOTES = [
-  "אין קיצורי דרך למקומות ששווה להגיע אליהם! 🔥",
-  "כל חזרה מקרבת אותך לגרסה הטובה ביותר של עצמך. 💪",
-  "הכאב של היום הוא הכוח של מחר! ⚡",
-  "אל תפסיק כשזה קשה, תפסיק כשסיימת. 🏆",
-  "המשמעת העצמית שלך היא המפתח לברזל! 🏋️‍♂️",
-  "אתה נלחם נגד עצמך של אתמול, לא נגד אף אחד אחר. 🌟",
-  "הפוך את התירוצים שלך לתוצאות בקצה הברזל! 🔥",
-  "המנוחה מכינה אותך לסט המושלם הבא. תתרכז! 🎯"
+  "אין קיצורי דרך למקומות ששווה להגיע אליהם!",
+  "כל חזרה מקרבת אותך לגרסה הטובה ביותר של עצמך.",
+  "הכאב של היום הוא הכוח של מחר!",
+  "אל תפסיק כשזה קשה, תפסיק כשסיימת.",
+  "המשמעת העצמית שלך היא המפתח לברזל!",
+  "אתה נלחם נגד עצמך של אתמול, לא נגד אף אחד אחר.",
+  "הפוך את התירוצים שלך לתוצאות בקצה הברזל!",
+  "המנוחה מכינה אותך לסט המושלם הבא. תתרכז!"
 ];
 
 // Helper to save active workout state
@@ -143,18 +143,18 @@ export function getMetricLabel(metrics) {
   if (metrics.includes('weight')) parts.push('משקל');
   if (metrics.includes('reps')) parts.push('חזרות');
   if (metrics.includes('time')) parts.push('זמן');
-  if (parts.length === 3) return '⚖️ משקל, חזרות וזמן';
+  if (parts.length === 3) return 'משקל, חזרות וזמן';
   if (parts.length === 2) {
-    if (metrics.includes('weight') && metrics.includes('reps')) return '⚖️ משקל וחזרות';
-    if (metrics.includes('weight') && metrics.includes('time')) return '🏋️‍♂️ משקל וזמן';
-    if (metrics.includes('reps') && metrics.includes('time')) return '🔢 חזרות וזמן';
+    if (metrics.includes('weight') && metrics.includes('reps')) return 'משקל וחזרות';
+    if (metrics.includes('weight') && metrics.includes('time')) return 'משקל וזמן';
+    if (metrics.includes('reps') && metrics.includes('time')) return 'חזרות וזמן';
   }
   if (parts.length === 1) {
-    if (parts[0] === 'weight') return '🏋️‍♂️ משקל בלבד';
-    if (parts[0] === 'reps') return '🔢 חזרות בלבד';
-    if (parts[0] === 'time') return '⏱️ זמן בלבד';
+    if (parts[0] === 'weight') return 'משקל בלבד';
+    if (parts[0] === 'reps') return 'חזרות בלבד';
+    if (parts[0] === 'time') return 'זמן בלבד';
   }
-  return '💪 מדדים מותאמים';
+  return 'מדדים מותאמים';
 }
 
 export function setupMetricSelectorModal(title, targetSets, restTime, metrics) {
@@ -217,7 +217,7 @@ export function openMetricSelectorForEdit(exIdx) {
   const metricModal = document.getElementById('metric-selector-modal');
   if (metricModal) {
     const confirmBtnSpan = document.querySelector('#confirm-add-exercise-btn span');
-    if (confirmBtnSpan) confirmBtnSpan.textContent = '✓ עדכן הגדרות תרגיל';
+    if (confirmBtnSpan) confirmBtnSpan.innerHTML = `${getCustomIcon('check')} עדכן הגדרות תרגיל`;
     metricModal.classList.remove('hide');
   }
 }
@@ -242,7 +242,7 @@ export function openMetricSelectorForConfig(exerciseName) {
   const metricModal = document.getElementById('metric-selector-modal');
   if (metricModal) {
     const confirmBtnSpan = document.querySelector('#confirm-add-exercise-btn span');
-    if (confirmBtnSpan) confirmBtnSpan.textContent = '✓ שמור הגדרות ברירת מחדל';
+    if (confirmBtnSpan) confirmBtnSpan.innerHTML = `${getCustomIcon('check')} שמור הגדרות ברירת מחדל`;
     metricModal.classList.remove('hide');
   }
 }
@@ -397,7 +397,7 @@ export function initWorkouts() {
                   item.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
                   item.style.color = '#ffffff';
                   item.style.fontSize = '0.9rem';
-                  item.textContent = `${ex.emoji || '💪'} ${ex.name} (${completedSetsCount} סטים)`;
+                  item.innerHTML = `${getCustomIcon(ex.emoji || 'dumbbell')} ${escapeHTML(ex.name)} (${completedSetsCount} סטים)`;
                   listContainer.appendChild(item);
                 }
               });
@@ -452,7 +452,7 @@ export function initWorkouts() {
                   date: Date.now(),
                   location: state.activeWorkout.location,
                   locationName: state.activeWorkout.locationName || (state.activeWorkout.location === 'gym' ? 'חדר כושר' : 'פארק'),
-                  locationEmoji: state.activeWorkout.locationEmoji || (state.activeWorkout.location === 'gym' ? '🏋️‍♂️' : '🌳'),
+                  locationEmoji: state.activeWorkout.locationEmoji || (state.activeWorkout.location === 'gym' ? 'dumbbell' : 'park'),
                   duration: 3600, // default 60 minutes
                   exercises: sanitizedExercises
                 };
@@ -485,7 +485,7 @@ export function initWorkouts() {
                 if (locationGrid) locationGrid.classList.add('hide');
 
                 if (window.renderWorkoutHistory) window.renderWorkoutHistory();
-                showPremiumToast("האימון הישן נשמר בהצלחה! 💪", "success");
+                showPremiumToast("האימון הישן נשמר בהצלחה!", "success");
               };
 
               if (saveBtn.parentNode) {
@@ -675,17 +675,17 @@ export function startNewWorkout(location, name = '', emoji = '') {
   requestNotificationPermissionSafely();
   
   let dispName = 'חדר כושר';
-  let dispEmoji = '🏋️‍♂️';
-  
+  let dispEmoji = 'dumbbell';
+
   if (location === 'gym') {
     dispName = 'חדר כושר';
-    dispEmoji = '🏋️‍♂️';
+    dispEmoji = 'dumbbell';
   } else if (location === 'park') {
     dispName = 'פארק';
-    dispEmoji = '🌳';
+    dispEmoji = 'park';
   } else {
     dispName = name || 'אימון מותאם';
-    dispEmoji = emoji || '💪';
+    dispEmoji = emoji || 'dumbbell';
   }
   
   state.activeWorkout = {
@@ -714,9 +714,9 @@ export function startNewWorkout(location, name = '', emoji = '') {
   
   const badgeIcon = document.getElementById('active-location-icon');
   const badgeText = document.getElementById('active-location-text');
-  if (badgeIcon) badgeIcon.textContent = dispEmoji;
+  if (badgeIcon) badgeIcon.innerHTML = getCustomIcon(dispEmoji);
   if (badgeText) badgeText.textContent = dispName;
-  
+
   const timerDisplay = document.getElementById('active-timer');
   if (timerDisplay) timerDisplay.textContent = '00:00:00';
   
@@ -740,12 +740,12 @@ export function resumeWorkoutTimer() {
   
   const badgeIcon = document.getElementById('active-location-icon');
   const badgeText = document.getElementById('active-location-text');
-  const dispEmoji = state.activeWorkout.locationEmoji || (state.activeWorkout.location === 'gym' ? '🏋️‍♂️' : '🌳');
+  const dispEmoji = state.activeWorkout.locationEmoji || (state.activeWorkout.location === 'gym' ? 'dumbbell' : 'park');
   const dispName = state.activeWorkout.locationName || (state.activeWorkout.location === 'gym' ? 'חדר כושר' : 'פארק');
-  
-  if (badgeIcon) badgeIcon.textContent = dispEmoji;
+
+  if (badgeIcon) badgeIcon.innerHTML = getCustomIcon(dispEmoji);
   if (badgeText) badgeText.textContent = dispName;
-  
+
   if (state.activeTimerInterval) clearInterval(state.activeTimerInterval);
   state.activeTimerInterval = setInterval(updateActiveTimer, 1000);
   updateActiveTimer();
@@ -781,7 +781,7 @@ export function renderExercisePickerFilters() {
   
   let categories = ['הכל'];
   if (state.favoriteExercises.length > 0) {
-    categories.push('⭐ מועדפים');
+    categories.push('מועדפים');
   }
   categories.push('חזה', 'גב', 'כתפיים', 'רגליים', 'יד קדמית', 'יד אחורית', 'בטן וליבה', 'אירובי');
   if (state.customExercises.length > 0) {
@@ -820,7 +820,7 @@ export function renderExercisePickerList() {
     return true;
   });
   
-  if (state.currentActiveCategoryFilter === '⭐ מועדפים') {
+  if (state.currentActiveCategoryFilter === 'מועדפים') {
     fullList = fullList.filter(ex => state.favoriteExercises.includes(ex.name));
   } else if (state.currentActiveCategoryFilter === 'תרגילים שלי') {
     fullList = fullList.filter(ex => state.customExercises.some(c => c.name.trim().toLowerCase() === ex.name.trim().toLowerCase()));
@@ -836,7 +836,7 @@ export function renderExercisePickerList() {
     const noResults = document.createElement('div');
     noResults.className = 'exercise-picker-empty';
     if (state.isBackgroundSyncing) {
-      noResults.innerHTML = '<span class="spin-icon" style="display:inline-block; animation: spin-clockwise 1.2s linear infinite; margin-left: 6px;">⚡</span> טוען תרגילים מהענן...';
+      noResults.innerHTML = `<span class="spin-icon" style="display:inline-block; animation: spin-clockwise 1.2s linear infinite; margin-left: 6px;">${getCustomIcon('sync')}</span> טוען תרגילים מהענן...`;
     } else {
       noResults.textContent = 'לא נמצאו תרגילים מתאימים';
     }
@@ -881,7 +881,7 @@ export function renderExercisePickerList() {
       </div>
       <div class="ex-list-right">
         <span class="ex-category-badge" style="background: ${catStyle.bg}; color: ${catStyle.color};">${escapeHTML(ex.category || 'תרגיל')}</span>
-        <span class="ex-list-arrow">←</span>
+        <span class="ex-list-arrow">${getCustomIcon('arrowLeft')}</span>
       </div>
     `;
     item.addEventListener('click', () => {
@@ -946,7 +946,7 @@ export function renderExercisePickerList() {
         saveFieldToCloud("favoriteExercises", state.favoriteExercises);
       }
       renderExercisePickerFilters();
-      if (state.currentActiveCategoryFilter === '⭐ מועדפים') {
+      if (state.currentActiveCategoryFilter === 'מועדפים') {
         renderExercisePickerList();
       }
     });
@@ -968,10 +968,10 @@ export function renderExercises() {
     shortcutCard.className = 'exercise-card shortcut-card';
     shortcutCard.style.cssText = 'padding: 24px; text-align: center; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 1rem;';
     shortcutCard.innerHTML = `
-      <span style="font-size: 2rem;">🏃‍♂️</span>
+      <span style="font-size: 2rem;">${getCustomIcon('cardio')}</span>
       <h4 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffffff; font-family: var(--font-display);">מעקב ריצה והליכה בחוץ</h4>
       <p style="margin: 0 0 8px 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.4;">מדוד מרחק, קצב ומסלול בזמן אמת באמצעות GPS</p>
-      <button id="start-run-shortcut-btn" class="btn btn-primary" style="padding: 12px 24px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; background: linear-gradient(135deg, var(--electric-blue) 0%, #1e40af 100%); border: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">התחל ריצה / הליכה 🏃‍♂️</button>
+      <button id="start-run-shortcut-btn" class="btn btn-primary" style="padding: 12px 24px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; background: linear-gradient(135deg, var(--electric-blue) 0%, #1e40af 100%); border: none; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">התחל ריצה / הליכה ${getCustomIcon('cardio')}</button>
     `;
     container.appendChild(shortcutCard);
 
@@ -1144,7 +1144,7 @@ export function renderExercises() {
         // Settings gear button
         const settingsBtn = document.createElement('button');
         settingsBtn.className = 'ex-settings-btn-card';
-        settingsBtn.innerHTML = '⚙️';
+        settingsBtn.innerHTML = getCustomIcon('settings');
         settingsBtn.title = 'הגדרות תרגיל';
         settingsBtn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1156,7 +1156,7 @@ export function renderExercises() {
       // Delete trash button
       const removeExBtn = document.createElement('button');
       removeExBtn.className = 'ex-delete-btn-card';
-      removeExBtn.innerHTML = '🗑️';
+      removeExBtn.innerHTML = getCustomIcon('trash');
       removeExBtn.title = 'מחק תרגיל';
       removeExBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -1213,7 +1213,7 @@ export function renderExercises() {
           const secs = set.time % 60;
           const pad = (num) => String(num).padStart(2, '0');
           const timeStr = hrs > 0 ? `${pad(hrs)}:${pad(mins)}:${pad(secs)}` : `${pad(mins)}:${pad(secs)}`;
-          valueStr = `🏃 ${km} ק״מ ב-${timeStr}`;
+          valueStr = `${getCustomIcon('cardio')} ${km} ק״מ ב-${timeStr}`;
         } else {
           const parts = [];
           if (metrics.includes('weight')) parts.push(`${set.weight || 0} ק״ג`);
@@ -1261,7 +1261,7 @@ export function renderExercises() {
         gpsBtn.style.cssText = 'flex: 1; background: linear-gradient(135deg, var(--electric-blue) 0%, #0284c7 100%); border: none; color: #fff; padding: 12px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);';
         
         const hasData = ex.sets && ex.sets.length > 0 && ex.sets[0].distance > 0;
-        gpsBtn.innerHTML = hasData ? 'המשך מעקב GPS 🗺️' : 'הפעל מעקב GPS 🗺️';
+        gpsBtn.innerHTML = hasData ? `המשך מעקב GPS ${getCustomIcon('map')}` : `הפעל מעקב GPS ${getCustomIcon('map')}`;
         
         gpsBtn.addEventListener('click', () => {
           openRunTrackerModal(ex);
@@ -1272,7 +1272,7 @@ export function renderExercises() {
         // Button 1: המשך ריצה
         const resumeBtn = document.createElement('button');
         resumeBtn.style.cssText = 'flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;';
-        resumeBtn.innerHTML = 'המשך ריצה 🏃‍♂️';
+        resumeBtn.innerHTML = `המשך ריצה ${getCustomIcon('cardio')}`;
         resumeBtn.addEventListener('click', () => {
           ex.completed = false;
           
@@ -1320,7 +1320,7 @@ export function renderExercises() {
         // Button 2: צפה במסלול
         const viewRouteBtn = document.createElement('button');
         viewRouteBtn.style.cssText = 'flex: 1; background: linear-gradient(135deg, var(--electric-blue) 0%, #1e40af 100%); border: none; color: #fff; padding: 12px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);';
-        viewRouteBtn.innerHTML = 'צפה במסלול 🗺️';
+        viewRouteBtn.innerHTML = `צפה במסלול ${getCustomIcon('map')}`;
         viewRouteBtn.addEventListener('click', () => {
           if (ex.sets && ex.sets[0] && ex.sets[0].segments) {
             if (window.openHistoryMapFullscreen) {
@@ -1337,7 +1337,7 @@ export function renderExercises() {
         // Button 3: מחק תרגיל (trash button)
         const deleteBtn = document.createElement('button');
         deleteBtn.style.cssText = 'background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; padding: 12px 14px; border-radius: 14px; cursor: pointer; transition: all 0.2s;';
-        deleteBtn.innerHTML = '🗑️';
+        deleteBtn.innerHTML = getCustomIcon('trash');
         deleteBtn.title = 'מחק תרגיל';
         deleteBtn.addEventListener('click', () => {
           if (confirm('האם למחוק תרגיל זה מהאימון?')) {
@@ -1357,7 +1357,7 @@ export function renderExercises() {
         const nextIncompleteIdx = ex.sets.findIndex(s => !s.completed);
         const activeSetIdx = nextIncompleteIdx !== -1 ? nextIncompleteIdx : ex.sets.length;
         
-        enterSetBtn.textContent = `➕ רישום סט ${activeSetIdx + 1}`;
+        enterSetBtn.innerHTML = `${getCustomIcon('plus')} רישום סט ${activeSetIdx + 1}`;
         enterSetBtn.addEventListener('click', () => {
           openSetLoggingModal(ex);
         });
@@ -1366,7 +1366,7 @@ export function renderExercises() {
         // Success Green End Exercise Button
         const saveExBtn = document.createElement('button');
         saveExBtn.className = 'btn-finish-ex-action';
-        saveExBtn.textContent = 'סיום ✓';
+        saveExBtn.innerHTML = `סיום ${getCustomIcon('check')}`;
         saveExBtn.addEventListener('click', () => {
           const hasCompletedSets = ex.sets.some(s => s.completed);
           if (!hasCompletedSets) {
@@ -1392,7 +1392,7 @@ export function renderExercises() {
         bottomActions.style.width = '100%';
         const editExBtn = document.createElement('button');
         editExBtn.className = 'btn-edit-ex-action';
-        editExBtn.textContent = 'ערוך תרגיל ✏️';
+        editExBtn.innerHTML = `ערוך תרגיל ${getCustomIcon('edit')}`;
         editExBtn.addEventListener('click', () => {
           ex.completed = false;
           saveActiveWorkoutState();
@@ -1632,7 +1632,7 @@ export function handleRestTimerExpiration() {
   }
 
   // Fallback / Reinforcement visual toast to guarantee visibility
-  showPremiumToast("המנוחה נגמרה! הגיע הזמן לסט הבא! ⏱️💪", "success");
+  showPremiumToast("המנוחה נגמרה! הגיע הזמן לסט הבא!", "success");
 
   if (navigator.vibrate) {
     navigator.vibrate([300, 150, 300, 150, 300]);
@@ -1738,7 +1738,7 @@ export function calculatePlates(targetWeight) {
 
   const bar = 20;
   if (targetWeight <= bar) {
-    if (list) list.innerHTML = '<span style="color: var(--text-muted); font-size: 0.9rem;">מוט ריק בלבד (20 ק״ג) 🏋️‍♂️</span>';
+    if (list) list.innerHTML = '<span style="color: var(--text-muted); font-size: 0.9rem;">מוט ריק בלבד (20 ק״ג) 🏋️</span>';
     return;
   }
 
@@ -1827,11 +1827,11 @@ export function openEditModal(workoutId) {
     }
     
     const dispName = state.editingWorkout.locationName || (state.editingWorkout.location === 'gym' ? 'חדר כושר' : 'פארק');
-    const dispEmoji = state.editingWorkout.locationEmoji || (state.editingWorkout.location === 'gym' ? '🏋️‍♂️' : '🌳');
+    const dispEmoji = state.editingWorkout.locationEmoji || (state.editingWorkout.location === 'gym' ? 'dumbbell' : 'park');
     metaContainer.innerHTML = `
-      <div>📍 <strong>${escapeHTML(dispEmoji)} ${escapeHTML(dispName)}</strong></div>
-      <div>⏱️ משך: <strong>${durationText}</strong></div>
-      <div>📅 תאריך: <strong>${dateText}</strong></div>
+      <div>${getCustomIcon('location')} <strong>${getCustomIcon(dispEmoji)} ${escapeHTML(dispName)}</strong></div>
+      <div>${getCustomIcon('timer')} משך: <strong>${durationText}</strong></div>
+      <div>${getCustomIcon('calendar')} תאריך: <strong>${dateText}</strong></div>
     `;
   }
   
@@ -1859,7 +1859,7 @@ export function renderModalExercises() {
     
     const removeExBtn = document.createElement('button');
     removeExBtn.className = 'remove-exercise-btn';
-    removeExBtn.innerHTML = '🗑️';
+    removeExBtn.innerHTML = getCustomIcon('trash');
     removeExBtn.addEventListener('click', () => {
       state.editingWorkout.exercises.splice(exIdx, 1);
       renderModalExercises();
@@ -1889,7 +1889,7 @@ export function renderModalExercises() {
     // Custom option
     const customOpt = document.createElement('option');
     customOpt.value = '__custom__';
-    customOpt.textContent = '✍️ שם מותאם אישית...';
+    customOpt.innerHTML = `${getCustomIcon('edit')} שם מותאם אישית...`;
     nameSelect.appendChild(customOpt);
     
     // Create hidden text input for custom name
@@ -1951,7 +1951,7 @@ export function renderModalExercises() {
       
       const removeSetBtn = document.createElement('button');
       removeSetBtn.className = 'remove-set-btn';
-      removeSetBtn.innerHTML = '✕';
+      removeSetBtn.innerHTML = getCustomIcon('close');
       removeSetBtn.addEventListener('click', () => {
         if (ex.sets.length > 1) {
           ex.sets.splice(setIdx, 1);
@@ -2017,7 +2017,7 @@ export function renderModalExercises() {
     
     const addSetBtn = document.createElement('button');
     addSetBtn.className = 'add-set-btn';
-    addSetBtn.textContent = '➕ הוסף סט';
+    addSetBtn.innerHTML = `${getCustomIcon('plus')} הוסף סט`;
     addSetBtn.addEventListener('click', () => {
       const lastSet = ex.sets[ex.sets.length - 1];
       ex.sets.push({
@@ -2038,7 +2038,7 @@ export function renderModalExercises() {
   addExBtn.className = 'btn btn-secondary';
   addExBtn.style.width = '100%';
   addExBtn.style.marginTop = '10px';
-  addExBtn.textContent = '➕ הוסף תרגיל חדש';
+  addExBtn.innerHTML = `${getCustomIcon('plus')} הוסף תרגיל חדש`;
   addExBtn.addEventListener('click', () => {
     state.editingWorkout.exercises.push({
       id: Date.now(),
@@ -3424,7 +3424,7 @@ export function initWorkoutsModule() {
         date: Date.now(),
         location: state.activeWorkout.location,
         locationName: state.activeWorkout.locationName || (state.activeWorkout.location === 'gym' ? 'חדר כושר' : 'פארק'),
-        locationEmoji: state.activeWorkout.locationEmoji || (state.activeWorkout.location === 'gym' ? '🏋️‍♂️' : '🌳'),
+        locationEmoji: state.activeWorkout.locationEmoji || (state.activeWorkout.location === 'gym' ? 'dumbbell' : 'park'),
         duration: durationSeconds,
         exercises: sanitizedExercises
       };
@@ -3782,7 +3782,7 @@ export function initWorkoutsModule() {
         startRestTimer(120);
         
         // Premium toast notification indicating completion
-        showPremiumToast(`התרגיל הושלם בהצלחה! מעבר לתרגיל הבא בעוד 2 דקות מנוחה ⏱️💪`, "success");
+        showPremiumToast(`התרגיל הושלם בהצלחה! מעבר לתרגיל הבא בעוד 2 דקות מנוחה`, "success");
       } else {
         if (setLogModal) setLogModal.classList.add('hide');
         const restSeconds = state.currentLoggingExercise.restTime || 90;

@@ -1,4 +1,5 @@
 import { SafeStorage } from "./storage.js";
+import { getCustomIcon } from "./icons.js";
 
 // Safe HTML escape helper to prevent Persistent DOM XSS
 export function escapeHTML(str) {
@@ -202,7 +203,7 @@ export function showAuraToast(message) {
     white-space: nowrap;
     font-family: var(--font-sans);
   `;
-  toast.innerHTML = `<span>🤖🔥</span> <span class="aura-toast-text"></span>`;
+  toast.innerHTML = `<span>${getCustomIcon('robot')}</span> <span class="aura-toast-text"></span>`;
   toast.querySelector('.aura-toast-text').textContent = message;
   document.body.appendChild(toast);
 
@@ -231,9 +232,9 @@ export function setBgSyncing(isSyncing, messageText) {
   const workoutBadgeText = document.getElementById('workout-sync-badge-text');
 
   if (isSyncing) {
-    if (topText) topText.textContent = messageText || 'מסנכרן תרגילים ונתונים ברקע... 🔄';
+    if (topText) topText.textContent = messageText || 'מסנכרן תרגילים ונתונים ברקע...';
     if (topBar) topBar.classList.remove('hide');
-    if (workoutBadgeText) workoutBadgeText.textContent = messageText || 'מעדכן תרגילים מהענן... ⚡';
+    if (workoutBadgeText) workoutBadgeText.textContent = messageText || 'מעדכן תרגילים מהענן...';
     if (workoutBadge) workoutBadge.classList.remove('hide');
   } else {
     if (topBar) topBar.classList.add('hide');

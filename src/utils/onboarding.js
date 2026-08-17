@@ -1,6 +1,7 @@
 import { state } from "../state.js";
 import { SafeStorage } from "./storage.js";
 import { showPremiumToast } from "./helpers.js";
+import { getCustomIcon } from "./icons.js";
 
 let deferredPrompt = null;
 
@@ -58,14 +59,14 @@ function getPWAInstructions(os, browser) {
   if (os === 'ios') {
     if (browser === 'safari') {
       steps.push(
-        'לחצו על כפתור <strong>השיתוף</strong> בסרגל התחתון של Safari (אייקון של ריבוע עם חץ כלפי מעלה 📤).',
-        'גללו מטה בתפריט שנפתח ובחרו באפשרות <strong>"הוסף למסך הבית"</strong> (Add to Home Screen ➕).',
+        'לחצו על כפתור <strong>השיתוף</strong> בסרגל התחתון של Safari (אייקון של ריבוע עם חץ כלפי מעלה).',
+        'גללו מטה בתפריט שנפתח ובחרו באפשרות <strong>"הוסף למסך הבית"</strong> (Add to Home Screen).',
         'לחצו על <strong>"הוסף"</strong> (Add) בפינה הימנית העליונה של המסך כדי לאשר.'
       );
     } else {
       steps.push(
-        'לחצו על כפתור <strong>השיתוף</strong> בשורת הכתובת או בתפריט האפליקציה (📤).',
-        'גללו מטה בתפריט ובחרו באפשרות <strong>"הוסף למסך הבית"</strong> (Add to Home Screen ➕).',
+        'לחצו על כפתור <strong>השיתוף</strong> בשורת הכתובת או בתפריט האפליקציה.',
+        'גללו מטה בתפריט ובחרו באפשרות <strong>"הוסף למסך הבית"</strong> (Add to Home Screen).',
         'לחצו על <strong>"הוסף"</strong> (Add) בפינה הימנית העליונה.'
       );
     }
@@ -77,7 +78,7 @@ function getPWAInstructions(os, browser) {
       steps.push(
         'לחצו על כפתור <strong>"התקן עכשיו"</strong> המופיע בתחתית המודל.',
         'אם ההתקנה לא מתחילה, לחצו על תפריט <strong>שלוש הנקודות (⋮)</strong> בפינה השמאלית/ימנית העליונה של Chrome.',
-        'בחרו ב-<strong>"התקן את האפליקציה"</strong> או <strong>"הוסף למסך הבית"</strong> (Add to Home Screen ➕).'
+        'בחרו ב-<strong>"התקן את האפליקציה"</strong> או <strong>"הוסף למסך הבית"</strong> (Add to Home Screen).'
       );
     } else if (browser === 'firefox') {
       if (deferredPrompt) {
@@ -91,7 +92,7 @@ function getPWAInstructions(os, browser) {
     } else {
       steps.push(
         'פתחו את תפריט הדפדפן (לרוב אייקון של שלוש נקודות או קווים).',
-        'חפשו אפשרות בשם <strong>"התקן"</strong> (Install) או <strong>"הוסף למסך הבית"</strong> (Add to Home Screen ➕).',
+        'חפשו אפשרות בשם <strong>"התקן"</strong> (Install) או <strong>"הוסף למסך הבית"</strong> (Add to Home Screen).',
         'אשרו את הפעולה.'
       );
     }
@@ -100,7 +101,7 @@ function getPWAInstructions(os, browser) {
       showNativePrompt = true;
     }
     steps.push(
-      'לחצו על אייקון <strong>ההתקנה</strong> בשורת הכתובת של הדפדפן (מופיע לרוב כסימן ➕ או כפתור התקנה ייעודי).',
+      'לחצו על אייקון <strong>ההתקנה</strong> בשורת הכתובת של הדפדפן (מופיע לרוב כסימן + או כפתור התקנה ייעודי).',
       'לחצו על <strong>"התקן"</strong> (Install) בחלונית האישור שנפתחה.'
     );
   }
@@ -124,7 +125,7 @@ export function createPWAModal() {
     <div class="workout-modal-card pwa-guide-modal-card" style="max-width: 400px; width: 92%; border-radius: 28px; padding: 1.8rem; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(135deg, hsla(225, 20%, 9%, 0.95) 0%, hsla(225, 20%, 5%, 0.98) 100%); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);">
       <div class="modal-header" style="padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center; direction: rtl;">
         <button id="close-pwa-guide-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer;">סגור</button>
-        <h3 class="modal-title" style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff; direction: rtl; font-family: var(--font-display);">📲 מדריך התקנת AuraApp</h3>
+        <h3 class="modal-title" style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff; direction: rtl; font-family: var(--font-display);">${getCustomIcon('mobile')} מדריך התקנת AuraApp</h3>
         <span style="width: 40px;"></span>
       </div>
       <div class="modal-body" style="padding: 1.5rem 0 0.5rem 0; text-align: right; direction: rtl; overflow-y: auto; flex: 1;">
@@ -152,7 +153,7 @@ export function createPWAModal() {
         
         ${instructions.showNativePrompt ? `
           <button id="pwa-native-install-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 14px; font-weight: bold; border-radius: 14px; background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%); box-shadow: 0 4px 15px var(--electric-blue-glow);">
-            📲 התקן עכשיו ישירות
+            ${getCustomIcon('mobile')} התקן עכשיו ישירות
           </button>
         ` : ''}
       </div>

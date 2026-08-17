@@ -1,6 +1,7 @@
 import { state } from "../state.js";
 import { SafeStorage } from "../utils/storage.js";
 import { showPremiumToast, escapeHTML } from "../utils/helpers.js";
+import { getCustomIcon } from "../utils/icons.js";
 import { getDb, saveFieldToCloud } from "../utils/db.js";
 import { 
   collection, 
@@ -34,6 +35,7 @@ export function initAdminModule() {
   if (goToAdminBtn) {
     goToAdminBtn.addEventListener('click', async () => {
       if (state.userRole !== 'admin') return;
+      if (window.resetSettingsSubViews) window.resetSettingsSubViews();
       if (settingsMainView) settingsMainView.classList.add('hide');
       if (adminView) adminView.classList.remove('hide');
       
@@ -55,6 +57,7 @@ export function initAdminModule() {
   const goToFeedbackBtn = document.getElementById('go-to-feedback-btn');
   if (goToFeedbackBtn) {
     goToFeedbackBtn.addEventListener('click', () => {
+      if (window.resetSettingsSubViews) window.resetSettingsSubViews();
       if (settingsMainView) settingsMainView.classList.add('hide');
       if (feedbackView) feedbackView.classList.remove('hide');
       
@@ -77,6 +80,7 @@ export function initAdminModule() {
   const goToMessagesBtn = document.getElementById('go-to-messages-btn');
   if (goToMessagesBtn) {
     goToMessagesBtn.addEventListener('click', async () => {
+      if (window.resetSettingsSubViews) window.resetSettingsSubViews();
       if (settingsMainView) settingsMainView.classList.add('hide');
       if (messagesView) messagesView.classList.remove('hide');
       
@@ -143,12 +147,12 @@ export function initAdminModule() {
       const success = await sendGlobalAnnouncement(title, content);
       
       sendAnnouncementBtn.disabled = false;
-      sendAnnouncementBtn.textContent = 'שלח הודעה גלובלית 📢';
+      sendAnnouncementBtn.innerHTML = `שלח הודעה גלובלית ${getCustomIcon('message')}`;
 
       if (success) {
         if (titleInput) titleInput.value = '';
         if (contentInput) contentInput.value = '';
-        showPremiumToast("ההודעה הגלובלית נשלחה בהצלחה לכל המשתמשים! 📢", "success");
+        showPremiumToast("ההודעה הגלובלית נשלחה בהצלחה לכל המשתמשים!", "success");
         // Reload admin stats and data immediately
         await loadAdminDashboardData();
         // Sync own session if admin is a registered user, to instantly load it in their own inbox
@@ -169,7 +173,7 @@ export function initAdminModule() {
       const categorySelect = document.getElementById('feedback-category-input');
       const textInput = document.getElementById('feedback-text-input');
 
-      const category = categorySelect ? categorySelect.value : '💡 הצעת שיפור';
+      const category = categorySelect ? categorySelect.value : 'הצעת שיפור';
       const text = textInput ? textInput.value.trim() : '';
 
       if (!text) {
@@ -183,11 +187,11 @@ export function initAdminModule() {
       const success = await submitUserFeedback(category, text);
 
       sendFeedbackSubmitBtn.disabled = false;
-      sendFeedbackSubmitBtn.textContent = 'שלח משוב 🚀';
+      sendFeedbackSubmitBtn.innerHTML = `שלח משוב ${getCustomIcon('rocket')}`;
 
       if (success) {
         if (textInput) textInput.value = '';
-        showPremiumToast("המשוב שלך נשלח בהצלחה! תודה על העזרה. ❤️", "success");
+        showPremiumToast("המשוב שלך נשלח בהצלחה! תודה על העזרה.", "success");
         // Go back
         const backBtn = document.getElementById('back-from-feedback-btn');
         if (backBtn) backBtn.click();
@@ -204,19 +208,19 @@ export function initAdminModule() {
         return;
       }
       triggerUpdateBtn.disabled = true;
-      triggerUpdateBtn.textContent = 'בודק עדכונים... 🔍';
+      triggerUpdateBtn.innerHTML = `בודק עדכונים... ${getCustomIcon('search')}`;
       try {
         const reg = await navigator.serviceWorker.getRegistration();
-        if (!reg) { showPremiumToast('לא נמצא Service Worker רשום.', 'error'); triggerUpdateBtn.disabled = false; triggerUpdateBtn.textContent = '🚀 הפץ עדכון גרסה עכשיו'; return; }
-        triggerUpdateBtn.textContent = 'מחפש גרסה חדשה... 🔄';
+        if (!reg) { showPremiumToast('לא נמצא Service Worker רשום.', 'error'); triggerUpdateBtn.disabled = false; triggerUpdateBtn.innerHTML = `${getCustomIcon('rocket')} הפץ עדכון גרסה עכשיו`; return; }
+        triggerUpdateBtn.innerHTML = `מחפש גרסה חדשה... ${getCustomIcon('refresh')}`;
         await reg.update();
         await new Promise(r => setTimeout(r, 2000));
         if (reg.waiting) {
-          triggerUpdateBtn.textContent = 'מפעיל עדכון... 🚀';
+          triggerUpdateBtn.innerHTML = `מפעיל עדכון... ${getCustomIcon('rocket')}`;
           reg.waiting.postMessage({ action: 'skipWaiting' });
           showPremiumToast('עדכון גרסה הופעל! האפליקציה תתרענן בקרוב.', 'success');
         } else if (reg.installing) {
-          triggerUpdateBtn.textContent = 'מתקין עדכון... ⚙️';
+          triggerUpdateBtn.innerHTML = `מתקין עדכון... ${getCustomIcon('settings')}`;
           reg.installing.addEventListener('statechange', function() {
             if (this.state === 'installed') {
               this.postMessage({ action: 'skipWaiting' });
@@ -226,7 +230,7 @@ export function initAdminModule() {
         } else {
           const worker = navigator.serviceWorker.controller || reg.active;
           if (worker) {
-            triggerUpdateBtn.textContent = 'מרענן קבצים... 📦';
+            triggerUpdateBtn.innerHTML = `מרענן קבצים... ${getCustomIcon('inbox')}`;
             worker.postMessage({ action: 'downloadAndActivate' });
             showPremiumToast('הופצת עדכון קבצים הופעלה. האפליקציה תתרענן בקרוב.', 'success');
           } else {
@@ -238,7 +242,7 @@ export function initAdminModule() {
         showPremiumToast('שגיאה: ' + err.message, 'error');
       }
       triggerUpdateBtn.disabled = false;
-      triggerUpdateBtn.textContent = '🚀 הפץ עדכון גרסה';
+      triggerUpdateBtn.innerHTML = `${getCustomIcon('rocket')} הפץ עדכון גרסה`;
     });
   }
 
@@ -251,13 +255,13 @@ export function initAdminModule() {
         return;
       }
       forceRefreshBtn.disabled = true;
-      forceRefreshBtn.textContent = 'רענון בתהליך... ⚡';
+      forceRefreshBtn.innerHTML = `רענון בתהליך... ${getCustomIcon('sync')}`;
       try {
         const reg = await navigator.serviceWorker.getRegistration();
         const worker = reg ? (reg.active || reg.waiting || reg.installing) : navigator.serviceWorker.controller;
         if (worker) {
           worker.postMessage({ action: 'downloadAndActivate' });
-          showPremiumToast('הוראה לרענון מיידי של הקבצים נשלחה בהצלחה! ⚡', 'success');
+          showPremiumToast('הוראה לרענון מיידי של הקבצים נשלחה בהצלחה!','success');
         } else {
           showPremiumToast('לא נמצא Service Worker פעיל.', 'error');
         }
@@ -267,7 +271,7 @@ export function initAdminModule() {
       }
       setTimeout(() => {
         forceRefreshBtn.disabled = false;
-        forceRefreshBtn.textContent = '⚡ רענון קבצים מיידי';
+        forceRefreshBtn.innerHTML = `${getCustomIcon('sync')} רענון קבצים מיידי`;
       }, 3000);
     });
   }
@@ -395,7 +399,7 @@ export async function scanAppCacheFiles() {
           </div>
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
             <span style="font-weight: 800; font-size: 0.88rem; color: var(--electric-blue-light);">${fileSizeFormatted}</span>
-            <button class="delete-single-cache-file-btn" data-url="${escapeHTML(f.url)}" data-cache="${escapeHTML(f.cacheName)}" style="background: rgba(255,149,0,0.15); border: 1px solid rgba(255,149,0,0.35); color: #ff9500; font-size: 0.72rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: 600;">רענן קובץ 🔄</button>
+            <button class="delete-single-cache-file-btn" data-url="${escapeHTML(f.url)}" data-cache="${escapeHTML(f.cacheName)}" style="background: rgba(255,149,0,0.15); border: 1px solid rgba(255,149,0,0.35); color: #ff9500; font-size: 0.72rem; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-weight: 600;">רענן קובץ ${getCustomIcon('refresh')}</button>
           </div>
         </div>
       `;
@@ -415,7 +419,7 @@ export async function scanAppCacheFiles() {
           if (res.ok) {
             const cache = await caches.open(cacheName);
             await cache.put(fileUrl, res);
-            showPremiumToast('הקובץ רוענן מחדש מהשרת! ⚡', 'success');
+            showPremiumToast('הקובץ רוענן מחדש מהשרת!','success');
           } else {
             showPremiumToast('רענון הקובץ נכשל: שגיאה מהשרת.', 'error');
           }
@@ -510,7 +514,7 @@ async function loadAdminDashboardData() {
         uid: data.uid,
         email: data.email || '--',
         displayName: data.displayName || 'משתמש',
-        category: data.category || '💡 הצעת שיפור',
+        category: data.category || 'הצעת שיפור',
         text: data.text || '',
         createdAt: data.createdAt || Date.now(),
         status: data.status || 'pending'
@@ -572,13 +576,13 @@ function renderAdminUsersList(list) {
         <!-- Admin Actions grid -->
         <div style="display: flex; gap: 8px; direction: rtl; margin-top: 4px;">
           <button class="btn btn-secondary admin-action-btn" data-uid="${escapeHTML(user.uid)}" data-action="toggle-role" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
-            ${isTargetAdmin ? 'הורד למשתמש 👤' : 'שדרג למנהל 👑'}
+            ${isTargetAdmin ? `הורד למשתמש ${getCustomIcon('user')}` : `שדרג למנהל ${getCustomIcon('crown')}`}
           </button>
           <button class="btn btn-secondary admin-action-btn" data-uid="${escapeHTML(user.uid)}" data-action="send-msg" style="flex: 1; padding: 8px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08);">
-            הודעה אישית ✉️
+            הודעה אישית ${getCustomIcon('mail')}
           </button>
           <button class="btn btn-logout admin-action-btn" data-uid="${escapeHTML(user.uid)}" data-action="delete" style="flex: 0 0 auto; padding: 8px 12px; font-size: 0.78rem; font-weight: bold; border-radius: 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171;">
-            מחק 🗑️
+            מחק ${getCustomIcon('trash')}
           </button>
         </div>
       </div>
@@ -643,11 +647,11 @@ function renderAdminUsersList(list) {
           }
         }
       } else if (action === 'delete') {
-        if (confirm(`⚠️ אזהרה חמורה!\nהאם אתה בטוח שברצונך למחוק לצמיתות את המשתמש ${user.displayName} וכל נתוני Firestore שלו מהמערכת?\nפעולה זו אינה ניתנת לביטול!`)) {
+        if (confirm(`אזהרה חמורה!\nהאם אתה בטוח שברצונך למחוק לצמיתות את המשתמש ${user.displayName} וכל נתוני Firestore שלו מהמערכת?\nפעולה זו אינה ניתנת לביטול!`)) {
           btn.disabled = true;
           const ok = await deleteUserAccount(uid);
           if (ok) {
-            showPremiumToast("המשתמש נמחק בהצלחה מהמערכת 🗑️", "success");
+            showPremiumToast("המשתמש נמחק בהצלחה מהמערכת", "success");
             await loadAdminDashboardData();
           } else {
             btn.disabled = false;
@@ -714,10 +718,10 @@ function renderAdminFeedbacksList(list) {
         ${isPending ? `
           <div style="display: flex; gap: 8px; direction: rtl; margin-top: 2px;">
             <button class="btn btn-secondary admin-feedback-btn" data-id="${escapeHTML(item.id)}" data-action="resolve" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
-              סמן כטופל ✓
+              סמן כטופל ${getCustomIcon('check')}
             </button>
             <button class="btn btn-secondary admin-feedback-btn" data-id="${escapeHTML(item.id)}" data-action="reply" style="flex: 1; padding: 7px; font-size: 0.75rem; font-weight: bold; border-radius: 9px; border: 1px solid rgba(255,255,255,0.08);">
-              שלח מענה ✉️
+              שלח מענה ${getCustomIcon('mail')}
             </button>
           </div>
         ` : ''}
@@ -753,7 +757,7 @@ function renderAdminFeedbacksList(list) {
         }
 
         btn.disabled = true;
-        const msgOk = await sendDirectMessage(item.uid, "מענה למשוב שלך 💬", cleanReply);
+        const msgOk = await sendDirectMessage(item.uid, "מענה למשוב שלך", cleanReply);
         if (msgOk) {
           // Auto resolve the feedback too
           await markFeedbackResolved(id);

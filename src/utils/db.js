@@ -224,14 +224,14 @@ export async function syncUserSession(uid, isManual = false) {
   }
   
   state.isBackgroundSyncing = true;
-  setBgSyncing(true, 'מסנכרן תרגילים ונתונים מהענן... ☁️');
+  setBgSyncing(true, 'מסנכרן תרגילים ונתונים מהענן...');
 
   try {
     console.log("Starting cloud data synchronization for uid:", uid);
     if (isManual) {
       state.cloudSyncEnabled = true;
       SafeStorage.setItem('aura-cloud-sync-enabled', 'true');
-      showPremiumToast("מסנכרן נתונים מהענן... ☁️", "info");
+      showPremiumToast("מסנכרן נתונים מהענן...", "info");
     }
 
     const cloudData = await loadUserDataFromCloud(uid);
@@ -246,7 +246,7 @@ export async function syncUserSession(uid, isManual = false) {
       console.log("No cloud data found. Backup local data to cloud...");
       await uploadLocalDataToCloud(uid);
       if (isManual) {
-        showPremiumToast("הסנכרון הראשוני הושלם והחשבון נוצר בענן! ⚡", "success");
+        showPremiumToast("הסנכרון הראשוני הושלם והחשבון נוצר בענן!", "success");
       }
       return;
     }
@@ -260,7 +260,7 @@ export async function syncUserSession(uid, isManual = false) {
     }
 
     if (!isManual) {
-      showPremiumToast("מסנכרן שינויים מהענן... ⚡", "info");
+      showPremiumToast("מסנכרן שינויים מהענן...", "info");
     }
 
     // Adopt the cloud copy of the sync preferences so they follow the user across devices
@@ -481,7 +481,7 @@ export async function syncUserSession(uid, isManual = false) {
     SafeStorage.setItem(`aura-last-sync-time_${uid}`, nowTimestamp);
 
     if (isManual || cloudLastUpdate > localLastSync) {
-      showPremiumToast("הסנכרון הושלם! ✨", "success");
+      showPremiumToast("הסנכרון הושלם!", "success");
     }
   } catch (error) {
     console.error("Error during cloud user sync session:", error);

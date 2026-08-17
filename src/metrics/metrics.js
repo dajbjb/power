@@ -3,18 +3,18 @@ import { SafeStorage } from "../utils/storage.js";
 import { triggerLocalNotification, showAuraToast, safeFormatDate, requestNotificationPermissionSafely, escapeHTML } from "../utils/helpers.js";
 import { getAllExercises, isSystemExercise, GYM_EXERCISES, PARK_EXERCISES, openEditModal, saveActiveWorkoutState, getExerciseDefaults, saveExerciseDefaults } from "../workouts/workouts.js";
 import { saveFieldToCloud } from "../utils/db.js";
-import { getCustomIcon, ICONS_MAP } from "../utils/icons.js";
+import { getCustomIcon, getFavoriteIcon, ICONS_MAP } from "../utils/icons.js";
 
 // DOM Elements & Configurations
 const HEBREW_QUOTES = [
-  "אין קיצורי דרך למקומות ששווה להגיע אליהם! 🔥",
-  "כל חזרה מקרבת אותך לגרסה הטובה ביותר של עצמך. 💪",
-  "הכאב של היום הוא הכוח של מחר! ⚡",
-  "אל תפסיק כשזה קשה, תפסיק כשסיימת. 🏆",
-  "המשמעת העצמית שלך היא המפתח לברזל! 🏋️‍♂️",
-  "אתה נלחם נגד עצמך של אתמול, לא נגד אף אחד אחר. 🌟",
-  "הפוך את התירוצים שלך לתוצאות בקצה הברזל! 🔥",
-  "המנוחה מכינה אותך לסט המושלם הבא. תתרכז! 🎯"
+  "אין קיצורי דרך למקומות ששווה להגיע אליהם!",
+  "כל חזרה מקרבת אותך לגרסה הטובה ביותר של עצמך.",
+  "הכאב של היום הוא הכוח של מחר!",
+  "אל תפסיק כשזה קשה, תפסיק כשסיימת.",
+  "המשמעת העצמית שלך היא המפתח לברזל!",
+  "אתה נלחם נגד עצמך של אתמול, לא נגד אף אחד אחר.",
+  "הפוך את התירוצים שלך לתוצאות בקצה הברזל!",
+  "המנוחה מכינה אותך לסט המושלם הבא. תתרכז!"
 ];
 
 // getAllExercises() rebuilds a Set and a merged array on every call, and the render
@@ -98,8 +98,8 @@ export function startFutureWorkoutReminderChecker() {
         updated = true;
 
         const displayLoc = workout.location === 'gym' ? 'חדר כושר' : (workout.location === 'park' ? 'פארק' : workout.location);
-        const title = `תזכורת לאימון: אימון ${displayLoc} מתוזמן לשעה ${workout.time}! 🏋️‍♂️`;
-        const body = "אימון עתידי בפתח! 🏋️‍♂️";
+        const title = `תזכורת לאימון: אימון ${displayLoc} מתוזמן לשעה ${workout.time}!`;
+        const body = "אימון עתידי בפתח! 🏋️";
 
         triggerLocalNotification(title, body, true);
         console.log(`Notification sent for future workout ${workout.id}`);
@@ -284,10 +284,10 @@ export function renderCalendarView() {
             return `
               <div style="padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 8px; direction: rtl; text-align: right;">
                 <div style="display: flex; justify-content: space-between; font-weight: 700; color: #fff;">
-                  <span>${escapeHTML(w.locationEmoji || '🏋️')} ${escapeHTML(w.locationName || 'אימון')}</span>
+                  <span>${getCustomIcon(w.locationEmoji || 'dumbbell')} ${escapeHTML(w.locationName || 'אימון')}</span>
                   <span style="font-size: 0.8rem; color: var(--text-muted);">${timeStr} • ${duration} דק׳</span>
                 </div>
-                <button class="btn btn-secondary edit-past-workout-btn" data-id="${escapeHTML(w.id)}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important;">🛠️ ערוך אימון</button>
+                <button class="btn btn-secondary edit-past-workout-btn" data-id="${escapeHTML(w.id)}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important;">${getCustomIcon('settings')} ערוך אימון</button>
               </div>
             `;
           }).join('');
@@ -297,20 +297,21 @@ export function renderCalendarView() {
           futures.sort((a, b) => a.time.localeCompare(b.time));
           detailsHtml += `<h5 style="color: #fdba74; text-align: right; margin: 12px 0 8px 0; font-size: 0.9rem; font-weight: 700;">אימונים עתידיים מתוכננים:</h5>`;
           detailsHtml += futures.map(f => {
-            const displayLoc = f.location === 'gym' ? 'חדר כושר 🏋️‍♂️' : (f.location === 'park' ? 'פארק 🌳' : f.location);
+            const displayLocText = f.location === 'gym' ? 'חדר כושר' : (f.location === 'park' ? 'פארק' : f.location);
+            const displayLocIcon = f.location === 'gym' ? 'dumbbell' : (f.location === 'park' ? 'park' : null);
             return `
               <div class="future-workout-card">
                 <div class="future-header">
-                  <span>📅 אימון עתידי</span>
+                  <span>${getCustomIcon('calendar')} אימון עתידי</span>
                   <span class="future-badge">${f.time}</span>
                 </div>
                 <div style="color: #e2e8f0; font-size: 0.85rem; margin-top: 4px;">
-                  מיקום: <strong>${escapeHTML(displayLoc)}</strong>
+                  מיקום: <strong>${displayLocIcon ? getCustomIcon(displayLocIcon) + ' ' : ''}${escapeHTML(displayLocText)}</strong>
                 </div>
                 <div style="color: var(--text-muted); font-size: 0.78rem; margin-top: 2px;">
                   תזכורת: ${f.reminderMinutes === 0 ? 'בדיוק בזמן' : (f.reminderMinutes === 60 ? 'שעה לפני' : (f.reminderMinutes === 180 ? '3 שעות לפני' : f.reminderMinutes + ' דקות לפני'))}
                 </div>
-                <button class="btn btn-secondary cancel-future-btn" data-id="${escapeHTML(f.id)}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important; background: rgba(220,38,38,0.1) !important; border-color: rgba(220,38,38,0.2) !important; color: #fca5a5 !important;">❌ ביטול אימון</button>
+                <button class="btn btn-secondary cancel-future-btn" data-id="${escapeHTML(f.id)}" style="width: 100%; margin-top: 8px; padding: 6px !important; font-size: 0.75rem !important; background: rgba(220,38,38,0.1) !important; border-color: rgba(220,38,38,0.2) !important; color: #fca5a5 !important;">${getCustomIcon('close')} ביטול אימון</button>
               </div>
             `;
           }).join('');
@@ -504,11 +505,11 @@ export function renderMuscleSplitView() {
   const backPct = (volumeByMuscle['גב'] / totalOverallVolume) * 100;
 
   if (legsPct < 15) {
-    adviceEl.innerHTML = `⚠️ <strong>הנחיית איזון:</strong> נפח אימוני הרגליים שלך נמוך יחסית לתא המותניים (${Math.round(legsPct)}%). מומלץ להוסיף סקוואט או מכרעים כדי למנוע חוסר איזון פיזיולוגי! 🦵`;
+    adviceEl.innerHTML = `${getCustomIcon('warning')} <strong>הנחיית איזון:</strong> נפח אימוני הרגליים שלך נמוך יחסית לתא המותניים (${Math.round(legsPct)}%). מומלץ להוסיף סקוואט או מכרעים כדי למנוע חוסר איזון פיזיולוגי! ${getCustomIcon('legs')}`;
   } else if (Math.abs(chestPct - backPct) > 20) {
-    adviceEl.innerHTML = '⚠️ <strong>הנחיית איזון:</strong> יש פער משמעותי בין נפח החזה לגב. הקפד על יחס שווה של לחיצות ומשיכות למניעת פציעות כתפיים ויציבה כפופה! 🦅🍒';
+    adviceEl.innerHTML = `${getCustomIcon('warning')} <strong>הנחיית איזון:</strong> יש פער משמעותי בין נפח החזה לגב. הקפד על יחס שווה של לחיצות ומשיכות למניעת פציעות כתפיים ויציבה כפופה!`;
   } else {
-    adviceEl.innerHTML = '✨ <strong>הנחיית איזון:</strong> כל הכבוד! חלוקת העומסים והנפח שלך מאוזנת ומקצועית ביותר. המשך ככה! 🏋️‍♂️🏆';
+    adviceEl.innerHTML = `${getCustomIcon('sparkles')} <strong>הנחיית איזון:</strong> כל הכבוד! חלוקת העומסים והנפח שלך מאוזנת ומקצועית ביותר. המשך ככה!`;
   }
 }
 
@@ -591,7 +592,7 @@ export function renderAerobicAnalyticsCard(timeframe = '30') {
 
   container.innerHTML = `
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; direction: rtl;">
-      <h3 style="margin: 0; font-size: 1rem; font-weight: 800; color: #ffffff;">🏃‍♂️ סיכום פעילות אירובית (${timeframeLabel})</h3>
+      <h3 style="margin: 0; font-size: 1rem; font-weight: 800; color: #ffffff;">${getCustomIcon('cardio')} סיכום פעילות אירובית (${timeframeLabel})</h3>
       
       <!-- Timeframe Toggle Pills -->
       <div style="display: flex; gap: 4px; background: rgba(255,255,255,0.05); padding: 2px; border-radius: 8px;">
@@ -626,7 +627,7 @@ export function renderAerobicAnalyticsCard(timeframe = '30') {
           <!-- Run Split -->
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #e2e8f0; margin-bottom: 2px;">
-              <span>🏃‍♂️ ריצה: ${runDistKm} ק״מ</span>
+              <span>${getCustomIcon('cardio')} ריצה: ${runDistKm} ק״מ</span>
               <span>${runPct}%</span>
             </div>
             <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
@@ -637,7 +638,7 @@ export function renderAerobicAnalyticsCard(timeframe = '30') {
           <!-- Walk Split -->
           <div>
             <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #e2e8f0; margin-bottom: 2px;">
-              <span>🚶‍♂️ הליכה: ${walkDistKm} ק״מ</span>
+              <span>${getCustomIcon('cardio')} הליכה: ${walkDistKm} ק״מ</span>
               <span>${walkPct}%</span>
             </div>
             <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
@@ -775,7 +776,7 @@ export function openHistoryMapFullscreen(segments) {
     overlay.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(20,20,24,0.9); border-bottom: 1px solid rgba(255,255,255,0.05); direction: rtl; flex-shrink: 0;">
         <span style="font-weight: 800; color: #fff; font-size: 1rem;">מסלול אימון</span>
-        <button id="close-history-fullscreen-map" style="background: none; border: none; color: #ef4444; font-size: 1.5rem; cursor: pointer; padding: 4px 10px; font-weight: bold;">✕</button>
+        <button id="close-history-fullscreen-map" style="background: none; border: none; color: #ef4444; font-size: 1.5rem; cursor: pointer; padding: 4px 10px; font-weight: bold;">${getCustomIcon('close')}</button>
       </div>
       <div id="history-fullscreen-map" style="flex: 1; width: 100%;"></div>
     `;
@@ -1397,7 +1398,7 @@ export function renderProgressRing(pct, peakVal, unit, label, allTimePR, color, 
 }
 
 export function renderComparisonBar(currentVal, prevVal, allTimePR, unit, label, color, glow, hasPrev) {
-  let deltaText = 'חדש! 🔥';
+  let deltaText = `חדש! ${getCustomIcon('fire')}`;
   let deltaClass = 'delta-neutral';
   let barColor = '#00F0FF';
   let barGlow = 'rgba(0, 240, 255, 0.4)';
@@ -1406,12 +1407,12 @@ export function renderComparisonBar(currentVal, prevVal, allTimePR, unit, label,
   if (hasPrev) {
     diff = currentVal - prevVal;
     if (diff > 0) {
-      deltaText = `+${diff} ${unit} 📈`;
+      deltaText = `+${diff} ${unit} ${getCustomIcon('chart')}`;
       deltaClass = 'delta-plus';
       barColor = '#22c55e'; // Green
       barGlow = 'rgba(34, 197, 94, 0.4)';
     } else if (diff < 0) {
-      deltaText = `${diff} ${unit} 📉`;
+      deltaText = `${diff} ${unit} ${getCustomIcon('chart')}`;
       deltaClass = 'delta-minus';
       barColor = '#ef4444'; // Red
       barGlow = 'rgba(239, 68, 68, 0.4)';
@@ -1462,17 +1463,17 @@ export function updateFilterPillsText() {
     const label = pillLoc.querySelector('.pill-label');
     if (label) {
       if (state.filterLocation === 'all') {
-        label.textContent = '📍 מיקום: הכל';
+        label.innerHTML = `${getCustomIcon('location')} מיקום: הכל`;
         pillLoc.classList.remove('active-filter');
       } else if (state.filterLocation === 'gym') {
-        label.textContent = '🏋️‍♂️ חדר כושר';
+        label.innerHTML = `${getCustomIcon('dumbbell')} חדר כושר`;
         pillLoc.classList.add('active-filter');
       } else if (state.filterLocation === 'park') {
-        label.textContent = '🌳 פארק';
+        label.innerHTML = `${getCustomIcon('park')} פארק`;
         pillLoc.classList.add('active-filter');
       } else {
         const found = state.customLocations.find(l => l.id === state.filterLocation);
-        label.textContent = found ? `${found.emoji || '💪'} ${found.name}` : '📍 מיקום מותאם';
+        label.innerHTML = found ? `${getCustomIcon('dumbbell')} ${escapeHTML(found.name)}` : `${getCustomIcon('location')} מיקום מותאם`;
         pillLoc.classList.add('active-filter');
       }
     }
@@ -1482,18 +1483,18 @@ export function updateFilterPillsText() {
     const label = pillDate.querySelector('.pill-label');
     if (label) {
       if (state.filterTimeSelection === 'all') {
-        label.textContent = '📅 תאריך: הכל';
+        label.innerHTML = `${getCustomIcon('calendar')} תאריך: הכל`;
         pillDate.classList.remove('active-filter');
       } else if (state.filterTimeSelection === '7') {
-        label.textContent = '📅 7 ימים אחרונים';
+        label.innerHTML = `${getCustomIcon('calendar')} 7 ימים אחרונים`;
         pillDate.classList.add('active-filter');
       } else if (state.filterTimeSelection === '30') {
-        label.textContent = '📅 30 ימים אחרונים';
+        label.innerHTML = `${getCustomIcon('calendar')} 30 ימים אחרונים`;
         pillDate.classList.add('active-filter');
       } else if (state.filterTimeSelection === 'custom') {
         const startVal = state.filterStartDate ? `${state.filterStartDate.getDate()}/${state.filterStartDate.getMonth() + 1}` : 'התחלה';
         const endVal = state.filterEndDate ? `${state.filterEndDate.getDate()}/${state.filterEndDate.getMonth() + 1}` : 'סוף';
-        label.textContent = `📅 ${startVal} - ${endVal}`;
+        label.innerHTML = `${getCustomIcon('calendar')} ${startVal} - ${endVal}`;
         pillDate.classList.add('active-filter');
       }
     }
@@ -1503,10 +1504,10 @@ export function updateFilterPillsText() {
     const label = pillMuscle.querySelector('.pill-label');
     if (label) {
       if (state.filterMuscleGroup === 'all') {
-        label.textContent = '💪 שריר: הכל';
+        label.innerHTML = `${getCustomIcon('dumbbell')} שריר: הכל`;
         pillMuscle.classList.remove('active-filter');
       } else {
-        label.textContent = `💪 שריר: ${state.filterMuscleGroup}`;
+        label.innerHTML = `${getCustomIcon('dumbbell')} שריר: ${escapeHTML(state.filterMuscleGroup)}`;
         pillMuscle.classList.add('active-filter');
       }
     }
@@ -1516,13 +1517,13 @@ export function updateFilterPillsText() {
     const label = pillSort.querySelector('.pill-label');
     if (label) {
       if (state.filterSortSelection === 'date-desc') {
-        label.textContent = '⏱️ כרונולוגי';
+        label.innerHTML = `${getCustomIcon('timer')} כרונולוגי`;
         pillSort.classList.remove('active-filter');
       } else if (state.filterSortSelection === 'prs-first') {
-        label.textContent = '🏆 שיאים אישיים';
+        label.innerHTML = `${getCustomIcon('trophy')} שיאים אישיים`;
         pillSort.classList.add('active-filter');
       } else if (state.filterSortSelection === 'volume-desc') {
-        label.textContent = '📊 נפח עבודה';
+        label.innerHTML = `${getCustomIcon('chart')} נפח עבודה`;
         pillSort.classList.add('active-filter');
       }
     }
@@ -1540,7 +1541,7 @@ export function populateFilterDropdown(category, container, pill) {
       optionEl.className = `filter-dropdown-option ${state.filterLocation === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
         <span>${escapeHTML(opt.text)}</span>
-        ${state.filterLocation === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
+        ${state.filterLocation === opt.value ? `<span class="filter-dropdown-option-check">${getCustomIcon('check')}</span>` : ''}
       `;
       optionEl.addEventListener('click', () => {
         state.filterLocation = opt.value;
@@ -1564,7 +1565,7 @@ export function populateFilterDropdown(category, container, pill) {
       optionEl.className = `filter-dropdown-option ${state.filterTimeSelection === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
         <span>${escapeHTML(opt.text)}</span>
-        ${state.filterTimeSelection === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
+        ${state.filterTimeSelection === opt.value ? `<span class="filter-dropdown-option-check">${getCustomIcon('check')}</span>` : ''}
       `;
       optionEl.addEventListener('click', (e) => {
         if (opt.value === 'custom') {
@@ -1588,7 +1589,7 @@ export function populateFilterDropdown(category, container, pill) {
       optionEl.className = `filter-dropdown-option ${state.filterMuscleGroup === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
         <span>${escapeHTML(opt.text)}</span>
-        ${state.filterMuscleGroup === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
+        ${state.filterMuscleGroup === opt.value ? `<span class="filter-dropdown-option-check">${getCustomIcon('check')}</span>` : ''}
       `;
       optionEl.addEventListener('click', () => {
         state.filterMuscleGroup = opt.value;
@@ -1608,7 +1609,7 @@ export function populateFilterDropdown(category, container, pill) {
       optionEl.className = `filter-dropdown-option ${state.filterSortSelection === opt.value ? 'selected' : ''}`;
       optionEl.innerHTML = `
         <span>${escapeHTML(opt.text)}</span>
-        ${state.filterSortSelection === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
+        ${state.filterSortSelection === opt.value ? `<span class="filter-dropdown-option-check">${getCustomIcon('check')}</span>` : ''}
       `;
       optionEl.addEventListener('click', () => {
         state.filterSortSelection = opt.value;
@@ -1646,7 +1647,7 @@ export function populateExercisesFilterDropdown(category, container, pill) {
     optionEl.className = `filter-dropdown-option ${selectedValue === opt.value ? 'selected' : ''}`;
     optionEl.innerHTML = `
       <span>${escapeHTML(opt.text)}</span>
-      ${selectedValue === opt.value ? '<span class="filter-dropdown-option-check">✓</span>' : ''}
+      ${selectedValue === opt.value ? `<span class="filter-dropdown-option-check">${getCustomIcon('check')}</span>` : ''}
     `;
     optionEl.addEventListener('click', () => {
       originalSelect.value = opt.value;
@@ -1654,27 +1655,27 @@ export function populateExercisesFilterDropdown(category, container, pill) {
       
       const pillLabel = pill.querySelector('.pill-label');
       if (pillLabel) {
-        let prefix = '💪 שריר: ';
-        if (category === 'type') prefix = '🧩 סוג: ';
-        if (category === 'usage') prefix = '🔄 שימוש: ';
-        if (category === 'favorite') prefix = '⭐ מועדפים: ';
-        
+        let prefix = `${getCustomIcon('dumbbell')} שריר: `;
+        if (category === 'type') prefix = `${getCustomIcon('puzzle')} סוג: `;
+        if (category === 'usage') prefix = `${getCustomIcon('refresh')} שימוש: `;
+        if (category === 'favorite') prefix = `${getCustomIcon('star')} מועדפים: `;
+
         let cleanedText = opt.text;
         if (category === 'muscle') {
           if (opt.value === 'all') cleanedText = 'הכל';
-          else cleanedText = cleanedText.replace(/[💪🍒🦅🛡️🦵🧘‍♂️🏃‍♂️🧩]/g, '').trim();
+          else cleanedText = cleanedText.replace(/[💪🍒🦅🛡️🦵🧘🏃🧩]/g, '').trim();
         } else if (category === 'type') {
           if (opt.value === 'all') cleanedText = 'הכל';
           else cleanedText = cleanedText.replace(/[🧩🏛️✨]/g, '').trim();
         } else if (category === 'usage') {
           if (opt.value === 'all') cleanedText = 'הכל';
-          else cleanedText = cleanedText.replace(/[🔄🏋️‍♂️⏱️💤]/g, '').trim();
+          else cleanedText = cleanedText.replace(/[🔄🏋️⏱️💤]/g, '').trim();
         } else if (category === 'favorite') {
           if (opt.value === 'all') cleanedText = 'הכל';
           else cleanedText = cleanedText.replace(/[⭐]/g, '').trim();
         }
-        
-        pillLabel.textContent = `${prefix}${cleanedText}`;
+
+        pillLabel.innerHTML = `${prefix}${escapeHTML(cleanedText)}`;
       }
       
       container.classList.add('hide');
@@ -1880,9 +1881,9 @@ export function renderWorkoutsLog() {
     const card = document.createElement('div');
     card.className = 'premium-workout-card'; // Redesigned class with premium styling
 
-    const prBadgeHtml = item.prCount > 0 ? `<span class="workout-log-pr-badge">🏆 שיא אישי x${item.prCount}</span>` : '';
+    const prBadgeHtml = item.prCount > 0 ? `<span class="workout-log-pr-badge">${getCustomIcon('trophy')} שיא אישי x${item.prCount}</span>` : '';
     const dispName = w.locationName || (w.location === 'gym' ? 'חדר כושר' : 'פארק');
-    const dispEmoji = w.locationEmoji || (w.location === 'gym' ? '🏋️‍♂️' : '🌳');
+    const dispEmoji = w.locationEmoji || (w.location === 'gym' ? 'dumbbell' : 'park');
 
     // 1. Calculate Single Workout Muscle Splits (חלוקת אזורי גוף לאימון הנוכחי)
     const muscleCounts = {};
@@ -1919,22 +1920,22 @@ export function renderWorkoutsLog() {
     const compactInfoBarHtml = `
       <div class="premium-compact-info-bar">
         <div class="premium-info-item">
-          <span class="premium-info-icon">${escapeHTML(dispEmoji)}</span>
+          <span class="premium-info-icon">${getCustomIcon(dispEmoji)}</span>
           <span class="premium-info-text">${escapeHTML(dispName)}</span>
         </div>
         <div class="premium-info-divider"></div>
         <div class="premium-info-item">
-          <span class="premium-info-icon">📅</span>
+          <span class="premium-info-icon">${getCustomIcon('calendar')}</span>
           <span class="premium-info-text">${formattedDate}</span>
         </div>
         <div class="premium-info-divider"></div>
         <div class="premium-info-item">
-          <span class="premium-info-icon">🕒</span>
+          <span class="premium-info-icon">${getCustomIcon('timer')}</span>
           <span class="premium-info-text">${startTimeStr}</span>
         </div>
         <div class="premium-info-divider"></div>
         <div class="premium-info-item">
-          <span class="premium-info-icon">⏱️</span>
+          <span class="premium-info-icon">${getCustomIcon('timer')}</span>
           <span class="premium-info-text">${duration} דק׳</span>
         </div>
         <div style="flex-grow: 1;"></div>
@@ -1969,7 +1970,7 @@ export function renderWorkoutsLog() {
       muscleSplitHtml = `
         <div class="premium-muscle-breakdown-card">
           <div class="premium-muscle-breakdown-title">
-            <span style="font-size: 1.1rem; filter: drop-shadow(0 0 4px var(--electric-blue-glow));">📊</span>
+            <span style="font-size: 1.1rem; filter: drop-shadow(0 0 4px var(--electric-blue-glow));">${getCustomIcon('chart')}</span>
             <span>חלוקת עומסי שרירים באימון</span>
           </div>
           <div class="premium-muscle-breakdown-grid">
@@ -2120,7 +2121,7 @@ export function renderWorkoutsLog() {
 
               <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
                 <span class="premium-exercise-inspector-link" data-name="${escapeHTML(ex.name)}" style="color: var(--electric-blue-light); font-size: 0.78rem; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;">
-                  ניתוח גרפים והיסטוריית PR 📈
+                  ניתוח גרפים והיסטוריית PR ${getCustomIcon('chart')}
                 </span>
               </div>
             </div>
@@ -2157,7 +2158,7 @@ export function renderWorkoutsLog() {
         ${muscleSplitHtml}
         
         <button class="workout-log-edit-btn">
-          <span>✏️</span> ערוך פרטי אימון
+          <span>${getCustomIcon('edit')}</span> ערוך פרטי אימון
         </button>
       </div>
     `;
@@ -2256,14 +2257,20 @@ export function renderExercisesLeaderboardModal() {
   });
 
   if (listWithStats.length === 0) {
-    container.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 0.95rem; direction: rtl;">עוד לא ביצעת תרגילים. בצע אימון כדי לראות נתונים! 🏋️‍♂️</div>`;
+    container.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 0.95rem; direction: rtl;">עוד לא ביצעת תרגילים. בצע אימון כדי לראות נתונים! ${getCustomIcon('dumbbell')}</div>`;
     return;
   }
 
   container.innerHTML = '';
 
   const maxPerformed = listWithStats[0].stats.timesPerformed || 1;
-  const ranks = ['🥇', '🥈', '🥉'];
+  // Same trophy glyph for all three medal ranks, distinguished by the classic
+  // gold/silver/bronze tint instead of three near-identical medal pictograms.
+  const ranks = [
+    getCustomIcon('trophy', { color: '#ffd60a' }),
+    getCustomIcon('trophy', { color: '#c0c0c8' }),
+    getCustomIcon('trophy', { color: '#cd7f32' })
+  ];
   const tierClasses = ['gold-tier', 'silver-tier', 'bronze-tier'];
   const gradientClasses = ['gold-gradient', 'silver-gradient', 'bronze-gradient'];
 
@@ -2271,7 +2278,7 @@ export function renderExercisesLeaderboardModal() {
     const isTop3 = idx < 3;
     const rankStr = isTop3 ? ranks[idx] : `<span style="font-size: 1.1rem; font-weight: 800; color: var(--text-muted); width: 24px; text-align: center; display: inline-block;">${idx + 1}</span>`;
     const pct = Math.round((item.stats.timesPerformed / maxPerformed) * 100);
-    const emojiStr = item.ex.emoji ? `<span style="font-size: 1.2rem; margin-left: 6px;">${escapeHTML(item.ex.emoji)}</span>` : '💪';
+    const emojiStr = `<span style="font-size: 1.2rem; margin-left: 6px;">${getCustomIcon(item.ex.emoji || 'dumbbell')}</span>`;
     
     const leaderItem = document.createElement('div');
     leaderItem.className = `modal-leader-item ${isTop3 ? tierClasses[idx] : ''}`;
@@ -2408,7 +2415,7 @@ export function renderExercisesManager() {
     card.className = 'exercise-manage-card-tab3';
     
     const catStyle = categoryColorsTab3[ex.category] || { bg: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)' };
-    const emojiStr = ex.emoji ? `<span class="ex-card-emoji-tab3">${escapeHTML(ex.emoji)}</span>` : '💪';
+    const emojiStr = `<span class="ex-card-emoji-tab3">${getCustomIcon(ex.emoji || 'dumbbell')}</span>`;
     const isFav = state.favoriteExercises.includes(ex.name);
     
     card.innerHTML = `
@@ -2431,19 +2438,19 @@ export function renderExercisesManager() {
     starBtn.className = `ex-fav-star-btn ${isFav ? 'active' : ''}`;
     starBtn.style.cssText = 'width: 32px !important; height: 32px !important; font-size: 0.95rem !important; margin: 0 !important; border: 1.5px solid rgba(255, 255, 255, 0.07) !important;';
     starBtn.title = isFav ? 'הסר ממועדפים' : 'הוסף למועדפים';
-    starBtn.innerHTML = isFav ? '⭐' : '☆';
+    starBtn.innerHTML = getFavoriteIcon(isFav);
     
     starBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const idx = state.favoriteExercises.indexOf(ex.name);
       if (idx > -1) {
         state.favoriteExercises.splice(idx, 1);
-        starBtn.innerHTML = '☆';
+        starBtn.innerHTML = getFavoriteIcon(false);
         starBtn.classList.remove('active');
         starBtn.title = 'הוסף למועדפים';
       } else {
         state.favoriteExercises.push(ex.name);
-        starBtn.innerHTML = '⭐';
+        starBtn.innerHTML = getFavoriteIcon(true);
         starBtn.classList.add('active');
         starBtn.title = 'הסר ממועדפים';
       }
@@ -2552,49 +2559,49 @@ export function updateInspectorStatistics(exerciseName) {
   if (isTime) {
     if (prCard) {
       const prLbl = prCard.querySelector('.stat-label');
-      if (prLbl) prLbl.textContent = 'שיא אישי (PR) ⏱️';
+      if (prLbl) prLbl.innerHTML = `שיא אישי (PR) ${getCustomIcon('timer')}`;
       prVal.textContent = maxTime > 0 ? `${maxTime} שניות` : '--';
     }
     if (rmCard) {
       const rmLbl = rmCard.querySelector('.stat-label');
-      if (rmLbl) rmLbl.textContent = 'אימון אחרון 🏆';
+      if (rmLbl) rmLbl.innerHTML = `אימון אחרון ${getCustomIcon('trophy')}`;
       rmVal.textContent = latestPeakTime > 0 ? `${latestPeakTime} שניות` : '--';
     }
     if (volCard) {
       const volLbl = volCard.querySelector('.stat-label');
-      if (volLbl) volLbl.textContent = 'סה״כ זמן 📊';
+      if (volLbl) volLbl.innerHTML = `סה״כ זמן ${getCustomIcon('chart')}`;
       volVal.textContent = totalTimeCompleted > 0 ? `${totalTimeCompleted} שניות` : '--';
     }
   } else if (isReps) {
     if (prCard) {
       const prLbl = prCard.querySelector('.stat-label');
-      if (prLbl) prLbl.textContent = 'שיא אישי (PR) 🔢';
+      if (prLbl) prLbl.innerHTML = `שיא אישי (PR) ${getCustomIcon('numbers')}`;
       prVal.textContent = maxReps > 0 ? `${maxReps} חזרות` : '--';
     }
     if (rmCard) {
       const rmLbl = rmCard.querySelector('.stat-label');
-      if (rmLbl) rmLbl.textContent = 'אימון אחרון 🏆';
+      if (rmLbl) rmLbl.innerHTML = `אימון אחרון ${getCustomIcon('trophy')}`;
       rmVal.textContent = latestPeakReps > 0 ? `${latestPeakReps} חזרות` : '--';
     }
     if (volCard) {
       const volLbl = volCard.querySelector('.stat-label');
-      if (volLbl) volLbl.textContent = 'סה״כ חזרות 📊';
+      if (volLbl) volLbl.innerHTML = `סה״כ חזרות ${getCustomIcon('chart')}`;
       volVal.textContent = totalRepsCompleted > 0 ? `${totalRepsCompleted} חזרות` : '--';
     }
   } else {
     if (prCard) {
       const prLbl = prCard.querySelector('.stat-label');
-      if (prLbl) prLbl.textContent = 'שיא אישי (PR) 🏋️‍♂️';
+      if (prLbl) prLbl.innerHTML = `שיא אישי (PR) ${getCustomIcon('dumbbell')}`;
       prVal.textContent = maxWeight > 0 ? `${maxWeight} ק״ג` : '--';
     }
     if (rmCard) {
       const rmLbl = rmCard.querySelector('.stat-label');
-      if (rmLbl) rmLbl.textContent = '1RM משוער 🏆';
+      if (rmLbl) rmLbl.innerHTML = `1RM משוער ${getCustomIcon('trophy')}`;
       rmVal.textContent = max1RM > 0 ? `${Math.round(max1RM)} ק״ג` : '--';
     }
     if (volCard) {
       const volLbl = volCard.querySelector('.stat-label');
-      if (volLbl) volLbl.textContent = 'נפח אימון שיא 📊';
+      if (volLbl) volLbl.innerHTML = `נפח אימון שיא ${getCustomIcon('chart')}`;
       volVal.textContent = peakVolume > 0 ? `${peakVolume} ק״ג` : '--';
     }
   }
@@ -2711,7 +2718,7 @@ export function openExerciseInspector(exerciseName) {
   const inspectorFavBtn = document.getElementById('inspector-exercise-fav-btn');
   
   if (nameEl) {
-    nameEl.textContent = (exDetails.emoji ? `${exDetails.emoji} ` : '') + exDetails.name;
+    nameEl.innerHTML = `${getCustomIcon(exDetails.emoji || 'dumbbell')} ${escapeHTML(exDetails.name)}`;
   }
   
   if (catBadge) {
@@ -2724,7 +2731,7 @@ export function openExerciseInspector(exerciseName) {
     const isFav = state.favoriteExercises.includes(exerciseName);
     inspectorFavBtn.className = `ex-fav-star-btn ${isFav ? 'active' : ''}`;
     inspectorFavBtn.title = isFav ? 'הסר ממועדפים' : 'הוסף למועדפים';
-    inspectorFavBtn.innerHTML = isFav ? '⭐' : '☆';
+    inspectorFavBtn.innerHTML = getFavoriteIcon(isFav);
   }
 
   // Smart-detect which metrics have ACTUAL DATA in history
@@ -2990,10 +2997,10 @@ export function renderExerciseInspectorChart() {
     const diffVal = currentVal - baseVal;
     const diffPct = baseVal > 0 ? ((diffVal / baseVal) * 100) : 0;
     if (diffVal >= 0) {
-      subtextDisplay.textContent = `+${diffPct.toFixed(1)}% מתחילת הדרך 📈`;
+      subtextDisplay.innerHTML = `+${diffPct.toFixed(1)}% מתחילת הדרך ${getCustomIcon('chart')}`;
       subtextDisplay.style.color = '#00ff87';
     } else {
-      subtextDisplay.textContent = `${diffPct.toFixed(1)}% מתחילת הדרך 📉`;
+      subtextDisplay.innerHTML = `${diffPct.toFixed(1)}% מתחילת הדרך ${getCustomIcon('chart')}`;
       subtextDisplay.style.color = '#ea580c';
     }
   }
@@ -3113,7 +3120,7 @@ export function renderExerciseInspectorChart() {
 
     setsHtml = `
       <div style="display: flex; flex-direction: column; gap: 6px;">
-        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">⚡ סטים מאימון אחרון:</span>
+        <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">${getCustomIcon('sync')} סטים מאימון אחרון:</span>
         <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; direction: rtl;">
           ${latestSession.sets.map((s, idx) => {
             const isPeak = (idx === peakSetIdx);
@@ -3134,7 +3141,7 @@ export function renderExerciseInspectorChart() {
 
             return `
               <div style="flex: 0 0 auto; min-width: 80px; background: ${bg}; border: ${border}; ${shadow} padding: 6px 8px; border-radius: 10px; text-align: center;">
-                <span style="display: block; font-size: 0.65rem; color: ${labelColor}; font-weight: 700; margin-bottom: 2px;">סט ${idx + 1}${isPeak ? ' 🏆' : ''}</span>
+                <span style="display: block; font-size: 0.65rem; color: ${labelColor}; font-weight: 700; margin-bottom: 2px;">סט ${idx + 1}${isPeak ? ` ${getCustomIcon('trophy')}` : ''}</span>
                 <strong style="color: ${textColor}; font-size: 0.82rem; white-space: nowrap;">${val}</strong>
               </div>
             `;
@@ -3182,7 +3189,7 @@ export function deleteGlobalExercise(exerciseName) {
   renderExercisesManager();
   if (typeof window.renderExercisePickerList === 'function') window.renderExercisePickerList();
   
-  alert(`התרגיל "${exerciseName}" נמחק לנצח! 🗑️`);
+  alert(`התרגיל "${exerciseName}" נמחק לנצח!`);
 }
 
 export function addGlobalExercise() {
@@ -3411,7 +3418,7 @@ export function saveEditedGlobalExercise(oldName) {
     openExerciseInspector(newName);
   }
 
-  alert(`התרגיל "${newName}" עודכן בהצלחה! ✏️`);
+  alert(`התרגיל "${newName}" עודכן בהצלחה!`);
 }
 
 // Orchestrator for subtab rendering
@@ -3455,7 +3462,7 @@ export function initAICoach() {
       navigator.vibrate(15);
     }
 
-    showAuraToast("המאמן האישי שלך בהכנה... 🤖🔥");
+    showAuraToast("המאמן האישי שלך בהכנה...");
 
     setTimeout(() => {
       ripple.remove();
@@ -3707,22 +3714,22 @@ export function initAnalyticsTab() {
       
       const locVal = scheduleLocationSelect.value;
       let finalLoc = '';
-      let emoji = '🏋️‍♂️';
+      let emoji = 'dumbbell';
 
       if (locVal === 'custom') {
         finalLoc = scheduleCustomLocation.value.trim();
-        emoji = '✨';
+        emoji = 'sparkles';
       } else if (locVal === 'gym') {
         finalLoc = 'חדר כושר';
-        emoji = '🏋️‍♂️';
+        emoji = 'dumbbell';
       } else if (locVal === 'park') {
         finalLoc = 'פארק';
-        emoji = '🌳';
+        emoji = 'park';
       } else {
         const matched = state.customLocations.find(l => l.id === locVal);
         if (matched) {
           finalLoc = matched.name;
-          emoji = matched.emoji || '💪';
+          emoji = matched.emoji || 'dumbbell';
         }
       }
 
@@ -3762,7 +3769,7 @@ export function initAnalyticsTab() {
       requestNotificationPermissionSafely();
       renderCalendarView();
 
-      alert(`אימון עתידי מסוג "${finalLoc}" מתוזמן בהצלחה! 🏋️‍♂️`);
+      alert(`אימון עתידי מסוג "${finalLoc}" מתוזמן בהצלחה!`);
     });
   }
 
@@ -4070,12 +4077,12 @@ export function initAnalyticsTab() {
       const idx = state.favoriteExercises.indexOf(exName);
       if (idx > -1) {
         state.favoriteExercises.splice(idx, 1);
-        inspectorFavBtn.innerHTML = '☆';
+        inspectorFavBtn.innerHTML = getFavoriteIcon(false);
         inspectorFavBtn.classList.remove('active');
         inspectorFavBtn.title = 'הוסף למועדפים';
       } else {
         state.favoriteExercises.push(exName);
-        inspectorFavBtn.innerHTML = '⭐';
+        inspectorFavBtn.innerHTML = getFavoriteIcon(true);
         inspectorFavBtn.classList.add('active');
         inspectorFavBtn.title = 'הסר ממועדפים';
       }
@@ -4157,8 +4164,7 @@ function checkAndShowPreviousPerformance(exerciseName) {
     const dateObj = new Date(prevWorkout.date);
     const dateStr = dateObj.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric', year: 'numeric' });
     const locationStr = prevWorkout.locationName || (prevWorkout.location === 'gym' ? 'חדר כושר' : 'פארק');
-    const emoji = prevWorkout.locationEmoji || (prevWorkout.location === 'gym' ? '🏋️‍♂️' : '🌳');
-    dateEl.textContent = `אימון אחרון (${emoji} ${locationStr}): ${dateStr}`;
+    dateEl.textContent = `אימון אחרון (${locationStr}): ${dateStr}`;
   }
 
   if (container) {

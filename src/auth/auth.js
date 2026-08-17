@@ -13,6 +13,7 @@ import {
 import { state } from "../state.js";
 import { SafeStorage } from "../utils/storage.js";
 import { triggerLocalNotification, getInitialsAvatar, showPremiumToast } from "../utils/helpers.js";
+import { getCustomIcon } from "../utils/icons.js";
 import { syncUserSession } from "../utils/db.js";
 import { updateAdminUI } from "../settings/admin.js";
 
@@ -50,10 +51,12 @@ export function clearUserSession() {
   setElText('settings-user-role-field', 'משתמש רגיל');
   setElText('settings-user-name-main', 'משתמש');
   
-  const mainView = document.getElementById('settings-main-view');
-  const accountView = document.getElementById('settings-account-view');
-  if (mainView) mainView.classList.remove('hide');
-  if (accountView) accountView.classList.add('hide');
+  // Logout can happen while any settings sub-view is open (not just Account,
+  // where the sign-out button lives — e.g. an expired session is discovered
+  // while the user is in Display Settings). resetSettingsSubViews hides every
+  // sub-view and restores the main list, so this doesn't leave a stale
+  // sub-view unhidden underneath it — see resetSettingsSubViews in settings.js.
+  if (window.resetSettingsSubViews) window.resetSettingsSubViews();
 
   const initialsFallback = getInitialsAvatar('User');
   if (navUserPhoto) navUserPhoto.src = initialsFallback;
@@ -75,7 +78,19 @@ export function clearUserSession() {
 }
 
 // Manage App Screen Transitions with premium animations
+//
+// switchScreen(true) and switchScreen(false) each defer their classList.add('active')
+// by one requestAnimationFrame so the CSS opacity/transform transition has a display
+// change to animate from. If switchScreen is called again (e.g. Firebase resolves the
+// real auth state a frame after the optimistic cached-session fast path) before that
+// rAF fires, the stale callback used to run anyway and re-activate the wrong screen —
+// leaving #auth-screen and #app-screen both opacity:1 and pointer-events:auto at once
+// (a permanent ghosting overlap, since nothing else ever removes the stray 'active').
+// screenTransitionSeq lets a stale callback recognize it's been superseded and bail out.
+let screenTransitionSeq = 0;
+
 export function switchScreen(signedIn) {
+  const seq = ++screenTransitionSeq;
   if (signedIn) {
     if (logoutBtn) logoutBtn.classList.remove('hide');
     document.body.classList.add('authenticated');
@@ -86,6 +101,7 @@ export function switchScreen(signedIn) {
     if (appScreen) {
       appScreen.style.display = 'flex';
       requestAnimationFrame(() => {
+        if (seq !== screenTransitionSeq) return;
         appScreen.classList.add('active');
       });
     }
@@ -99,6 +115,7 @@ export function switchScreen(signedIn) {
     if (authScreen) {
       authScreen.style.display = 'flex';
       requestAnimationFrame(() => {
+        if (seq !== screenTransitionSeq) return;
         authScreen.classList.add('active');
       });
     }
@@ -189,7 +206,7 @@ export function detectEnvironmentAndWarn() {
     if (isLocalFile) {
       warningHtml = `
         <div style="background: rgba(239, 68, 68, 0.12); border: 1px dashed rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 14px; margin-bottom: 20px; direction: rtl; text-align: right; font-size: 0.88rem; color: #f87171; display: flex; gap: 10px; align-items: start; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08);">
-          <span style="font-size: 1.25rem;">⚠️</span>
+          <span style="font-size: 1.25rem;">${getCustomIcon('warning')}</span>
           <div>
             <strong>הרצה מקומית לא מאובטחת!</strong><br>
             הורדת קבצי הקוד ישירות למכשיר חוסמת את החיבור המאובטח של גוגל.<br>
@@ -202,7 +219,7 @@ export function detectEnvironmentAndWarn() {
     } else if (isInApp) {
       warningHtml = `
         <div style="background: rgba(239, 68, 68, 0.12); border: 1px dashed rgba(239, 68, 68, 0.4); border-radius: 12px; padding: 14px; margin-bottom: 20px; direction: rtl; text-align: right; font-size: 0.88rem; color: #f87171; display: flex; gap: 10px; align-items: start; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08);">
-          <span style="font-size: 1.25rem;">⚠️</span>
+          <span style="font-size: 1.25rem;">${getCustomIcon('warning')}</span>
           <div>
             <strong>דפדפן לא נתמך / חסום על ידי Google!</strong><br>
             פתחת את האפליקציה מתוך קישור פנימי. גוגל חוסמת התחברות מאובטחת בסביבה זו.<br>
@@ -213,7 +230,7 @@ export function detectEnvironmentAndWarn() {
     } else if (!storageOk) {
       warningHtml = `
         <div style="background: rgba(245, 158, 11, 0.1); border: 1px dashed rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 12px; margin-bottom: 20px; direction: rtl; text-align: right; font-size: 0.85rem; color: #d97706; display: flex; gap: 8px; align-items: start;">
-          <span style="font-size: 1.1rem;">🔒</span>
+          <span style="font-size: 1.1rem;">${getCustomIcon('lock')}</span>
           <div>
             <strong>אחסון חסום / מצב גלישה בסתר פעיל!</strong><br>
             הדפדפן שלך חוסם עוגיות או גישה לאחסון מקומי. התחברות Google לא תישמר. מומלץ להשתמש בדפדפן רגיל שאינו במצב גלישה בסתר.
@@ -249,7 +266,7 @@ export function dismissSplashScreen(delay = 100) {
   const splash = document.getElementById('splash-screen');
   if (!splash || splash.classList.contains('fade-out')) return;
 
-  updateSplashProgress(100, 'מוכן! 🚀');
+  updateSplashProgress(100, 'מוכן!');
   setTimeout(() => {
     splash.classList.add('fade-out');
     setTimeout(() => {
@@ -382,7 +399,7 @@ export async function initAuth() {
         }
 
         if (popupError.code === 'auth/popup-blocked' || popupError.code === 'auth/popup-closed-by-user') {
-          showPremiumToast('ההתחברות נחסמה או בוטלה. <a href="#" onclick="document.getElementById(\'google-login-btn\').click(); return false;" style="text-decoration: underline; color: #60a5fa;">נסה להתחבר שנית 🔄</a>', "error", true);
+          showPremiumToast('ההתחברות נחסמה או בוטלה. <a href="#" onclick="document.getElementById(\'google-login-btn\').click(); return false;" style="text-decoration: underline; color: #60a5fa;">נסה להתחבר שנית </a>',"error", true);
         } else {
           showPremiumToast(`שגיאת התחברות: ${popupError.message || 'נא לנסות שנית'}`, "error");
         }

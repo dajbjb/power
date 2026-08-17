@@ -82,13 +82,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   
-  <link rel="preload" href="style.css?v=1.10.5" as="style">
-  <link rel="modulepreload" href="app.js?v=1.10.5">
+  <link rel="preload" href="style.css?v=1.10.6" as="style">
+  <link rel="modulepreload" href="app.js?v=1.10.6">
   <link rel="modulepreload" href="src/state.js">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css?v=1.10.5">
+  <link rel="stylesheet" href="style.css?v=1.10.6">
 
   <!-- Leaflet.js mapping library for GPS Tracking -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -165,7 +165,7 @@
 
       <!-- Error Fallback Container -->
       <div id="splash-error-container" class="splash-error-container hide">
-        <div class="splash-error-icon">⚠️</div>
+        <div class="splash-error-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
         <div id="splash-error-message" class="splash-error-message">אירעה שגיאה בטעינת האפליקציה</div>
         <button id="splash-retry-btn" class="splash-retry-btn">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
@@ -196,7 +196,7 @@
     <div class="ambient-glow bg-secondary"></div>
     
     <!-- Subtle Sleek Version Badge -->
-    <div id="app-version-display" class="app-version-badge">v1.2.0</div>
+    <div id="app-version-display" class="app-version-badge">v1.10.6</div>
     
     <!-- 1. SIGN-OUT SCREEN (AUTHENTICATION GATEWAY) -->
     <section id="auth-screen" class="screen">
@@ -284,7 +284,7 @@
                 <!-- Row 1: Account Settings (Clickable Profile Row) -->
                 <div id="go-to-account-btn" class="ios-setting-row ios-profile-card" role="button" tabindex="0">
                   <div class="ios-row-left">
-                    <span class="ios-row-chevron">←</span>
+                    <span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span>
                   </div>
                   <div class="ios-profile-right">
                     <div class="ios-profile-avatar-wrapper">
@@ -305,7 +305,7 @@
                 <div id="go-to-cloud-sync-btn" class="ios-setting-row" role="button" tabindex="0">
                   <div class="ios-row-left">
                     <span id="settings-sync-status-badge" class="ios-row-detail-text">מחובר</span>
-                    <span class="ios-row-chevron">←</span>
+                    <span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span>
                   </div>
                   <div class="ios-row-right">
                     <span class="ios-row-icon-badge bg-ios-blue" style="background-color: #0a84ff;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span>
@@ -318,7 +318,7 @@
               <div class="ios-settings-group-title">תצוגה ומראה</div>
               <div class="ios-settings-card-group">
                 <div id="go-to-display-settings-btn" class="ios-setting-row" role="button" tabindex="0">
-                  <div class="ios-row-left"><span class="ios-row-chevron">←</span></div>
+                  <div class="ios-row-left"><span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span></div>
                   <div class="ios-row-right">
                     <span class="ios-row-icon-badge bg-ios-purple" style="background-color: #5856d6;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/></svg></span>
                     <span class="ios-row-label">הגדרות תצוגה</span>
@@ -333,7 +333,7 @@
                 <!-- System Version -->
                 <div class="ios-setting-row no-hover">
                   <div class="ios-row-left">
-                    <span id="settings-system-version" class="ios-row-detail-text">v1.2.0</span>
+                    <span id="settings-system-version" class="ios-row-detail-text">v1.10.6</span>
                   </div>
                   <div class="ios-row-right">
                     <span class="ios-row-icon-badge bg-ios-blue"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
@@ -372,7 +372,7 @@
               <div class="ios-settings-card-group">
                 <!-- Send Feedback -->
                 <div id="go-to-feedback-btn" class="ios-setting-row" role="button" tabindex="0">
-                  <div class="ios-row-left"><span class="ios-row-chevron">←</span></div>
+                  <div class="ios-row-left"><span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span></div>
                   <div class="ios-row-right">
                     <span class="ios-row-icon-badge bg-ios-orange" style="background-color: #ff9500;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
                     <span class="ios-row-label">שליחת משוב למפתח</span>
@@ -383,7 +383,7 @@
                 <div id="go-to-messages-btn" class="ios-setting-row" role="button" tabindex="0">
                   <div class="ios-row-left">
                     <span id="unread-messages-badge" class="ios-badge hide">0</span>
-                    <span class="ios-row-chevron">←</span>
+                    <span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span>
                   </div>
                   <div class="ios-row-right">
                     <span class="ios-row-icon-badge bg-ios-blue" style="background-color: #007aff;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></span>
@@ -394,7 +394,7 @@
                 <!-- Admin Console (Admin users only) -->
                 <div id="settings-admin-group">
                   <div id="go-to-admin-console-btn" class="ios-setting-row" role="button" tabindex="0">
-                    <div class="ios-row-left"><span class="ios-row-chevron">←</span></div>
+                    <div class="ios-row-left"><span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span></div>
                     <div class="ios-row-right">
                       <span class="ios-row-label">פאנל ניהול מנהל</span>
                     </div>
@@ -409,7 +409,7 @@
           <div id="settings-account-view" class="hide" style="width: 100%; height: 100%; flex: 1 1 100%; min-height: 0;">
             <div class="ios-settings-header" style="flex: 0 0 auto;">
               <button id="back-to-settings-btn" class="ios-back-btn">
-                חזרה <span class="back-arrow">→</span>
+                חזרה <span class="back-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </button>
               <h2 class="settings-sub-title">פרטי חשבון</h2>
             </div>
@@ -451,7 +451,7 @@
           <div id="settings-admin-view" class="hide" style="width: 100%; flex: 1;">
             <div class="ios-settings-header" style="flex: 0 0 auto;">
               <button id="back-from-admin-btn" class="ios-back-btn">
-                חזרה <span class="back-arrow">→</span>
+                חזרה <span class="back-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </button>
               <h2 class="settings-sub-title">פאנל ניהול</h2>
             </div>
@@ -517,7 +517,7 @@
                   <label class="custom-ex-field-label">תוכן ההודעה</label>
                   <textarea id="admin-announcement-content" placeholder="כתוב את ההודעה כאן..." style="width: 100%; height: 120px; border-radius: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-align: right; direction: rtl; outline: none; resize: none; font-family: var(--font-sans);"></textarea>
                 </div>
-                <button id="admin-send-announcement-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px;">שלח הודעה גלובלית 📢</button>
+                <button id="admin-send-announcement-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px;">שלח הודעה גלובלית <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
               </div>
 
               <!-- Tab D: System Update -->
@@ -535,8 +535,8 @@
                     </div>
                     
                     <div style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%;">
-                      <button id="admin-trigger-update-btn" class="btn btn-primary" style="flex: 1; min-width: 150px; padding: 14px; font-weight: bold; border-radius: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">🚀 הפץ עדכון גרסה</button>
-                      <button id="admin-force-refresh-assets-btn" class="btn" style="flex: 1; min-width: 150px; padding: 14px; font-weight: bold; border-radius: 14px; background: rgba(255, 149, 0, 0.15); border: 1px solid rgba(255, 149, 0, 0.4); color: #ff9500;">⚡ רענון קבצים מיידי</button>
+                      <button id="admin-trigger-update-btn" class="btn btn-primary" style="flex: 1; min-width: 150px; padding: 14px; font-weight: bold; border-radius: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/><path d="M9 12H4.5M15 9V4.5"/></svg> הפץ עדכון גרסה</button>
+                      <button id="admin-force-refresh-assets-btn" class="btn" style="flex: 1; min-width: 150px; padding: 14px; font-weight: bold; border-radius: 14px; background: rgba(255, 149, 0, 0.15); border: 1px solid rgba(255, 149, 0, 0.4); color: #ff9500;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> רענון קבצים מיידי</button>
                     </div>
                   </div>
                 </div>
@@ -545,9 +545,9 @@
                 <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                     <button id="refresh-cache-inspector-btn" class="ios-back-btn" style="font-size: 0.8rem; padding: 6px 12px;">
-                      🔄 סרוק קבצים
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> סרוק קבצים
                     </button>
-                    <h3 style="font-size: 1rem; font-weight: 800; color: #ffffff;">📁 מנהל קבצים ומטמון שמור במכשיר</h3>
+                    <h3 style="font-size: 1rem; font-weight: 800; color: #ffffff;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg> מנהל קבצים ומטמון שמור במכשיר</h3>
                   </div>
                   
                   <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.2rem; line-height: 1.4;">
@@ -572,7 +572,7 @@
           <div id="settings-feedback-view" class="hide" style="width: 100%; flex: 1;">
             <div class="ios-settings-header" style="flex: 0 0 auto;">
               <button id="back-from-feedback-btn" class="ios-back-btn">
-                חזרה <span class="back-arrow">→</span>
+                חזרה <span class="back-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </button>
               <h2 class="settings-sub-title">שליחת משוב</h2>
             </div>
@@ -585,9 +585,9 @@
                 <div class="custom-ex-field-group" style="margin-bottom: 1.2rem;">
                   <label class="custom-ex-field-label">סוג המשוב</label>
                   <select id="feedback-category-input" style="width: 100%; padding: 12px; background: rgba(20,20,24,0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #ffffff; text-align: right; direction: rtl; outline: none; font-family: var(--font-sans); font-size: 1rem;">
-                    <option value="💡 הצעת שיפור">💡 הצעת שיפור</option>
-                    <option value="🐛 דיווח על תקלה">🐛 דיווח על תקלה</option>
-                    <option value="❓ שאלה כללית">❓ שאלה כללית</option>
+<option value="הצעת שיפור">הצעת שיפור</option>
+<option value="דיווח על תקלה">דיווח על תקלה</option>
+<option value="שאלה כללית">שאלה כללית</option>
                   </select>
                 </div>
 
@@ -595,7 +595,7 @@
                   <label class="custom-ex-field-label">תוכן המשוב</label>
                   <textarea id="feedback-text-input" placeholder="כתוב את המשוב שלך כאן..." style="width: 100%; height: 140px; border-radius: 12px; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #ffffff; text-align: right; direction: rtl; outline: none; resize: none; font-family: var(--font-sans); line-height: 1.4;"></textarea>
                 </div>
-                <button id="send-feedback-submit-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px;">שלח משוב 🚀</button>
+                <button id="send-feedback-submit-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px;">שלח משוב <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/><path d="M9 12H4.5M15 9V4.5"/></svg></button>
               </div>
             </div>
           </div>
@@ -604,7 +604,7 @@
           <div id="settings-messages-view" class="hide" style="width: 100%; flex: 1;">
             <div class="ios-settings-header" style="flex: 0 0 auto;">
               <button id="back-from-messages-btn" class="ios-back-btn">
-                חזרה <span class="back-arrow">→</span>
+                חזרה <span class="back-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </button>
               <h2 class="settings-sub-title">הודעות מערכת</h2>
             </div>
@@ -619,7 +619,7 @@
           <div id="settings-sync-view" class="hide" style="width: 100%; flex: 1;">
             <div class="ios-settings-header" style="flex: 0 0 auto;">
               <button id="back-from-sync-btn" class="ios-back-btn">
-                חזרה <span class="back-arrow">→</span>
+                חזרה <span class="back-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
               </button>
               <h2 class="settings-sub-title">סנכרון וגיבוי לענן</h2>
             </div>
@@ -651,7 +651,7 @@
                     <strong id="sync-stat-history" class="ios-row-detail-text">0 אימונים</strong>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge" style="background-color: #5856d6;">📋</span>
+                    <span class="ios-row-icon-badge" style="background-color: #5856d6;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
                     <span class="ios-row-label">היסטוריית אימונים</span>
                   </div>
                 </div>
@@ -662,7 +662,7 @@
                     <strong id="sync-stat-custom-ex" class="ios-row-detail-text">0 תרגילים</strong>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge" style="background-color: #ff9500;">✨</span>
+                    <span class="ios-row-icon-badge" style="background-color: #ff9500;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></span>
                     <span class="ios-row-label">תרגילים מותאמים אישית</span>
                   </div>
                 </div>
@@ -673,7 +673,7 @@
                     <strong id="sync-stat-custom-loc" class="ios-row-detail-text">0 מיקומים</strong>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge" style="background-color: #ff3b30;">📍</span>
+                    <span class="ios-row-icon-badge" style="background-color: #ff3b30;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
                     <span class="ios-row-label">מיקומים מותאמים אישית</span>
                   </div>
                 </div>
@@ -684,7 +684,7 @@
                     <strong id="sync-stat-favorites" class="ios-row-detail-text">0 תרגילים</strong>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge" style="background-color: #ffcc00;">⭐</span>
+                    <span class="ios-row-icon-badge" style="background-color: #ffcc00;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                     <span class="ios-row-label">תרגילים מועדפים</span>
                   </div>
                 </div>
@@ -695,7 +695,7 @@
                     <strong id="sync-stat-future" class="ios-row-detail-text">0 אימונים</strong>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge" style="background-color: #007aff;">📅</span>
+                    <span class="ios-row-icon-badge" style="background-color: #007aff;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
                     <span class="ios-row-label">אימונים מתוכננים</span>
                   </div>
                 </div>
@@ -793,7 +793,7 @@
               <!-- Action Controls Group -->
               <div class="ios-settings-card-group">
                 <div id="sync-action-now" class="ios-setting-row sync-action-btn color-blue" role="button" tabindex="0">
-                  🔄 סנכרן כעת ורענן נתונים
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> סנכרן כעת ורענן נתונים
                 </div>
                 <div id="sync-action-disconnect" class="ios-setting-row sync-action-btn color-orange" role="button" tabindex="0">
                   ⏸️ השהה סנכרון
@@ -807,7 +807,7 @@
               <div class="ios-settings-card-group">
                 <div class="ios-settings-group-title">אזור סכנה</div>
                 <div id="sync-action-delete" class="ios-setting-row sync-action-btn color-danger" role="button" tabindex="0">
-                  🗑️ מחק את כל הנתונים השמורים בענן
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> מחק את כל הנתונים השמורים בענן
                 </div>
               </div>
 
@@ -815,10 +815,10 @@
               <div class="ios-settings-card-group">
                 <div class="ios-settings-group-title">ניהול ענן מתקדם</div>
                 <div id="sync-action-delete-history" class="ios-setting-row sync-action-btn color-orange" role="button" tabindex="0">
-                  🗑️ מחק היסטוריה מהענן בלבד
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> מחק היסטוריה מהענן בלבד
                 </div>
                 <div id="sync-action-inspect-items" class="ios-setting-row sync-action-btn color-blue" role="button" tabindex="0">
-                  🔍 צפה ונהל פריטים בודדים בענן
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> צפה ונהל פריטים בודדים בענן
                 </div>
               </div>
 
@@ -828,7 +828,7 @@
           <!-- Sub-view 7: Display Settings (Hidden by default) -->
           <div id="settings-display-view" class="hide" style="width: 100%; flex: 1;">
             <div class="ios-settings-header" style="flex: 0 0 auto;">
-              <button id="back-from-display-btn" class="ios-back-btn">חזרה <span class="back-arrow">→</span></button>
+              <button id="back-from-display-btn" class="ios-back-btn">חזרה <span class="back-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></button>
               <h2 class="settings-sub-title">הגדרות תצוגה ומראה</h2>
             </div>
             <div class="ios-settings-scroll-container" style="text-align: right; direction: rtl;">
@@ -836,9 +836,9 @@
               <!-- Live Interactive App Preview Card -->
               <div class="display-preview-card-wrapper">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                  <div class="display-preview-label" style="margin-bottom: 0;">👁️ תצוגה מקדימה בזמן אמת</div>
+                  <div class="display-preview-label" style="margin-bottom: 0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> תצוגה מקדימה בזמן אמת</div>
                   <button type="button" id="open-full-preview-btn" class="btn-open-full-preview">
-                    <span>🔍 מסך מלא</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> מסך מלא</span>
                   </button>
                 </div>
                 <div id="display-live-preview" class="display-live-preview-box">
@@ -865,15 +865,15 @@
                 <div class="ios-setting-block" style="padding: 12px 16px;">
                   <div class="theme-segmented-control" id="theme-segmented-picker">
                     <button type="button" class="theme-segment-btn active" data-theme="dark">
-                      <span class="theme-segment-icon">🌙</span>
+                      <span class="theme-segment-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
                       <span class="theme-segment-label">כהה</span>
                     </button>
                     <button type="button" class="theme-segment-btn" data-theme="light">
-                      <span class="theme-segment-icon">☀️</span>
+                      <span class="theme-segment-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
                       <span class="theme-segment-label">בהיר</span>
                     </button>
                     <button type="button" class="theme-segment-btn" data-theme="outdoor">
-                      <span class="theme-segment-icon">⚡</span>
+                      <span class="theme-segment-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg></span>
                       <span class="theme-segment-label">שטח (ניגודיות)</span>
                     </button>
                   </div>
@@ -888,7 +888,7 @@
                     </label>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge bg-ios-purple" style="background-color: #5856d6;">✨</span>
+                    <span class="ios-row-icon-badge bg-ios-purple" style="background-color: #5856d6;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></span>
                     <span class="ios-row-label">הצג אפקטי זוהר</span>
                   </div>
                 </div>
@@ -961,7 +961,7 @@
                 <div class="ios-setting-block">
                   <div class="ios-setting-block-header">
                     <label for="display-custom-card-color-picker" class="custom-color-picker-label">
-                      <span>🎨 גוון אישי</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg> גוון אישי</span>
                       <input type="color" id="display-custom-card-color-picker" value="#16161c">
                     </label>
                     <span class="ios-row-label">צבע רקע לכרטיסיות</span>
@@ -983,7 +983,7 @@
                 <div class="ios-setting-block">
                   <div class="ios-setting-block-header">
                     <label for="display-custom-color-picker" class="custom-color-picker-label">
-                      <span>🎨 בחר צבע אישי</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg> בחר צבע אישי</span>
                       <input type="color" id="display-custom-color-picker" value="#007aff">
                     </label>
                     <span class="ios-row-label">גוון ניאון ראשי</span>
@@ -1006,7 +1006,7 @@
                   <div class="ios-setting-block-header" style="flex-wrap: wrap; gap: 8px; align-items: center;">
                     <span id="display-opacity-value-text" class="opacity-value-badge">85%</span>
                     <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; direction: rtl;">
-                      <span class="ios-row-icon-badge" style="background-color: #30b0c7; flex-shrink: 0;">💧</span>
+                      <span class="ios-row-icon-badge" style="background-color: #30b0c7; flex-shrink: 0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span>
                       <div style="display: flex; flex-direction: column; text-align: right; min-width: 0;">
                         <span class="ios-row-label" style="font-weight: 700; line-height: 1.2;">שקיפות זכוכית</span>
                         <span style="font-size: 0.72rem; opacity: 0.75; color: var(--text-main, #ffffff); white-space: normal; word-break: break-word; line-height: 1.25; margin-top: 2px;">(0% שקוף - 100% אטום)</span>
@@ -1025,7 +1025,7 @@
                 <div class="ios-setting-block">
                   <div class="ios-setting-block-header">
                     <label for="display-wallpaper-upload-input" class="btn-upload-wallpaper" id="label-upload-wallpaper">
-                      <span>📷 העלאת תמונה מגלריה</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> העלאת תמונה מגלריה</span>
                       <input type="file" id="display-wallpaper-upload-input" accept="image/*" style="display: none;">
                     </label>
                     <span class="ios-row-label">רקע מותאם אישית</span>
@@ -1053,7 +1053,7 @@
                       <span class="wp-title">אבסטרקט</span>
                     </button>
                     <button type="button" id="wallpaper-custom-card" class="wallpaper-preset-card" data-wallpaper="custom">
-                      <span id="wp-custom-preview" class="wp-preview wp-custom-placeholder">🖼️</span>
+                      <span id="wp-custom-preview" class="wp-preview wp-custom-placeholder"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
                       <span class="wp-title">תמונה שלי</span>
                     </button>
                   </div>
@@ -1066,11 +1066,11 @@
                 
                 <div id="go-to-nav-style-modal-btn" class="ios-setting-row" role="button" tabindex="0">
                   <div class="ios-row-left">
-                    <span id="nav-style-detail-text" class="ios-row-detail-text" style="color: var(--electric-blue-light); font-weight: 700;">מרחף (דינמי) 🎈</span>
-                    <span class="ios-row-chevron">←</span>
+                    <span id="nav-style-detail-text" class="ios-row-detail-text" style="color: var(--electric-blue-light); font-weight: 700;">מרחף (דינמי) <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/></svg></span>
+                    <span class="ios-row-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span>
                   </div>
                   <div class="ios-row-right">
-                    <span class="ios-row-icon-badge" style="background-color: var(--electric-blue);">📱</span>
+                    <span class="ios-row-icon-badge" style="background-color: var(--electric-blue);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
                     <span class="ios-row-label">סגנון סרגל ניווט תחתון</span>
                   </div>
                 </div>
@@ -1082,7 +1082,7 @@
           <div id="display-full-preview-modal" class="ios-modal-overlay hide" style="z-index: 99999;">
             <div class="full-preview-modal-card">
               <div class="full-preview-header">
-                <button id="close-full-preview-btn" class="ios-back-btn">← חזרה להגדרות</button>
+                <button id="close-full-preview-btn" class="ios-back-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> חזרה להגדרות</button>
                 <h3 class="full-preview-title">תצוגה מקדימה במסך מלא</h3>
               </div>
               <div id="full-preview-screen-demo" class="full-preview-screen-demo">
@@ -1098,8 +1098,8 @@
                     </div>
                     <div class="preview-mock-text-sub">כך מופיעים הכרטיסים והצבעים בכל הטאבים באפליקציה</div>
                     <div style="display: flex; gap: 8px; margin-top: 10px;">
-                      <div class="preview-mock-btn" style="flex: 1;">התחל אימון 🚀</div>
-                      <div class="preview-mock-btn" style="background: rgba(255,255,255,0.15); color: var(--text-main);">היסטוריה 📊</div>
+                      <div class="preview-mock-btn" style="flex: 1;">התחל אימון <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/><path d="M9 12H4.5M15 9V4.5"/></svg></div>
+                      <div class="preview-mock-btn" style="background: rgba(255,255,255,0.15); color: var(--text-main);">היסטוריה <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
                     </div>
                   </div>
 
@@ -1112,10 +1112,10 @@
                   </div>
                 </div>
                 <div class="demo-app-nav-bar">
-                  <div class="demo-nav-tab active">🏠 בית</div>
-                  <div class="demo-nav-tab">💪 אימונים</div>
-                  <div class="demo-nav-tab">📊 מדדים</div>
-                  <div class="demo-nav-tab">⚙️ הגדרות</div>
+                  <div class="demo-nav-tab active"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> בית</div>
+                  <div class="demo-nav-tab"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg> אימונים</div>
+                  <div class="demo-nav-tab"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> מדדים</div>
+                  <div class="demo-nav-tab"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> הגדרות</div>
                 </div>
               </div>
             </div>
@@ -1137,7 +1137,7 @@
             <div class="ios-modal-card" style="max-width: 580px; max-height: 85vh; display: flex; flex-direction: column; padding: 20px;">
               <div class="ios-modal-header" style="flex: 0 0 auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 14px;">
                 <button id="close-cloud-inspector-btn" class="ios-modal-close-btn" style="color: var(--electric-blue-light); font-weight: 800;">סגור</button>
-                <h3 class="ios-modal-title" style="font-size: 1.1rem; font-weight: 800; color: #fff;">🔍 ניהול וצפייה בפריטי ענן</h3>
+                <h3 class="ios-modal-title" style="font-size: 1.1rem; font-weight: 800; color: #fff;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ניהול וצפייה בפריטי ענן</h3>
               </div>
               <div id="cloud-inspector-body" style="flex: 1 1 auto; overflow-y: auto; text-align: right; direction: rtl; padding-left: 4px;">
                 <div id="cloud-inspector-loading" style="text-align: center; padding: 2rem; color: var(--text-muted);">
@@ -1171,13 +1171,13 @@
                   <path d="M2 11.5a10 10 0 0 1 18.8-4.3L21.5 8M22 12.5a10 10 0 0 1-18.8 4.3L2.5 16"/>
                 </svg>
               </span>
-              <span id="workout-sync-badge-text">מעדכן תרגילים מהענן... ⚡</span>
+              <span id="workout-sync-badge-text">מעדכן תרגילים מהענן... <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg></span>
             </div>
             
             <div class="workout-start-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 320px;">
               <!-- Initial Start Button -->
               <button id="start-workout-btn" class="btn btn-primary start-main-btn" style="width: 100%; padding: 16px; font-size: 1.1rem; box-shadow: 0 4px 20px var(--electric-blue-glow);">
-                <span>🏋️‍♂️</span> התחל אימון חדש
+                <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span> התחל אימון חדש
               </button>
 
               <!-- Inline Location Selector (Hidden by default) -->
@@ -1195,11 +1195,11 @@
           <div id="workout-active-view" class="workout-active-view hide">
             <div class="active-workout-header-bar">
               <div class="active-location-badge">
-                <span id="active-location-icon">🏋️‍♂️</span>&nbsp;
+                <span id="active-location-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>&nbsp;
                 <span id="active-location-text">חדר כושר</span>
               </div>
               <div class="active-timer-box">
-                ⏱️ <span id="active-timer">00:00:00</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> <span id="active-timer">00:00:00</span>
               </div>
             </div>
 
@@ -1211,10 +1211,10 @@
             <!-- Active Workout Control Buttons -->
             <div class="active-workout-controls">
               <button id="add-exercise-btn" class="btn add-ex-btn">
-                <span class="btn-ex-icon">🏋️</span> הוספת תרגיל
+                <span class="btn-ex-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span> הוספת תרגיל
               </button>
               <button id="finish-workout-btn" class="btn finish-workout-btn">
-                <span>✓</span> סיום
+                <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></span> סיום
               </button>
             </div>
           </div>
@@ -1246,7 +1246,7 @@
               <!-- Add Custom Exercise Button -->
               <div class="picker-add-custom-wrapper" style="padding: 12px 1.5rem 18px 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0,0,0,0.15);">
                 <button id="open-custom-exercise-modal-btn" class="btn-add-custom-exercise-trigger" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; padding: 14px; border-radius: 14px; background: linear-gradient(135deg, #dc2626 0%, #f43f5e 100%); border: none; color: #ffffff; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">
-                  <span>➕ צור תרגיל מותאם אישית חדש</span>
+                  <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> צור תרגיל מותאם אישית חדש</span>
                 </button>
               </div>
             </div>
@@ -1261,25 +1261,25 @@
                 <span style="width: 40px;"></span>
               </div>
               <div class="modal-body" style="padding: 1.5rem; text-align: center;">
-                <h4 style="font-size: 1.05rem; margin-bottom: 1.2rem; color: #ffffff; text-align: right; direction: rtl;">⏱️ כמה זמן מנוחה בין סטים?</h4>
+                <h4 style="font-size: 1.05rem; margin-bottom: 1.2rem; color: #ffffff; text-align: right; direction: rtl;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> כמה זמן מנוחה בין סטים?</h4>
                 <div class="rest-config-options" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
                   <button class="rest-config-option-btn" data-seconds="30" style="padding: 13px 16px; border-radius: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; width: 100%; background: hsla(225,20%,15%,0.6); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.98rem; font-family: var(--font-sans);">
-                    <span>←</span><span>30 שניות</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span><span>30 שניות</span>
                   </button>
                   <button class="rest-config-option-btn" data-seconds="60" style="padding: 13px 16px; border-radius: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; width: 100%; background: hsla(225,20%,15%,0.6); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.98rem; font-family: var(--font-sans);">
-                    <span>←</span><span>60 שניות</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span><span>60 שניות</span>
                   </button>
                   <button class="rest-config-option-btn" data-seconds="90" style="padding: 13px 16px; border-radius: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; width: 100%; background: hsla(225,20%,15%,0.6); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.98rem; font-family: var(--font-sans);">
-                    <span>✓ ברירת מחדל</span><span>90 שניות</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg> ברירת מחדל</span><span>90 שניות</span>
                   </button>
                   <button class="rest-config-option-btn" data-seconds="120" style="padding: 13px 16px; border-radius: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; width: 100%; background: hsla(225,20%,15%,0.6); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.98rem; font-family: var(--font-sans);">
-                    <span>←</span><span>2 דקות</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span><span>2 דקות</span>
                   </button>
                   <button class="rest-config-option-btn" data-seconds="180" style="padding: 13px 16px; border-radius: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; width: 100%; background: hsla(225,20%,15%,0.6); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.98rem; font-family: var(--font-sans);">
-                    <span>←</span><span>3 דקות</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span><span>3 דקות</span>
                   </button>
                   <button class="rest-config-option-btn" data-seconds="custom" style="padding: 13px 16px; border-radius: 14px; text-align: right; display: flex; justify-content: space-between; align-items: center; width: 100%; background: hsla(225,20%,15%,0.6); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 600; cursor: pointer; font-size: 0.98rem; font-family: var(--font-sans);">
-                    <span>←</span><span>הגדר בעצמי ✏️</span>
+                    <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span><span>הגדר בעצמי <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
                   </button>
                   <!-- Custom seconds input (hidden until "הגדר בעצמי" is selected) -->
                   <div id="rest-config-custom-row" style="display: none; flex-direction: row; align-items: center; gap: 12px; direction: rtl; margin-top: 4px;">
@@ -1309,7 +1309,7 @@
                   <div class="slider-header" style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
                     <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
                       משקל (ק״ג)
-                      <button type="button" id="trigger-plate-calc-btn" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; padding: 2px 6px; border-radius: 6px; background-color: rgba(255,255,255,0.06); display: inline-flex; align-items: center; justify-content: center;">🧮</button>
+                      <button type="button" id="trigger-plate-calc-btn" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; padding: 2px 6px; border-radius: 6px; background-color: rgba(255,255,255,0.06); display: inline-flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></button>
                     </span>
                   </div>
                   <div class="stepper-control-row" style="display: flex; align-items: center; justify-content: center; gap: 20px; direction: ltr; margin: 5px 0;">
@@ -1384,10 +1384,10 @@
               <!-- Action Buttons -->
               <div class="set-log-actions" style="display: flex; gap: 12px; margin-top: 2rem; direction: rtl;">
                 <button id="set-log-confirm-btn" class="btn btn-primary" style="flex: 1; padding: 14px; font-weight: bold; border-radius: 14px;">
-                  ✓ סיימתי סט
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg> סיימתי סט
                 </button>
                 <button id="set-log-cancel-btn" class="btn btn-secondary" style="flex: 1; padding: 14px; font-weight: bold; border-radius: 14px;">
-                  ✕ ביטול סט
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ביטול סט
                 </button>
               </div>
             </div>
@@ -1416,7 +1416,7 @@
               <!-- Modal Header -->
               <div class="modal-header" style="padding: 18px 1.5rem 14px 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06);">
                 <button id="close-custom-exercise-modal-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer;">ביטול</button>
-                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; direction: rtl;">הוספת תרגיל חדש ✨</h3>
+                <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff; direction: rtl;">הוספת תרגיל חדש <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></h3>
                 <span style="width: 44px;"></span>
               </div>
 
@@ -1424,7 +1424,7 @@
               <div class="modal-body" style="padding: 1.25rem 1.5rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 18px; direction: rtl; overflow-y: auto; max-height: calc(82vh - 60px);">
 
                 <!-- Save Button (top for visibility) -->
-                <button id="save-custom-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem; font-weight: 800; border-radius: 14px; background: linear-gradient(135deg,#dc2626 0%,#b91c1c 100%); box-shadow: 0 4px 18px rgba(220,38,38,0.35); border: none; color:#fff;">✓ שמור תרגיל</button>
+                <button id="save-custom-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem; font-weight: 800; border-radius: 14px; background: linear-gradient(135deg,#dc2626 0%,#b91c1c 100%); box-shadow: 0 4px 18px rgba(220,38,38,0.35); border: none; color:#fff;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg> שמור תרגיל</button>
 
                 <!-- Exercise Name Input -->
                 <div class="custom-ex-field-group">
@@ -1444,39 +1444,39 @@
                   <label class="custom-ex-field-label">קטגוריה (בחר קבוצת שריר)</label>
                   <div id="custom-ex-category-selector" class="custom-ex-category-grid">
                     <button class="muscle-card active" data-category="חזה">
-                      <span>🍒</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 7c-1.3-1.7-3.3-1.9-4.7-.8-2 1.5-2.3 4.9-.6 7.9C8.1 16.9 10 19 12 19s3.9-2.1 5.3-4.9c1.7-3 1.4-6.4-.6-7.9-1.4-1.1-3.4-.9-4.7.8Z"/><path d="M12 7c0-1.5 1-2.5 2-3"/></svg></span>
                       <span>חזה</span>
                     </button>
                     <button class="muscle-card" data-category="גב">
-                      <span>🦅</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></span>
                       <span>גב</span>
                     </button>
                     <button class="muscle-card" data-category="כתפיים">
-                      <span>🛡️</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
                       <span>כתפיים</span>
                     </button>
                     <button class="muscle-card" data-category="רגליים">
-                      <span>🦵</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M7 3v18M17 3v18M7 11h10"/></svg></span>
                       <span>רגליים</span>
                     </button>
                     <button class="muscle-card" data-category="יד קדמית">
-                      <span>💪</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                       <span>יד קדמית</span>
                     </button>
                     <button class="muscle-card" data-category="יד אחורית">
-                      <span>💪</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                       <span>יד אחורית</span>
                     </button>
                     <button class="muscle-card" data-category="בטן וליבה">
-                      <span>🧘‍♂️</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></span>
                       <span>בטן וליבה</span>
                     </button>
                     <button class="muscle-card" data-category="אירובי">
-                      <span>🏃</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
                       <span>אירובי</span>
                     </button>
                     <button class="muscle-card" data-category="מותאם אישית">
-                      <span>✨</span>
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></span>
                       <span>מותאם אישית</span>
                     </button>
                   </div>
@@ -1486,14 +1486,14 @@
                   <label class="custom-ex-field-label">אייקון (אופציונלי)</label>
                   <div id="custom-ex-emoji-selector" class="custom-ex-emoji-row">
                     <button class="emoji-pick-btn active" data-emoji="">ללא</button>
-                    <button class="emoji-pick-btn" data-emoji="💪">💪</button>
-                    <button class="emoji-pick-btn" data-emoji="🏋️">🏋️</button>
-                    <button class="emoji-pick-btn" data-emoji="🔥">🔥</button>
-                    <button class="emoji-pick-btn" data-emoji="⚡">⚡</button>
-                    <button class="emoji-pick-btn" data-emoji="🎯">🎯</button>
-                    <button class="emoji-pick-btn" data-emoji="🏃">🏃</button>
-                    <button class="emoji-pick-btn" data-emoji="🤸">🤸</button>
-                    <button class="emoji-pick-btn" data-emoji="🧘">🧘</button>
+                    <button class="emoji-pick-btn" data-emoji="💪"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="🏋️"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="🔥"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.69-.28-1.32-.73-1.77L11 11l-1.77 1.73c-.45.45-.73 1.08-.73 1.77z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 0 0 12 0c0-6-6-8-6-10z"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="⚡"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="🎯"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="🏃"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="🤸"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></button>
+                    <button class="emoji-pick-btn" data-emoji="🧘"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></button>
                   </div>
                 </div>
 
@@ -1511,25 +1511,25 @@
           <!-- Sub-Tab 1: Workouts Log -->
           <div id="sub-tab-workouts" class="sub-tab-pane active" style="width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; flex: 1;">
             <div class="ios-analytics-scroll-container" style="flex: 1; overflow-y: auto; padding: 1.5rem 1.5rem calc(100px + env(safe-area-inset-bottom)) 1.5rem;">
-              <h2 class="settings-main-title" style="margin-bottom: 1.2rem; padding: 0;">📋 יומן אימונים</h2>
+              <h2 class="settings-main-title" style="margin-bottom: 1.2rem; padding: 0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> יומן אימונים</h2>
               
               <!-- Premium Horizontal Filter Bar -->
               <div class="premium-filter-bar-container" style="position: relative; margin-bottom: 1.2rem; width: 100%; direction: rtl;">
                 <div class="premium-filter-scroll-row" style="display: flex; gap: 8px; overflow-x: auto; padding: 4px 4px 8px 4px; direction: rtl; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
                   <button class="filter-pill-btn" id="pill-location" data-category="location">
-                    <span class="pill-label">📍 מיקום: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> מיקום: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                   <button class="filter-pill-btn" id="pill-date" data-category="date">
-                    <span class="pill-label">📅 תאריך: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> תאריך: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                   <button class="filter-pill-btn" id="pill-muscle" data-category="muscle">
-                    <span class="pill-label">💪 שריר: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg> שריר: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                   <button class="filter-pill-btn" id="pill-sort" data-category="sort">
-                    <span class="pill-label">📊 מיון: כרונולוגי</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> מיון: כרונולוגי</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                 </div>
@@ -1541,9 +1541,9 @@
               <!-- Hidden original selects for logic backward compatibility -->
               <div style="display: none;">
                 <select id="filter-location-select">
-                  <option value="all">כל המיקומים 📍</option>
-                  <option value="gym">🏋️‍♂️ חדר כושר</option>
-                  <option value="park">🌳 פארק</option>
+<option value="all">כל המיקומים</option>
+<option value="gym">חדר כושר</option>
+<option value="park">פארק</option>
                 </select>
                 
                 <div id="custom-date-inputs">
@@ -1552,7 +1552,7 @@
                 </div>
 
                 <select id="filter-muscle-select">
-                  <option value="all">כל השרירים 💪</option>
+<option value="all">כל השרירים</option>
                   <option value="חזה">חזה</option>
                   <option value="גב">גב</option>
                   <option value="כתפיים">כתפיים</option>
@@ -1565,9 +1565,9 @@
                 </select>
 
                 <select id="filter-sort-select">
-                  <option value="date-desc">⏱️ כרונולוגי (חדש תחילה)</option>
-                  <option value="prs-first">🏆 שיאים אישיים (PRs) תחילה</option>
-                  <option value="volume-desc">📊 נפח עבודה גבוה תחילה</option>
+<option value="date-desc">כרונולוגי (חדש תחילה)</option>
+<option value="prs-first">שיאים אישיים (PRs) תחילה</option>
+<option value="volume-desc">נפח עבודה גבוה תחילה</option>
                 </select>
               </div>
 
@@ -1581,19 +1581,19 @@
           <!-- Sub-Tab 2: Calendar & Planner -->
           <div id="sub-tab-calendar" class="sub-tab-pane" style="width: 100%; height: 100%; display: none; flex-direction: column; overflow: hidden;">
             <div class="ios-analytics-scroll-container" style="flex: 1; overflow-y: auto; padding: 1.5rem 1.5rem calc(100px + env(safe-area-inset-bottom)) 1.5rem;">
-              <h2 class="settings-main-title" style="margin-bottom: 1.2rem; padding: 0;">📅 לוח שנה ומתזמן</h2>
+              <h2 class="settings-main-title" style="margin-bottom: 1.2rem; padding: 0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> לוח שנה ומתזמן</h2>
               
               <!-- Schedule Workout Trigger Button -->
               <button id="schedule-workout-trigger-btn" class="btn btn-primary schedule-trigger-btn" style="width: 100%; margin-bottom: 1.5rem; padding: 14px; font-weight: 800; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35); cursor: pointer; color: #fff;">
-                <span>➕</span> קבע אימון עתידי
+                <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span> קבע אימון עתידי
               </button>
 
               <!-- Monthly Calendar View -->
               <div id="analytics-calendar-view" class="analytics-sub-view" style="background: rgba(20,20,24,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 1.2rem; margin-bottom: 1.5rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; direction: rtl;">
-                  <button id="calendar-prev-month" class="calendar-nav-arrow" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); width: 34px; height: 34px; border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;">→</button>
+                  <button id="calendar-prev-month" class="calendar-nav-arrow" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); width: 34px; height: 34px; border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
                   <h3 id="calendar-month-label" style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #ffffff;">מאי 2026</h3>
-                  <button id="calendar-next-month" class="calendar-nav-arrow" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); width: 34px; height: 34px; border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;">←</button>
+                  <button id="calendar-next-month" class="calendar-nav-arrow" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); width: 34px; height: 34px; border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; direction: rtl;">
                   <div>א׳</div><div>ב׳</div><div>ג׳</div><div>ד׳</div><div>ה׳</div><div>ו׳</div><div>ש׳</div>
@@ -1605,7 +1605,7 @@
 
               <!-- Consistency Heatmap View -->
               <div id="analytics-heatmap-view" class="analytics-sub-view" style="background: rgba(20,20,24,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 1.2rem; margin-bottom: 1.5rem;">
-                <h3 style="margin: 0 0 10px 0; font-size: 1rem; font-weight: 800; color: #ffffff; direction: rtl; text-align: right;">🔥 התמדה שנתית (Heatmap)</h3>
+                <h3 style="margin: 0 0 10px 0; font-size: 1rem; font-weight: 800; color: #ffffff; direction: rtl; text-align: right;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.69-.28-1.32-.73-1.77L11 11l-1.77 1.73c-.45.45-.73 1.08-.73 1.77z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 0 0 12 0c0-6-6-8-6-10z"/></svg> התמדה שנתית (Heatmap)</h3>
                 <p style="color: var(--text-muted); font-size: 0.78rem; margin-bottom: 12px; direction: rtl; text-align: right;">עצימות האימונים שלך במהלך 52 השבועות האחרונים:</p>
                 <div class="heatmap-panel" style="width: 100%; overflow-x: auto; padding-bottom: 8px;">
                   <svg id="heatmap-svg" class="heatmap-svg" style="width: 530px; height: 90px; overflow: visible; display: block; margin: 0 auto;"></svg>
@@ -1614,7 +1614,7 @@
 
               <!-- Muscle volume distribution split -->
               <div id="analytics-muscle-split-view" class="analytics-sub-view" style="background: rgba(20,20,24,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 1.2rem;">
-                <h3 style="margin: 0 0 12px 0; font-size: 1rem; font-weight: 800; color: #ffffff; direction: rtl; text-align: right;">🍗 חלוקת נפח עבודה שבועי</h3>
+                <h3 style="margin: 0 0 12px 0; font-size: 1rem; font-weight: 800; color: #ffffff; direction: rtl; text-align: right;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 7c-1.3-1.7-3.3-1.9-4.7-.8-2 1.5-2.3 4.9-.6 7.9C8.1 16.9 10 19 12 19s3.9-2.1 5.3-4.9c1.7-3 1.4-6.4-.6-7.9-1.4-1.1-3.4-.9-4.7.8Z"/><path d="M12 7c0-1.5 1-2.5 2-3"/></svg> חלוקת נפח עבודה שבועי</h3>
                 <div id="muscle-splits-container" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 16px;">
                   <!-- Generated dynamically -->
                 </div>
@@ -1636,8 +1636,8 @@
               <div class="exercises-header-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; direction: rtl;">
                 <h2 class="settings-main-title" style="margin: 0; padding: 0; font-size: 1.5rem; font-weight: 800;">ניהול ומעקב תרגילים</h2>
                 <div class="exercises-action-buttons" style="display: flex; gap: 10px; align-items: center;">
-                  <button id="show-exercises-leaderboard-btn" class="round-glass-btn" title="תרגילים מובילים שלי">🏆</button>
-                  <button id="add-new-global-exercise-btn" class="round-glass-btn" title="הוסף תרגיל חדש לנצח">➕</button>
+                  <button id="show-exercises-leaderboard-btn" class="round-glass-btn" title="תרגילים מובילים שלי"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></button>
+                  <button id="add-new-global-exercise-btn" class="round-glass-btn" title="הוסף תרגיל חדש לנצח"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
                 </div>
               </div>
 
@@ -1652,19 +1652,19 @@
               <div class="premium-filter-bar-container" style="position: relative; margin-bottom: 1.2rem; width: 100%; direction: rtl;">
                 <div class="premium-filter-scroll-row" id="exercises-pills-container" style="display: flex; gap: 8px; overflow-x: auto; padding: 4px 4px 8px 4px; direction: rtl; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
                   <button class="filter-pill-btn" id="pill-ex-muscle" data-category="muscle">
-                    <span class="pill-label">💪 שריר: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg> שריר: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                   <button class="filter-pill-btn" id="pill-ex-type" data-category="type">
-                    <span class="pill-label">🧩 סוג: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M10 3h4v3a2 2 0 0 0 4 0V3h3v4h-3a2 2 0 0 0 0 4h3v10h-4v-3a2 2 0 0 0-4 0v3H7V11H4a2 2 0 0 1 0-4h3V4z"/></svg> סוג: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                   <button class="filter-pill-btn" id="pill-ex-usage" data-category="usage">
-                    <span class="pill-label">🔄 שימוש: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> שימוש: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                   <button class="filter-pill-btn" id="pill-ex-favorite" data-category="favorite">
-                    <span class="pill-label">⭐ מועדפים: הכל</span>
+                    <span class="pill-label"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> מועדפים: הכל</span>
                     <span class="pill-chevron">▼</span>
                   </button>
                 </div>
@@ -1676,31 +1676,31 @@
               <!-- Hidden original selects for logic backward compatibility -->
               <div style="display: none;">
                 <select id="exercises-muscle-filter-tab3">
-                  <option value="all">💪 כל קבוצות השרירים</option>
-                  <option value="חזה">🍒 חזה</option>
-                  <option value="גב">🦅 גב</option>
-                  <option value="כתפיים">🛡️ כתפיים</option>
-                  <option value="רגליים">🦵 רגליים</option>
-                  <option value="יד קדמית">💪 יד קדמית</option>
-                  <option value="יד אחורית">💪 יד אחורית</option>
-                  <option value="בטן וליבה">🧘‍♂️ בטן וליבה</option>
-                  <option value="אירובי">🏃‍♂️ אירובי</option>
-                  <option value="אחר">🧩 אחר</option>
+                  <option value="all">כל קבוצות השרירים</option>
+                  <option value="חזה">חזה</option>
+                  <option value="גב">גב</option>
+                  <option value="כתפיים">כתפיים</option>
+                  <option value="רגליים">רגליים</option>
+                  <option value="יד קדמית">יד קדמית</option>
+                  <option value="יד אחורית">יד אחורית</option>
+                  <option value="בטן וליבה">בטן וליבה</option>
+                  <option value="אירובי">אירובי</option>
+                  <option value="אחר">אחר</option>
                 </select>
                 <select id="exercises-type-filter-tab3">
-                  <option value="all">🧩 כל סוגי התרגילים</option>
-                  <option value="standard">🏛️ תרגילים סטנדרטיים</option>
-                  <option value="custom">✨ תרגילים מותאמים אישית</option>
+                  <option value="all">כל סוגי התרגילים</option>
+                  <option value="standard">תרגילים סטנדרטיים</option>
+                  <option value="custom">תרגילים מותאמים אישית</option>
                 </select>
                 <select id="exercises-usage-filter-tab3">
-                  <option value="all">🔄 כל התרגילים</option>
-                  <option value="used">🏋️‍♂️ היו בשימוש בכלל</option>
-                  <option value="recent">⏱️ היו בשימוש לאחרונה (30 יום אחרונים)</option>
-                  <option value="unused">💤 לא היו בשימוש מעולם</option>
+                  <option value="all">כל התרגילים</option>
+                  <option value="used">היו בשימוש בכלל</option>
+                  <option value="recent">היו בשימוש לאחרונה (30 יום אחרונים)</option>
+                  <option value="unused">לא היו בשימוש מעולם</option>
                 </select>
                 <select id="exercises-favorite-filter-tab3">
-                  <option value="all">⭐ כל התרגילים</option>
-                  <option value="favorites">⭐ תרגילים מועדפים בלבד</option>
+                  <option value="all">כל התרגילים</option>
+                  <option value="favorites">תרגילים מועדפים בלבד</option>
                 </select>
               </div>
 
@@ -1715,7 +1715,7 @@
               <div class="workout-modal-card glass-modal-card" style="max-width: 440px; width: 95%; display: flex; flex-direction: column; height: 80vh; max-height: 720px; overflow: hidden; border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.1); animation: modal-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
                 <div class="modal-header" style="padding: 18px 1.5rem 12px 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); direction: rtl;">
                   <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-                    🏆 תרגילים מובילים שלי
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg> תרגילים מובילים שלי
                   </h3>
                   <button id="close-leaderboard-modal-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0 4px; line-height: 1;">&times;</button>
                 </div>
@@ -1729,7 +1729,7 @@
             <div id="exercise-inspector-modal" class="workout-modal-overlay hide" style="z-index: 1550; align-items: center; justify-content: center;">
               <div class="workout-modal-card glass-modal-card" style="max-width: 440px; width: 95%; display: flex; flex-direction: column; height: 80vh; max-height: 720px; overflow: hidden; border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.1); animation: modal-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
                 <div class="modal-header" style="padding: 18px 1.5rem 12px 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06);">
-                  <button id="close-exercise-inspector-btn" class="ios-back-btn" style="background: none; border: none; font-size: 1.05rem; font-weight: 800; color: var(--electric-blue-light) !important; cursor: pointer; display: flex; align-items: center; gap: 4px; margin: 0 !important; font-family: var(--font-sans);">חזרה ➔</button>
+                  <button id="close-exercise-inspector-btn" class="ios-back-btn" style="background: none; border: none; font-size: 1.05rem; font-weight: 800; color: var(--electric-blue-light) !important; cursor: pointer; display: flex; align-items: center; gap: 4px; margin: 0 !important; font-family: var(--font-sans);">חזרה <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
                   <div style="text-align: right; direction: rtl; display: flex; flex-direction: column; align-items: flex-end;">
                     <h3 id="inspector-exercise-name" style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #ffffff;">שם התרגיל</h3>
                     <span id="inspector-exercise-category" class="ex-category-badge" style="margin-top: 4px; display: inline-block;">קטגוריה</span>
@@ -1741,21 +1741,21 @@
                   
                   <!-- Progression Chart Tabs -->
                   <div class="chart-tabs-tab3" style="display: flex; gap: 8px; margin-bottom: 8px;">
-                    <button class="chart-tab active" data-chart-tab3="1rm" style="flex: 1; padding: 10px 6px; font-size: 0.82rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted);">1RM משוער 🏆</button>
-                    <button class="chart-tab" data-chart-tab3="weight" style="flex: 1; padding: 10px 6px; font-size: 0.82rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted);">משקל שיא 🏋️‍♂️</button>
-                    <button class="chart-tab" data-chart-tab3="volume" style="flex: 1; padding: 10px 6px; font-size: 0.82rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted);">נפח כולל 📊</button>
+                    <button class="chart-tab active" data-chart-tab3="1rm" style="flex: 1; padding: 10px 6px; font-size: 0.82rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted);">1RM משוער <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></button>
+                    <button class="chart-tab" data-chart-tab3="weight" style="flex: 1; padding: 10px 6px; font-size: 0.82rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted);">משקל שיא <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                    <button class="chart-tab" data-chart-tab3="volume" style="flex: 1; padding: 10px 6px; font-size: 0.82rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted);">נפח כולל <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></button>
                   </div>
 
                   <!-- Sleek Weight/Reps Segmented Toggle -->
                   <div class="inspector-metric-toggle">
                     <button id="inspector-toggle-weight" class="inspector-toggle-btn active" data-inspector-metric="weight">
-                      <span>⚖️</span> משקל
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="3" x2="12" y2="21"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M3 7l3 6.5a3 3 0 0 0 6 0L9 7"/><path d="M15 7l3 6.5a3 3 0 0 0 6 0L21 7"/></svg></span> משקל
                     </button>
                     <button id="inspector-toggle-reps" class="inspector-toggle-btn" data-inspector-metric="reps">
-                      <span>🔢</span> חזרות
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></span> חזרות
                     </button>
                     <button id="inspector-toggle-time" class="inspector-toggle-btn" data-inspector-metric="time">
-                      <span>⏱️</span> זמן
+                      <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg></span> זמן
                     </button>
                   </div>
 
@@ -1801,43 +1801,43 @@
                   <!-- Mini Statistics Cards -->
                   <div class="stats-grid-tab3" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
                     <div class="stat-mini-card">
-                      <span class="stat-label">שיא אישי (PR) 🏋️‍♂️</span>
+                      <span class="stat-label">שיא אישי (PR) <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                       <span class="stat-value" id="inspector-pr-val">--</span>
                     </div>
                     <div class="stat-mini-card">
-                      <span class="stat-label">1RM משוער 🏆</span>
+                      <span class="stat-label">1RM משוער <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></span>
                       <span class="stat-value" id="inspector-1rm-val">--</span>
                     </div>
                     <div class="stat-mini-card">
-                      <span class="stat-label">נפח אימון שיא 📊</span>
+                      <span class="stat-label">נפח אימון שיא <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
                       <span class="stat-value" id="inspector-vol-val">--</span>
                     </div>
                     <div class="stat-mini-card">
-                      <span class="stat-label">בוצע • סטים 🔄</span>
+                      <span class="stat-label">בוצע • סטים <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
                       <span class="stat-value" id="inspector-performed-val">--</span>
                     </div>
                   </div>
 
                   <!-- PR History Timeline -->
-                  <h4 style="margin: 10px 0 0 0; font-size: 1rem; font-weight: 800; color: #ffffff;">היסטוריית שיאים אישיים 🏆</h4>
+                  <h4 style="margin: 10px 0 0 0; font-size: 1rem; font-weight: 800; color: #ffffff;">היסטוריית שיאים אישיים <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></h4>
                   <div id="pr-history-timeline-tab3" class="pr-history-timeline" style="display: flex; flex-direction: column; gap: 10px; max-height: 160px; overflow-y: auto; padding-right: 4px;">
                     <!-- Dynamically populated in app.js -->
                   </div>
 
                   <!-- Full Workout History Section -->
-                  <h4 style="margin: 15px 0 0 0; font-size: 1rem; font-weight: 800; color: #ffffff;">היסטוריית ביצועים מלאה 📅</h4>
+                  <h4 style="margin: 15px 0 0 0; font-size: 1rem; font-weight: 800; color: #ffffff;">היסטוריית ביצועים מלאה <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></h4>
                   <div id="inspector-full-history-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 240px; overflow-y: auto; padding-right: 4px; background: rgba(0,0,0,0.15); padding: 10px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03); direction: rtl;">
                     <!-- Dynamically populated in app.js -->
                   </div>
 
                   <!-- Edit Global Exercise Button -->
                   <button id="edit-global-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: 800; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1rem; background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%); border: none; box-shadow: 0 4px 15px var(--electric-blue-glow-subtle); cursor: pointer; color: #fff; margin-top: 15px;">
-                    ✏️ ערוך פרטי תרגיל
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> ערוך פרטי תרגיל
                   </button>
 
                   <!-- Delete Global Exercise Button -->
                   <button id="delete-global-exercise-btn" class="btn btn-logout" style="width: 100%; background: var(--color-danger); box-shadow: 0 4px 15px var(--color-danger-glow); margin-top: 15px; border: none; font-weight: 700; color: white;">
-                    🗑️ מחק תרגיל זה לנצח
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> מחק תרגיל זה לנצח
                   </button>
 
                 </div>
@@ -1848,13 +1848,13 @@
             <div id="add-global-exercise-modal" class="workout-modal-overlay hide" style="z-index: 1600; align-items: center; justify-content: center;">
               <div class="workout-modal-card glass-modal-card" style="max-width: 420px; width: 95%; border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.1); height: 80vh; max-height: 720px; display: flex; flex-direction: column; overflow: hidden; animation: modal-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
                 <div class="modal-header" style="padding: 18px 1.5rem 14px 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); direction: rtl;">
-                  <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0;">הוספת תרגיל לנצח ✨</h3>
+                  <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0;">הוספת תרגיל לנצח <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></h3>
                   <button id="close-add-global-exercise-modal-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0 4px; line-height: 1;">&times;</button>
                 </div>
                 
                 <div class="modal-body" style="padding: 1.25rem 1.5rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 18px; direction: rtl; text-align: right; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
                   <!-- Save Button (top for visibility) -->
-                  <button id="save-new-global-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem; font-weight: 800; border-radius: 14px; background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%); border: none; color: #fff;">💾 שמור תרגיל לנצח</button>
+                  <button id="save-new-global-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem; font-weight: 800; border-radius: 14px; background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%); border: none; color: #fff;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg> שמור תרגיל לנצח</button>
 
                   <div class="custom-ex-field-group">
                     <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">שם התרגיל</label>
@@ -1865,39 +1865,39 @@
                     <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">קטגוריה (בחר קבוצת שריר)</label>
                     <div id="new-global-exercise-muscle-selector" class="custom-ex-category-grid">
                       <button class="muscle-card active" data-category="חזה">
-                        <span>🍒</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 7c-1.3-1.7-3.3-1.9-4.7-.8-2 1.5-2.3 4.9-.6 7.9C8.1 16.9 10 19 12 19s3.9-2.1 5.3-4.9c1.7-3 1.4-6.4-.6-7.9-1.4-1.1-3.4-.9-4.7.8Z"/><path d="M12 7c0-1.5 1-2.5 2-3"/></svg></span>
                         <span>חזה</span>
                       </button>
                       <button class="muscle-card" data-category="גב">
-                        <span>🦅</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></span>
                         <span>גב</span>
                       </button>
                       <button class="muscle-card" data-category="כתפיים">
-                        <span>🛡️</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
                         <span>כתפיים</span>
                       </button>
                       <button class="muscle-card" data-category="רגליים">
-                        <span>🦵</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M7 3v18M17 3v18M7 11h10"/></svg></span>
                         <span>רגליים</span>
                       </button>
                       <button class="muscle-card" data-category="יד קדמית">
-                        <span>💪</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                         <span>יד קדמית</span>
                       </button>
                       <button class="muscle-card" data-category="יד אחורית">
-                        <span>💪</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                         <span>יד אחורית</span>
                       </button>
                       <button class="muscle-card" data-category="בטן וליבה">
-                        <span>🧘‍♂️</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></span>
                         <span>בטן וליבה</span>
                       </button>
                       <button class="muscle-card" data-category="אירובי">
-                        <span>🏃</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
                         <span>אירובי</span>
                       </button>
                       <button class="muscle-card" data-category="אחר">
-                        <span>🧩</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M10 3h4v3a2 2 0 0 0 4 0V3h3v4h-3a2 2 0 0 0 0 4h3v10h-4v-3a2 2 0 0 0-4 0v3H7V11H4a2 2 0 0 1 0-4h3V4z"/></svg></span>
                         <span>אחר</span>
                       </button>
                     </div>
@@ -1907,20 +1907,20 @@
                     <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">אייקון (אופציונלי)</label>
                     <div id="new-global-exercise-emoji-selector" class="custom-ex-emoji-row">
                       <button class="emoji-pick-btn active" data-emoji="">ללא</button>
-                      <button class="emoji-pick-btn" data-emoji="💪">💪</button>
-                      <button class="emoji-pick-btn" data-emoji="🏋️">🏋️</button>
-                      <button class="emoji-pick-btn" data-emoji="🔥">🔥</button>
-                      <button class="emoji-pick-btn" data-emoji="⚡">⚡</button>
-                      <button class="emoji-pick-btn" data-emoji="🎯">🎯</button>
-                      <button class="emoji-pick-btn" data-emoji="🏃">🏃</button>
-                      <button class="emoji-pick-btn" data-emoji="🤸">🤸</button>
-                      <button class="emoji-pick-btn" data-emoji="🧘">🧘</button>
+                      <button class="emoji-pick-btn" data-emoji="💪"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🏋️"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🔥"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.69-.28-1.32-.73-1.77L11 11l-1.77 1.73c-.45.45-.73 1.08-.73 1.77z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 0 0 12 0c0-6-6-8-6-10z"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="⚡"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🎯"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🏃"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🤸"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🧘"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></button>
                     </div>
                   </div>
 
                   <!-- Workout Settings: Sets -->
                   <div class="custom-ex-field-group" style="margin-top: 10px;">
-                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">🎯 סטים מתוכננים</label>
+                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg> סטים מתוכננים</label>
                     <div class="sets-stepper-container" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 10px 0; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03);">
                       <button type="button" id="new-global-sets-minus" class="stepper-btn">-</button>
                       <div style="display: flex; flex-direction: column; align-items: center;">
@@ -1931,7 +1931,7 @@
                     </div>
                     <div id="new-global-sets-chips" class="sets-chips-container" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; direction: ltr; margin-bottom: 10px;">
                       <button type="button" class="new-global-sets-chip sets-option-chip" data-sets="2">2</button>
-                      <button type="button" class="new-global-sets-chip sets-option-chip active" data-sets="3">3 ⭐️</button>
+                      <button type="button" class="new-global-sets-chip sets-option-chip active" data-sets="3">3 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>️</button>
                       <button type="button" class="new-global-sets-chip sets-option-chip" data-sets="4">4</button>
                       <button type="button" class="new-global-sets-chip sets-option-chip" data-sets="5">5</button>
                       <button type="button" class="new-global-sets-chip sets-option-chip" data-sets="6">6</button>
@@ -1940,11 +1940,11 @@
 
                   <!-- Workout Settings: Rest Duration -->
                   <div class="custom-ex-field-group">
-                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">⏱️ זמן מנוחה קבוע</label>
+                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> זמן מנוחה קבוע</label>
                     <div id="new-global-rest-chips" class="rest-time-chips-container" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; direction: ltr; margin-bottom: 10px;">
                       <button type="button" class="new-global-rest-chip rest-option-chip" data-rest="30">30s</button>
                       <button type="button" class="new-global-rest-chip rest-option-chip" data-rest="60">60s</button>
-                      <button type="button" class="new-global-rest-chip rest-option-chip active" data-rest="90">90s ⭐️</button>
+                      <button type="button" class="new-global-rest-chip rest-option-chip active" data-rest="90">90s <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>️</button>
                       <button type="button" class="new-global-rest-chip rest-option-chip" data-rest="120">120s</button>
                       <button type="button" class="new-global-rest-chip rest-option-chip" data-rest="180">180s</button>
                     </div>
@@ -1952,31 +1952,31 @@
 
                   <!-- Workout Settings: Measurement Metrics -->
                   <div class="custom-ex-field-group">
-                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">⚖️ סוג המדדים למדידה</label>
+                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="3" x2="12" y2="21"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M3 7l3 6.5a3 3 0 0 0 6 0L9 7"/><path d="M15 7l3 6.5a3 3 0 0 0 6 0L21 7"/></svg> סוג המדדים למדידה</label>
                     <div class="premium-metric-card-grid">
                       <div class="new-global-metric-card premium-metric-card active" data-metric="weight">
-                        <div class="premium-metric-icon">🏋️‍♂️</div>
+                        <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></div>
                         <div class="premium-metric-details">
                           <span class="premium-metric-title">משקל</span>
                           <span class="premium-metric-desc">מעקב אחר המשקל המורם בסט (ק״ג)</span>
                         </div>
-                        <div class="premium-metric-badge">✓</div>
+                        <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                       </div>
                       <div class="new-global-metric-card premium-metric-card active" data-metric="reps">
-                        <div class="premium-metric-icon">🔢</div>
+                        <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></div>
                         <div class="premium-metric-details">
                           <span class="premium-metric-title">חזרות</span>
                           <span class="premium-metric-desc">מעקב אחר מספר החזרות שבוצעו</span>
                         </div>
-                        <div class="premium-metric-badge">✓</div>
+                        <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                       </div>
                       <div class="new-global-metric-card premium-metric-card" data-metric="time">
-                        <div class="premium-metric-icon">⏱️</div>
+                        <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg></div>
                         <div class="premium-metric-details">
                           <span class="premium-metric-title">זמן</span>
                           <span class="premium-metric-desc">מעקב אחר משך הזמן בשניות</span>
                         </div>
-                        <div class="premium-metric-badge">✓</div>
+                        <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                       </div>
                     </div>
                   </div>
@@ -1990,13 +1990,13 @@
             <div id="edit-global-exercise-modal" class="workout-modal-overlay hide" style="z-index: 1600; align-items: center; justify-content: center;">
               <div class="workout-modal-card glass-modal-card" style="max-width: 420px; width: 95%; border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.1); height: 90vh; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; animation: modal-slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
                 <div class="modal-header" style="padding: 18px 1.5rem 14px 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); direction: rtl;">
-                  <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0;">עריכת פרטי תרגיל ✏️</h3>
+                  <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0;">עריכת פרטי תרגיל <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></h3>
                   <button id="close-edit-global-exercise-modal-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0 4px; line-height: 1;">&times;</button>
                 </div>
                 
                 <div class="modal-body" style="padding: 1.25rem 1.5rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 18px; direction: rtl; text-align: right; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
                   <!-- Save Button (top for visibility) -->
-                  <button id="save-edited-global-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem; font-weight: 800; border-radius: 14px; background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%); border: none; color: #fff;">💾 שמור שינויים</button>
+                  <button id="save-edited-global-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1.05rem; font-weight: 800; border-radius: 14px; background: linear-gradient(135deg, var(--electric-blue) 0%, var(--electric-blue-light) 100%); border: none; color: #fff;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg> שמור שינויים</button>
 
                   <div class="custom-ex-field-group">
                     <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">שם התרגיל</label>
@@ -2007,39 +2007,39 @@
                     <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">קטגוריה (בחר קבוצת שריר)</label>
                     <div id="edit-global-exercise-muscle-selector" class="custom-ex-category-grid">
                       <button class="muscle-card" data-category="חזה">
-                        <span>🍒</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 7c-1.3-1.7-3.3-1.9-4.7-.8-2 1.5-2.3 4.9-.6 7.9C8.1 16.9 10 19 12 19s3.9-2.1 5.3-4.9c1.7-3 1.4-6.4-.6-7.9-1.4-1.1-3.4-.9-4.7.8Z"/><path d="M12 7c0-1.5 1-2.5 2-3"/></svg></span>
                         <span>חזה</span>
                       </button>
                       <button class="muscle-card" data-category="גב">
-                        <span>🦅</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg></span>
                         <span>גב</span>
                       </button>
                       <button class="muscle-card" data-category="כתפיים">
-                        <span>🛡️</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
                         <span>כתפיים</span>
                       </button>
                       <button class="muscle-card" data-category="רגליים">
-                        <span>🦵</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M7 3v18M17 3v18M7 11h10"/></svg></span>
                         <span>רגליים</span>
                       </button>
                       <button class="muscle-card" data-category="יד קדמית">
-                        <span>💪</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                         <span>יד קדמית</span>
                       </button>
                       <button class="muscle-card" data-category="יד אחורית">
-                        <span>💪</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></span>
                         <span>יד אחורית</span>
                       </button>
                       <button class="muscle-card" data-category="בטן וליבה">
-                        <span>🧘‍♂️</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></span>
                         <span>בטן וליבה</span>
                       </button>
                       <button class="muscle-card" data-category="אירובי">
-                        <span>🏃</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
                         <span>אירובי</span>
                       </button>
                       <button class="muscle-card" data-category="אחר">
-                        <span>🧩</span>
+                        <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M10 3h4v3a2 2 0 0 0 4 0V3h3v4h-3a2 2 0 0 0 0 4h3v10h-4v-3a2 2 0 0 0-4 0v3H7V11H4a2 2 0 0 1 0-4h3V4z"/></svg></span>
                         <span>אחר</span>
                       </button>
                     </div>
@@ -2049,20 +2049,20 @@
                     <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">אייקון (אופציונלי)</label>
                     <div id="edit-global-exercise-emoji-selector" class="custom-ex-emoji-row">
                       <button class="emoji-pick-btn" data-emoji="">ללא</button>
-                      <button class="emoji-pick-btn" data-emoji="💪">💪</button>
-                      <button class="emoji-pick-btn" data-emoji="🏋️">🏋️</button>
-                      <button class="emoji-pick-btn" data-emoji="🔥">🔥</button>
-                      <button class="emoji-pick-btn" data-emoji="⚡">⚡</button>
-                      <button class="emoji-pick-btn" data-emoji="🎯">🎯</button>
-                      <button class="emoji-pick-btn" data-emoji="🏃">🏃</button>
-                      <button class="emoji-pick-btn" data-emoji="🤸">🤸</button>
-                      <button class="emoji-pick-btn" data-emoji="🧘">🧘</button>
+                      <button class="emoji-pick-btn" data-emoji="💪"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🏋️"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🔥"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.69-.28-1.32-.73-1.77L11 11l-1.77 1.73c-.45.45-.73 1.08-.73 1.77z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 0 0 12 0c0-6-6-8-6-10z"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="⚡"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🎯"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🏃"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🤸"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></button>
+                      <button class="emoji-pick-btn" data-emoji="🧘"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg></button>
                     </div>
                   </div>
 
                   <!-- Workout Settings: Sets -->
                   <div class="custom-ex-field-group" style="margin-top: 10px;">
-                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">🎯 סטים מתוכננים</label>
+                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg> סטים מתוכננים</label>
                     <div class="sets-stepper-container" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 10px 0; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03);">
                       <button type="button" id="edit-global-sets-minus" class="stepper-btn">-</button>
                       <div style="display: flex; flex-direction: column; align-items: center;">
@@ -2073,7 +2073,7 @@
                     </div>
                     <div id="edit-global-sets-chips" class="sets-chips-container" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; direction: ltr; margin-bottom: 10px;">
                       <button type="button" class="edit-global-sets-chip sets-option-chip" data-sets="2">2</button>
-                      <button type="button" class="edit-global-sets-chip sets-option-chip active" data-sets="3">3 ⭐️</button>
+                      <button type="button" class="edit-global-sets-chip sets-option-chip active" data-sets="3">3 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>️</button>
                       <button type="button" class="edit-global-sets-chip sets-option-chip" data-sets="4">4</button>
                       <button type="button" class="edit-global-sets-chip sets-option-chip" data-sets="5">5</button>
                       <button type="button" class="edit-global-sets-chip sets-option-chip" data-sets="6">6</button>
@@ -2082,11 +2082,11 @@
 
                   <!-- Workout Settings: Rest Duration -->
                   <div class="custom-ex-field-group">
-                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">⏱️ זמן מנוחה קבוע</label>
+                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> זמן מנוחה קבוע</label>
                     <div id="edit-global-rest-chips" class="rest-time-chips-container" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; direction: ltr; margin-bottom: 10px;">
                       <button type="button" class="edit-global-rest-chip rest-option-chip" data-rest="30">30s</button>
                       <button type="button" class="edit-global-rest-chip rest-option-chip" data-rest="60">60s</button>
-                      <button type="button" class="edit-global-rest-chip rest-option-chip active" data-rest="90">90s ⭐️</button>
+                      <button type="button" class="edit-global-rest-chip rest-option-chip active" data-rest="90">90s <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>️</button>
                       <button type="button" class="edit-global-rest-chip rest-option-chip" data-rest="120">120s</button>
                       <button type="button" class="edit-global-rest-chip rest-option-chip" data-rest="180">180s</button>
                     </div>
@@ -2094,31 +2094,31 @@
 
                   <!-- Workout Settings: Measurement Metrics -->
                   <div class="custom-ex-field-group">
-                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">⚖️ סוג המדדים למדידה</label>
+                    <label class="custom-ex-field-label" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="3" x2="12" y2="21"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M3 7l3 6.5a3 3 0 0 0 6 0L9 7"/><path d="M15 7l3 6.5a3 3 0 0 0 6 0L21 7"/></svg> סוג המדדים למדידה</label>
                     <div class="premium-metric-card-grid">
                       <div class="edit-global-metric-card premium-metric-card active" data-metric="weight">
-                        <div class="premium-metric-icon">🏋️‍♂️</div>
+                        <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></div>
                         <div class="premium-metric-details">
                           <span class="premium-metric-title">משקל</span>
                           <span class="premium-metric-desc">מעקב אחר המשקל המורם בסט (ק״ג)</span>
                         </div>
-                        <div class="premium-metric-badge">✓</div>
+                        <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                       </div>
                       <div class="edit-global-metric-card premium-metric-card active" data-metric="reps">
-                        <div class="premium-metric-icon">🔢</div>
+                        <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></div>
                         <div class="premium-metric-details">
                           <span class="premium-metric-title">חזרות</span>
                           <span class="premium-metric-desc">מעקב אחר מספר החזרות שבוצעו</span>
                         </div>
-                        <div class="premium-metric-badge">✓</div>
+                        <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                       </div>
                       <div class="edit-global-metric-card premium-metric-card" data-metric="time">
-                        <div class="premium-metric-icon">⏱️</div>
+                        <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg></div>
                         <div class="premium-metric-details">
                           <span class="premium-metric-title">זמן</span>
                           <span class="premium-metric-desc">מעקב אחר משך הזמן בשניות</span>
                         </div>
-                        <div class="premium-metric-badge">✓</div>
+                        <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                       </div>
                     </div>
                   </div>
@@ -2136,7 +2136,7 @@
                   <span class="coming-soon-badge-glow animated-pulse-badge">בקרוב • COMING SOON</span>
                 </div>
                 <div class="aura-ai-avatar-container" style="position: relative; margin-bottom: 1rem;">
-                  <span class="aura-ai-emoji" style="font-size: 3.5rem; display: inline-block; position: relative; z-index: 2;">🤖</span>
+                  <span class="aura-ai-emoji" style="font-size: 3.5rem; display: inline-block; position: relative; z-index: 2;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 4v4"/><rect x="4" y="8" width="16" height="12" rx="2"/><line x1="2" y1="14" x2="4" y2="14"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="9" y1="13" x2="9" y2="15"/><line x1="15" y1="13" x2="15" y2="15"/></svg></span>
                 </div>
                 <h3 class="aura-ai-title" style="color: #fff; font-size: 1.7rem; font-weight: 900; letter-spacing: 1px; margin: 0; background: linear-gradient(135deg, #ffffff 30%, #fca5a5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">AURA AI COACH</h3>
                 <p class="aura-ai-desc" style="color: rgba(255, 255, 255, 0.7); font-size: 0.95rem; line-height: 1.6; direction: rtl; text-align: center; margin: 0.5rem 0 0 0;">
@@ -2165,7 +2165,7 @@
 
               <div class="modal-footer">
                 <button id="delete-workout-btn" class="btn btn-logout" style="width: 100%; background: var(--color-danger); box-shadow: 0 4px 15px var(--color-danger-glow);">
-                  🗑️ מחק אימון מההיסטוריה
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg> מחק אימון מההיסטוריה
                 </button>
               </div>
             </div>
@@ -2295,7 +2295,7 @@
   <!-- Premium Floating Glassmorphic Rest Timer -->
   <div id="rest-timer-bubble" class="rest-timer-bubble hide">
     <div class="rest-timer-header">
-      <span class="rest-timer-title">⏱️ זמן מנוחה</span>
+      <span class="rest-timer-title"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> זמן מנוחה</span>
       <button id="close-rest-timer-btn" class="rest-timer-close-btn" aria-label="Close Rest Timer">&times;</button>
     </div>
     <div class="rest-timer-body">
@@ -2320,7 +2320,7 @@
   <div id="prev-workout-alert-modal" class="workout-modal-overlay hide" style="z-index: 1550; align-items: center; justify-content: center;">
     <div class="workout-modal-card glass-modal-card" style="max-width: 380px; width: 92%; border-radius: 24px; padding: 1.5rem 1.5rem 0 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;">
       <div class="alert-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; direction: rtl;">
-        <span style="font-size: 1.2rem; font-weight: 800; color: #dc2626; display: flex; align-items: center; gap: 8px;">🔥 הישג אחרון!</span>
+        <span style="font-size: 1.2rem; font-weight: 800; color: #dc2626; display: flex; align-items: center; gap: 8px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.69-.28-1.32-.73-1.77L11 11l-1.77 1.73c-.45.45-.73 1.08-.73 1.77z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 0 0 12 0c0-6-6-8-6-10z"/></svg> הישג אחרון!</span>
         <button id="close-prev-workout-alert-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0 4px;">&times;</button>
       </div>
       <div class="modal-body" style="overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; direction: rtl; padding-bottom: 1rem; text-align: center;">
@@ -2330,7 +2330,7 @@
           <!-- Injected dynamically: list of sets with weight and reps -->
         </div>
       </div>
-      <button id="prev-workout-alert-ok-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.2rem; padding: 12px; font-weight: bold; border-radius: 12px; margin-bottom: 1.5rem;">קדימה, בוא נשבור את זה! 💪</button>
+      <button id="prev-workout-alert-ok-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.2rem; padding: 12px; font-weight: bold; border-radius: 12px; margin-bottom: 1.5rem;">קדימה, בוא נשבור את זה! <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></button>
     </div>
   </div>
 
@@ -2339,27 +2339,27 @@
   <div id="gps-diagnostic-modal" class="workout-modal-overlay hide" style="z-index: 1800; align-items: center; justify-content: center;">
     <div class="workout-modal-card glass-modal-card" style="max-width: 400px; width: 92%; border-radius: 28px; padding: 1.8rem; border: 1px solid rgba(255, 255, 255, 0.1); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(135deg, hsla(225, 20%, 9%, 0.95) 0%, hsla(225, 20%, 5%, 0.98) 100%); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);">
       <div class="alert-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; direction: rtl; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px;">
-        <span style="font-size: 1.2rem; font-weight: 800; color: #ff9500; display: flex; align-items: center; gap: 8px;">📡 בעיית תקשורת GPS</span>
+        <span style="font-size: 1.2rem; font-weight: 800; color: #ff9500; display: flex; align-items: center; gap: 8px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> בעיית תקשורת GPS</span>
         <button id="close-gps-diagnostic-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0 4px; line-height: 1;">&times;</button>
       </div>
       <div class="modal-body" style="overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; direction: rtl; text-align: right; font-size: 0.95rem; line-height: 1.5; color: var(--text-main);">
         <p style="margin-bottom: 15px; font-weight: bold; color: #ff9500;">זיהינו שרכיב המיקום (GPS) במכשיר שלך אינו זמין או שאין הרשאת גישה מתאימה.</p>
         
-        <h4 style="margin-top: 15px; margin-bottom: 8px; color: #ffffff; font-weight: 800;">📱 פתרון לבעיה במכשירי iPhone (iOS Safari):</h4>
+        <h4 style="margin-top: 15px; margin-bottom: 8px; color: #ffffff; font-weight: 800;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> פתרון לבעיה במכשירי iPhone (iOS Safari):</h4>
         <ol style="margin-right: 20px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px;">
-          <li>כנס ל<strong>הגדרות המכשיר</strong> ➔ <strong>פרטיות ואבטחה</strong> ➔ <strong>שירותי מיקום</strong>, וודא שהשירות מופעל (ON).</li>
+          <li>כנס ל<strong>הגדרות המכשיר</strong> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> <strong>פרטיות ואבטחה</strong> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> <strong>שירותי מיקום</strong>, וודא שהשירות מופעל (ON).</li>
           <li>גלול מטה ברשימת האתרים ל-<strong>אתרי Safari</strong> (Safari Websites) וסמן <strong>"בעת השימוש באפליקציה"</strong>.</li>
           <li>חזור לדפדפן, רענן את העמוד ואשר את חלונית בקשת המיקום שתופיע.</li>
         </ol>
 
-        <h4 style="margin-top: 15px; margin-bottom: 8px; color: #ffffff; font-weight: 800;">🤖 פתרון לבעיה במכשירי אנדרואיד (Chrome):</h4>
+        <h4 style="margin-top: 15px; margin-bottom: 8px; color: #ffffff; font-weight: 800;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 4v4"/><rect x="4" y="8" width="16" height="12" rx="2"/><line x1="2" y1="14" x2="4" y2="14"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="9" y1="13" x2="9" y2="15"/><line x1="15" y1="13" x2="15" y2="15"/></svg> פתרון לבעיה במכשירי אנדרואיד (Chrome):</h4>
         <ol style="margin-right: 20px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 6px;">
           <li>לחץ על סמל <strong>המנעול/ההגדרות</strong> המופיע בשורת הכתובת משמאל לקישור האתר.</li>
           <li>לחץ על <strong>"הרשאות"</strong> (Permissions) וודא שהגישה ל-<strong>"מיקום"</strong> מוגדרת כמותרת (Allowed).</li>
-          <li>אם עדיין לא עובד: כנס להגדרות האנדרואיד ➔ יישומים ➔ Chrome ➔ הרשאות ➔ מיקום ➔ בחר "אפשר רק בזמן שהאפליקציה בשימוש".</li>
+          <li>אם עדיין לא עובד: כנס להגדרות האנדרואיד <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> יישומים <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Chrome <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> הרשאות <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> מיקום <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> בחר "אפשר רק בזמן שהאפליקציה בשימוש".</li>
         </ol>
       </div>
-      <button id="gps-diagnostic-ok-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.2rem; padding: 12px; font-weight: bold; border-radius: 12px; background: linear-gradient(135deg, #ff9500 0%, #ff5e3a 100%); border: none;">הבנתי, אבדוק זאת 👍</button>
+      <button id="gps-diagnostic-ok-btn" class="btn btn-primary" style="width: 100%; margin-top: 1.2rem; padding: 12px; font-weight: bold; border-radius: 12px; background: linear-gradient(135deg, #ff9500 0%, #ff5e3a 100%); border: none;">הבנתי, אבדוק זאת <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></button>
     </div>
   </div>
 
@@ -2368,7 +2368,7 @@
     <div class="workout-modal-card plate-calculator-card" style="max-width: 420px; width: 92%; border-radius: 28px; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); animation: modal-slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; display: flex; flex-direction: column; overflow: hidden;">
       <div class="modal-header" style="padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
         <button id="close-plate-calc-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer;">סגור</button>
-        <h3 class="modal-title" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #ffffff; direction: rtl;">🧮 מחשב פלטות</h3>
+        <h3 class="modal-title" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #ffffff; direction: rtl;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg> מחשב פלטות</h3>
         <span style="width: 40px;"></span>
       </div>
       <div class="modal-body" style="padding: 1.5rem 0 1.5rem 0; text-align: center; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;">
@@ -2397,7 +2397,7 @@
   <div id="schedule-workout-modal" class="workout-modal-overlay hide" style="z-index: 1550; align-items: center; justify-content: center;">
     <div class="workout-modal-card glass-modal-card" style="max-width: 400px; width: 92%; border-radius: 24px; padding: 1.5rem 1.5rem 0 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;">
       <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; direction: rtl;">
-        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 8px;">📅 קביעת אימון עתידי</h3>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin: 0; display: flex; align-items: center; gap: 8px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> קביעת אימון עתידי</h3>
         <button id="close-schedule-workout-btn" class="btn-cancel-link" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0 4px; line-height: 1;">&times;</button>
       </div>
       
@@ -2406,9 +2406,9 @@
         <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
           <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">מיקום / סוג אימון</label>
           <select id="schedule-location-select" class="premium-filter-select" style="width: 100%; text-align: right;">
-            <option value="gym">🏋️‍♂️ חדר כושר</option>
-            <option value="park">🌳 פארק</option>
-            <option value="custom">✍️ סוג אימון מותאם אישית...</option>
+<option value="gym">חדר כושר</option>
+<option value="park">פארק</option>
+<option value="custom">סוג אימון מותאם אישית...</option>
           </select>
           <input type="text" id="schedule-custom-location" placeholder="שם סוג האימון (למשל: אימון ביתי)" style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #ffffff; text-align: right; direction: rtl; outline: none; display: none;">
         </div>
@@ -2426,15 +2426,15 @@
         <div class="form-group" style="display: flex; flex-direction: column; gap: 6px;">
           <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">זמן תזכורת</label>
           <select id="schedule-reminder-select" class="premium-filter-select" style="width: 100%; text-align: right;">
-            <option value="0">בדיוק בזמן ⏱️</option>
-            <option value="15">15 דקות לפני 🔔</option>
-            <option value="60">שעה לפני ⏰</option>
-            <option value="180">3 שעות לפני 📢</option>
+<option value="0">בדיוק בזמן</option>
+<option value="15">15 דקות לפני</option>
+<option value="60">שעה לפני</option>
+<option value="180">3 שעות לפני</option>
           </select>
         </div>
 
         <button type="submit" id="save-scheduled-workout-btn" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: bold; border-radius: 14px; margin-top: 1rem; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border: none; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);">
-          💾 שמור ותזמן
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg> שמור ותזמן
         </button>
       </form>
     </div>
@@ -2448,31 +2448,31 @@
     <button id="ios-prompt-close-btn" class="ios-prompt-close-btn" aria-label="Dismiss Prompt">&times;</button>
     <div class="ios-prompt-content">
       <div class="ios-prompt-header">
-        <span class="ios-prompt-emoji">📲</span>
+        <span class="ios-prompt-emoji"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
         <h4 class="ios-prompt-title">התקן את AuraApp</h4>
       </div>
       <p class="ios-prompt-desc">התקן את האפליקציה באייפון שלך כדי ליהנות מחוויית אימונים במסך מלא וטעינה מהירה במיוחד!</p>
       
       <div class="ios-prompt-steps">
         <div class="ios-prompt-step">
-          <span class="step-icon">📤</span>
+          <span class="step-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
           <span class="step-text">לחץ על כפתור <strong>השיתוף</strong> בתחתית הדפדפן</span>
         </div>
         <div class="ios-prompt-step">
-          <span class="step-icon">➕</span>
+          <span class="step-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
           <span class="step-text">גלול מטה ובחר ב-<strong>"הוסף למסך הבית"</strong></span>
         </div>
       </div>
     </div>
     <!-- Pointing pulsing arrow indicating the iOS share button location at the bottom of the device -->
-    <div class="ios-pointing-arrow">↓</div>
+    <div class="ios-pointing-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></div>
   </div>
 
   <!-- Premium Glassmorphic Update Toast -->
   <div id="pwa-update-toast" class="pwa-update-toast">
     <div class="toast-content" style="display: flex; align-items: center; justify-content: space-between; gap: 15px; direction: rtl;">
       <div style="display: flex; align-items: center; gap: 8px;">
-        <span class="toast-spark" style="font-size: 1.2rem; animation: pulse-spark 1.5s infinite alternate;">✨</span>
+        <span class="toast-spark" style="font-size: 1.2rem; animation: pulse-spark 1.5s infinite alternate;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg></span>
         <span class="toast-text" style="font-size: 0.85rem; font-weight: 600; color: #1e293b; text-align: right;">גרסה חדשה זמינה לשיפור הביצועים והעיצוב!</span>
       </div>
       <button id="pwa-refresh-btn" class="btn toast-refresh-btn" style="background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important; color: #ffffff !important; border: none !important; font-size: 0.8rem !important; padding: 6px 14px !important; border-radius: 10px !important; font-weight: 700 !important; cursor: pointer !important; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25) !important;">רענן כעת</button>
@@ -2492,7 +2492,7 @@
               </div>
               <div class="modal-body">
                 <!-- 1. Target Sets Section -->
-                <h4 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 12px; color: #ffffff; text-align: right; direction: rtl;">🎯 סטים מתוכננים</h4>
+                <h4 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 12px; color: #ffffff; text-align: right; direction: rtl;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg> סטים מתוכננים</h4>
                 
                 <div class="sets-stepper-container" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 15px 0; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.03);">
                   <button type="button" id="metric-sets-minus" class="stepper-btn">-</button>
@@ -2505,7 +2505,7 @@
 
                 <div id="sets-chips-container" class="sets-chips-container" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; direction: ltr; margin-bottom: 20px;">
                   <button type="button" class="sets-option-chip" data-sets="2">2</button>
-                  <button type="button" class="sets-option-chip active" data-sets="3">3 ⭐️</button>
+                  <button type="button" class="sets-option-chip active" data-sets="3">3 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>️</button>
                   <button type="button" class="sets-option-chip" data-sets="4">4</button>
                   <button type="button" class="sets-option-chip" data-sets="5">5</button>
                   <button type="button" class="sets-option-chip" data-sets="6">6</button>
@@ -2514,11 +2514,11 @@
                 <div class="divider" style="margin: 1.2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08);"></div>
 
                 <!-- 2. Rest Duration Section -->
-                <h4 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 12px; color: #ffffff; text-align: right; direction: rtl;">⏱️ זמן מנוחה קבוע</h4>
+                <h4 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 12px; color: #ffffff; text-align: right; direction: rtl;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> זמן מנוחה קבוע</h4>
                 <div id="rest-time-chips-container" class="rest-time-chips-container" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; direction: ltr; margin-bottom: 20px;">
                   <button type="button" class="rest-option-chip" data-rest="30">30s</button>
                   <button type="button" class="rest-option-chip" data-rest="60">60s</button>
-                  <button type="button" class="rest-option-chip active" data-rest="90">90s ⭐️</button>
+                  <button type="button" class="rest-option-chip active" data-rest="90">90s <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>️</button>
                   <button type="button" class="rest-option-chip" data-rest="120">120s</button>
                   <button type="button" class="rest-option-chip" data-rest="180">180s</button>
                 </div>
@@ -2526,42 +2526,42 @@
                 <div class="divider" style="margin: 1.2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08);"></div>
 
                 <!-- 3. Measurement Type (Stateful Selectable Cards) -->
-                <h4 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 12px; color: #ffffff; text-align: right; direction: rtl;">⚖️ סוג המדדים למדידה</h4>
+                <h4 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 12px; color: #ffffff; text-align: right; direction: rtl;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="12" y1="3" x2="12" y2="21"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M3 7l3 6.5a3 3 0 0 0 6 0L9 7"/><path d="M15 7l3 6.5a3 3 0 0 0 6 0L21 7"/></svg> סוג המדדים למדידה</h4>
                 <div class="premium-metric-card-grid">
                   <!-- Weight Card -->
                   <div class="premium-metric-card active" data-metric="weight">
-                    <div class="premium-metric-icon">🏋️‍♂️</div>
+                    <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M8 4.5v15M16 4.5v15"/></svg></div>
                     <div class="premium-metric-details">
                       <span class="premium-metric-title">משקל</span>
                       <span class="premium-metric-desc">מעקב אחר המשקל המורם בסט (ק״ג)</span>
                     </div>
-                    <div class="premium-metric-badge">✓</div>
+                    <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                   </div>
 
                   <!-- Reps Card -->
                   <div class="premium-metric-card active" data-metric="reps">
-                    <div class="premium-metric-icon">🔢</div>
+                    <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></div>
                     <div class="premium-metric-details">
                       <span class="premium-metric-title">חזרות</span>
                       <span class="premium-metric-desc">מעקב אחר מספר החזרות שבוצעו בסט</span>
                     </div>
-                    <div class="premium-metric-badge">✓</div>
+                    <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                   </div>
 
                   <!-- Time Card -->
                   <div class="premium-metric-card" data-metric="time">
-                    <div class="premium-metric-icon">⏱️</div>
+                    <div class="premium-metric-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg></div>
                     <div class="premium-metric-details">
                       <span class="premium-metric-title">זמן</span>
                       <span class="premium-metric-desc">מעקב אחר משך הזמן בשניות</span>
                     </div>
-                    <div class="premium-metric-badge">✓</div>
+                    <div class="premium-metric-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><polyline points="20 6 9 17 4 12"/></svg></div>
                   </div>
                 </div>
 
                 <!-- 4. Premium Glowing Confirm Action Button -->
                 <button type="button" id="confirm-add-exercise-btn" class="btn btn-primary" style="width: 100%; padding: 15px; font-weight: 800; border-radius: 16px; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; background: linear-gradient(135deg, var(--electric-blue) 0%, #7c3aed 100%); color: #ffffff; box-shadow: 0 8px 25px rgba(124, 58, 237, 0.25); margin-top: 15px; transition: all 0.2s;">
-                  <span>✨ הוסף תרגיל לאימון</span>
+                  <span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></svg> הוסף תרגיל לאימון</span>
                 </button>
               </div>
             </div>
@@ -2585,7 +2585,7 @@
           <div id="run-tracker-map" style="width: 100%; height: 160px; transition: height 0.3s ease;"></div>
           <!-- Full screen Toggle button on map -->
           <button id="run-map-expand-btn" class="run-map-toggle-btn" style="position: absolute; top: 10px; right: 10px; z-index: 1000; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: background 0.2s;">
-            <span class="expand-icon">🔍</span>
+            <span class="expand-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           </button>
         </div>
 
@@ -2626,20 +2626,20 @@
           <!-- Time Durations List -->
           <div class="durations-box" style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 16px; display: flex; flex-direction: column; gap: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">⏱️ זמן כולל:</span>
+              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M12 2v2"/></svg> זמן כולל:</span>
               <span id="run-metric-total-time" style="font-size: 1.15rem; font-weight: 800; color: #ffffff; font-family: var(--font-sans);">00:00:00</span>
             </div>
             <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem;">
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: var(--text-muted);">🔥 זמן ריצה:</span>
+                <span style="color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-.69-.28-1.32-.73-1.77L11 11l-1.77 1.73c-.45.45-.73 1.08-.73 1.77z"/><path d="M12 2c0 4-3 6-3 10a6 6 0 0 0 12 0c0-6-6-8-6-10z"/></svg> זמן ריצה:</span>
                 <span id="run-metric-run-time" style="font-weight: 600; color: #ff5e3a; font-family: var(--font-sans);">00:00:00</span>
               </div>
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: var(--text-muted);">🌱 זמן הליכה:</span>
+                <span style="color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M12 7c-1.3-1.7-3.3-1.9-4.7-.8-2 1.5-2.3 4.9-.6 7.9C8.1 16.9 10 19 12 19s3.9-2.1 5.3-4.9c1.7-3 1.4-6.4-.6-7.9-1.4-1.1-3.4-.9-4.7.8Z"/><path d="M12 7c0-1.5 1-2.5 2-3"/></svg> זמן הליכה:</span>
                 <span id="run-metric-walk-time" style="font-weight: 600; color: #10b981; font-family: var(--font-sans);">00:00:00</span>
               </div>
               <div style="display: flex; justify-content: space-between;">
-                <span style="color: var(--text-muted);">🛑 זמן מנוחה:</span>
+                <span style="color: var(--text-muted);"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> זמן מנוחה:</span>
                 <span id="run-metric-rest-time" style="font-weight: 600; color: #f59e0b; font-family: var(--font-sans);">00:00:00</span>
               </div>
             </div>
@@ -2652,13 +2652,13 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 8px;">מצב פעילות נוכחי:</span>
           <div class="run-state-switcher" style="display: flex; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); padding: 4px; border-radius: 14px; gap: 4px;">
             <button id="run-state-btn-run" class="state-switch-btn run-state-active-run" style="flex: 1; border: none; padding: 10px 6px; border-radius: 10px; cursor: pointer; color: white; background: transparent; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.3s ease;">
-              <span>ריצה</span> 🏃‍♂️
+              <span>ריצה</span> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>
             </button>
             <button id="run-state-btn-walk" class="state-switch-btn" style="flex: 1; border: none; padding: 10px 6px; border-radius: 10px; cursor: pointer; color: white; background: transparent; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.3s ease;">
-              <span>הליכה</span> 🚶‍♂️
+              <span>הליכה</span> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>
             </button>
             <button id="run-state-btn-rest" class="state-switch-btn" style="flex: 1; border: none; padding: 10px 6px; border-radius: 10px; cursor: pointer; color: white; background: transparent; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 4px; transition: all 0.3s ease;">
-              <span>מנוחה</span> 🛑
+              <span>מנוחה</span> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
         </div>
@@ -2676,7 +2676,7 @@
             
             <!-- Finish and Save button -->
             <button id="run-control-finish" class="btn btn-primary" style="flex: 1; padding: 14px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
-              🏁 סיום ריצה
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon icon-sm" style="display:inline-block;vertical-align:-3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M2 17h20M12 15V22M12 2a7 7 0 0 0-7 7c0 4.5 4.5 6 7 6s7-1.5 7-6a7 7 0 0 0-7-7z"/></svg> סיום ריצה
             </button>
           </div>
         </div>
@@ -2687,7 +2687,7 @@
 
   <!-- Load global Firebase credential settings -->
   <script src="firebase-config.js"></script>
-  <script type="module" src="app.js?v=1.10.5"></script>
+  <script type="module" src="app.js?v=1.10.6"></script>
 
   <!-- Stale Workout Recovery Modal -->
   <div id="stale-workout-modal" class="workout-modal-overlay hide" style="z-index: 1900; align-items: center; justify-content: center;">

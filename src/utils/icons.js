@@ -63,55 +63,157 @@ export const ICONS_MAP = {
   shoulders: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M4 11a8 8 0 0 1 16 0M4 15h16"/></svg>`,
   arms: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8M18 11a4 4 0 0 1-8 0v0"/></svg>`,
   core: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><rect x="6" y="4" width="12" height="16" rx="3"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="12" y1="4" x2="12" y2="20"/></svg>`,
-  cardio: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>`
+  cardio: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0 5.4 5.4 0 0 0 0 7.65l.77.78L12 21.35l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>`,
+
+  // Extended set — added to retire raw emoji glyphs across the app in favor
+  // of this same consistent line-icon language (see EMOJI_TO_ICON_MAP below).
+  target: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg>`,
+  search: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+  warning: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="m21.7 18-8-14a2 2 0 0 0-3.4 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  numbers: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
+  scale: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><line x1="12" y1="3" x2="12" y2="21"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="3" y1="7" x2="21" y2="7"/><path d="M3 7l3 6.5a3 3 0 0 0 6 0L9 7"/><path d="M15 7l3 6.5a3 3 0 0 0 6 0L21 7"/></svg>`,
+  robot: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M12 4v4"/><rect x="4" y="8" width="16" height="12" rx="2"/><line x1="2" y1="14" x2="4" y2="14"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="9" y1="13" x2="9" y2="15"/><line x1="15" y1="13" x2="15" y2="15"/></svg>`,
+  image: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>`,
+  map: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>`,
+  home: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  crown: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M2 18h20l-2-9-5 4-3-7-3 7-5-4z"/></svg>`,
+  heart: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`,
+  stretch: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5v4M8 15c1-2.2 2.2-3.3 4-4.5 1.8 1.2 3 2.3 4 4.5M6 19h12"/></svg>`,
+  puzzle: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M10 3h4v3a2 2 0 0 0 4 0V3h3v4h-3a2 2 0 0 0 0 4h3v10h-4v-3a2 2 0 0 0-4 0v3H7V11H4a2 2 0 0 1 0-4h3V4z"/></svg>`,
+  apple: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="custom-svg-icon"><path d="M12 7c-1.3-1.7-3.3-1.9-4.7-.8-2 1.5-2.3 4.9-.6 7.9C8.1 16.9 10 19 12 19s3.9-2.1 5.3-4.9c1.7-3 1.4-6.4-.6-7.9-1.4-1.1-3.4-.9-4.7.8Z"/><path d="M12 7c0-1.5 1-2.5 2-3"/></svg>`
 };
 
 // Legacy Emoji Migration Mapping Dictionary
+// Every raw emoji glyph that used to appear anywhere in the app's markup,
+// strings, or exercise-database `emoji:` fields resolves through here to the
+// matching custom line-icon, so the whole app renders one consistent icon
+// language instead of OS-dependent emoji glyphs. See getCustomIcon() below —
+// it's the single place raw emoji get resolved, so a data field like
+// `emoji: '🏋️'` on an exercise record doesn't need to change: whatever reads
+// it later just needs to render it through getCustomIcon() instead of as text.
 export const EMOJI_TO_ICON_MAP = {
   '🏋️‍♂️': 'dumbbell',
   '🏋️': 'dumbbell',
   '🏋': 'dumbbell',
+  '💪': 'dumbbell',
   '📋': 'analytics',
   '📊': 'chart',
+  '📈': 'chart',
+  '📉': 'chart',
   '⚙️': 'settings',
   '⚙': 'settings',
+  '🛠️': 'settings',
+  '🛠': 'settings',
   '👤': 'user',
   '🚪': 'logout',
   '🔒': 'lock',
   '🛡️': 'shield',
+  '🛡': 'shield',
+  '🏛️': 'shield',
+  '🏛': 'shield',
   '🔔': 'bell',
   '✨': 'sparkles',
+  '👋': 'sparkles',
   '☀️': 'sun',
+  '☀': 'sun',
   '🌙': 'moon',
+  '💤': 'moon',
   '🔄': 'refresh',
+  '🔌': 'refresh',
   '✓': 'check',
+  '👍': 'check',
+  '💾': 'check',
   '✖️': 'close',
+  '✖': 'close',
+  '✕': 'close',
+  '❌': 'close',
+  '🛑': 'close',
   '➡️': 'arrowRight',
+  '➡': 'arrowRight',
+  '➔': 'arrowRight',
+  '→': 'arrowRight',
   '⬅️': 'arrowLeft',
+  '⬅': 'arrowLeft',
+  '←': 'arrowLeft',
+  '↓': 'arrowLeft',
   '➕': 'plus',
   '✏️': 'edit',
+  '✏': 'edit',
+  '✍️': 'edit',
+  '✍': 'edit',
   '🗑️': 'trash',
+  '🗑': 'trash',
   'ℹ️': 'info',
+  'ℹ': 'info',
+  '👁️': 'info',
+  '👁': 'info',
   '☁️': 'cloud',
+  '☁': 'cloud',
+  '💧': 'cloud',
+  '📡': 'sync',
   '⚡': 'sync',
   '💬': 'feedback',
   '📬': 'message',
   '📢': 'message',
+  '✉️': 'mail',
+  '✉': 'mail',
+  '📦': 'inbox',
+  '📁': 'inbox',
   '🚀': 'rocket',
   '💡': 'idea',
   '🐛': 'bug',
   '❓': 'question',
   '🏆': 'trophy',
+  '🥇': 'trophy',
+  '🥈': 'trophy',
+  '🥉': 'trophy',
+  '🦅': 'trophy',
+  '🏁': 'trophy',
   '🔥': 'fire',
   '⏱️': 'timer',
+  '⏱': 'timer',
+  '🕒': 'timer',
   '📅': 'calendar',
   '⭐': 'star',
+  '☆': 'star',
+  '🌟': 'star',
   '📍': 'location',
   '🌳': 'park',
+  '🌱': 'apple',
+  '🍒': 'apple',
+  '🍫': 'apple',
+  '🍗': 'apple',
   '📱': 'mobile',
+  '📲': 'mobile',
+  '📷': 'image',
+  '📸': 'image',
+  '🖼️': 'image',
+  '🖼': 'image',
   '🎈': 'floating',
   '📌': 'pin',
-  '🎨': 'sparkles'
+  '🎨': 'sparkles',
+  '🎯': 'target',
+  '🔍': 'search',
+  '⚠️': 'warning',
+  '⚠': 'warning',
+  '🔢': 'numbers',
+  '🧮': 'numbers',
+  '⚖️': 'scale',
+  '⚖': 'scale',
+  '🤖': 'robot',
+  '🗺️': 'map',
+  '🗺': 'map',
+  '🏠': 'home',
+  '👑': 'crown',
+  '❤️': 'heart',
+  '❤': 'heart',
+  '🧘': 'stretch',
+  '🤸': 'stretch',
+  '🧩': 'puzzle',
+  '🦵': 'legs',
+  '🏃': 'cardio',
+  '🚶': 'cardio'
 };
 
 /**
@@ -147,6 +249,22 @@ export function getCustomIcon(name, options = {}) {
   }
 
   return svg;
+}
+
+/**
+ * Star icon for favorite toggles. Both ⭐ (favorited) and ☆ (not) used to map
+ * to the same outline star glyph, which loses the on/off distinction those
+ * two emoji carried — so this fills the star and tints it gold when active,
+ * instead of just swapping in the one shape both states would otherwise share.
+ */
+export function getFavoriteIcon(isFav) {
+  const svg = ICONS_MAP.star;
+  if (isFav) {
+    return svg
+      .replace('fill="none"', 'fill="currentColor"')
+      .replace('<svg', '<svg style="color:#ffd60a;"');
+  }
+  return svg.replace('<svg', '<svg style="color:var(--text-muted);"');
 }
 
 /**

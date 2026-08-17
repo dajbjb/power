@@ -8,7 +8,7 @@ export function showUpdateStateInSettings(waitingWorker) {
   const updateStatus = document.getElementById('settings-update-status');
   const checkUpdateRow = document.getElementById('row-settings-check-update');
   if (updateStatus && checkUpdateRow) {
-    updateStatus.innerHTML = '<button id="settings-update-now-btn" class="ios-update-badge-btn">עדכן 🚀</button>';
+    updateStatus.innerHTML = `<button id="settings-update-now-btn" class="ios-update-badge-btn">עדכן ${getCustomIcon('rocket')}</button>`;
     checkUpdateRow.classList.remove('checking');
     
     const updateNowBtn = document.getElementById('settings-update-now-btn');
@@ -298,6 +298,17 @@ export function initPremiumSettings() {
 
   resetSettingsViews();
 
+  // Exposed so every "go to <sub-view>" handler (here, in admin.js, and
+  // clearUserSession's forced return-to-settings on logout) can start from a
+  // guaranteed-clean slate instead of only hiding settingsMainView. Each
+  // handler used to hide just the main view and show itself, trusting that
+  // whichever sub-view was open before was already closed via its own "back"
+  // button — but sub-views are also left behind by paths that don't go
+  // through that back button (switching main tabs, an auth session dropping
+  // while a sub-view is open), so two sub-views could end up unhidden at
+  // once, rendered on top of each other.
+  window.resetSettingsSubViews = resetSettingsViews;
+
   const settingsNavBtn = document.querySelector('[data-tab="settings"]');
   if (settingsNavBtn) {
     settingsNavBtn.addEventListener('click', resetSettingsViews);
@@ -306,6 +317,7 @@ export function initPremiumSettings() {
   // Bind Account View
   if (goToAccountBtn) {
     goToAccountBtn.addEventListener('click', () => {
+      resetSettingsViews();
       if (settingsMainView) settingsMainView.classList.add('hide');
       if (accountView) accountView.classList.remove('hide');
     });
@@ -320,6 +332,7 @@ export function initPremiumSettings() {
   // Bind Display View
   if (goToDisplayBtn) {
     goToDisplayBtn.addEventListener('click', () => {
+      resetSettingsViews();
       if (settingsMainView) settingsMainView.classList.add('hide');
       if (displayView) displayView.classList.remove('hide');
     });
@@ -457,7 +470,7 @@ export function initPremiumSettings() {
       SafeStorage.setItem('aura-card-bg-color', color);
       applyDisplayPreferences();
       saveAllDisplaySettingsToCloud();
-      showPremiumToast(`גוון הכרטיסיות עודכן! 🎨`, 'success');
+      showPremiumToast(`גוון הכרטיסיות עודכן!`, 'success');
     });
   });
 
@@ -471,7 +484,7 @@ export function initPremiumSettings() {
     });
     customCardColorPicker.addEventListener('change', () => {
       saveAllDisplaySettingsToCloud();
-      showPremiumToast(`גוון כרטיסיות אישי נשמר! 🎨`, 'success');
+      showPremiumToast(`גוון כרטיסיות אישי נשמר!`, 'success');
     });
   }
 
@@ -514,7 +527,7 @@ export function initPremiumSettings() {
       SafeStorage.setItem('aura-accent-color', color);
       applyDisplayPreferences();
       saveAllDisplaySettingsToCloud();
-      showPremiumToast(`צבע נושא עודכן! 🎨`, 'success');
+      showPremiumToast(`צבע נושא עודכן!`, 'success');
     });
   });
 
@@ -528,7 +541,7 @@ export function initPremiumSettings() {
     });
     customColorPicker.addEventListener('change', () => {
       saveAllDisplaySettingsToCloud();
-      showPremiumToast(`צבע מותאם אישית נשמר! 🎨`, 'success');
+      showPremiumToast(`צבע מותאם אישית נשמר!`, 'success');
     });
   }
 
@@ -547,7 +560,7 @@ export function initPremiumSettings() {
       SafeStorage.setItem('aura-wallpaper', wp);
       applyDisplayPreferences();
       saveAllDisplaySettingsToCloud();
-      showPremiumToast(`תמונת רקע עודכנה! 🖼️`, 'success');
+      showPremiumToast(`תמונת רקע עודכנה!`, 'success');
     });
   });
 
@@ -558,7 +571,7 @@ export function initPremiumSettings() {
       const file = e.target.files[0];
       if (!file) return;
 
-      showPremiumToast("מעבד תמונה ואיכות... 🖼️", "info");
+      showPremiumToast("מעבד תמונה ואיכות...", "info");
 
       const reader = new FileReader();
       reader.onload = (event) => {
@@ -593,7 +606,7 @@ export function initPremiumSettings() {
           applyDisplayPreferences();
           saveAllDisplaySettingsToCloud();
 
-          showPremiumToast(`תמונה אישית הועלתה ונשמרה בענן! 📸☁️`, 'success');
+          showPremiumToast(`תמונה אישית הועלתה ונשמרה בענן!`, 'success');
         };
         img.src = event.target.result;
       };
@@ -731,7 +744,7 @@ export function initPremiumSettings() {
             if (newWorker) {
               showUpdateStateInSettings(newWorker);
             } else {
-              updateStatus.textContent = 'מעודכן ✓';
+              updateStatus.innerHTML = `מעודכן ${getCustomIcon('check')}`;
               updateStatus.style.color = '#34c759'; // iOS Green
               setTimeout(() => {
                 updateStatus.textContent = 'בדוק';
@@ -740,7 +753,7 @@ export function initPremiumSettings() {
               }, 3000);
             }
           } else {
-            updateStatus.textContent = 'מעודכן ✓';
+            updateStatus.innerHTML = `מעודכן ${getCustomIcon('check')}`;
             updateStatus.style.color = '#34c759'; // iOS Green
             setTimeout(() => {
               updateStatus.textContent = 'בדוק';
@@ -750,14 +763,14 @@ export function initPremiumSettings() {
           }
         } catch (err) {
           console.error('Manual PWA update check failed:', err);
-          updateStatus.textContent = 'מעודכן ✓';
+          updateStatus.innerHTML = `מעודכן ${getCustomIcon('check')}`;
           setTimeout(() => {
             updateStatus.textContent = 'בדוק';
             checkUpdateRow.classList.remove('checking');
           }, 3000);
         }
       } else {
-        updateStatus.textContent = 'מעודכן ✓';
+        updateStatus.innerHTML = `מעודכן ${getCustomIcon('check')}`;
         setTimeout(() => {
           updateStatus.textContent = 'בדוק';
           checkUpdateRow.classList.remove('checking');
@@ -847,15 +860,15 @@ export function initPremiumSettings() {
     let statusColor = "#ff9500"; // Orange
 
     if (!isOnline) {
-      statusText = "מנותק (אין חיבור לרשת) 🔌";
+      statusText = "מנותק (אין חיבור לרשת)";
       statusColor = "#ff3b30"; // Red
     } else if (enabled) {
-      statusText = "מחובר ומסונכרן ⚡";
+      statusText = "מחובר ומסונכרן";
       statusColor = "#34c759"; // Green
     }
 
     if (syncStatusBadge) {
-      syncStatusBadge.textContent = enabled ? (isOnline ? "מחובר ⚡" : "אין רשת 🔌") : "מנותק";
+      syncStatusBadge.innerHTML = enabled ? (isOnline ? `מחובר ${getCustomIcon('sync')}` : `אין רשת ${getCustomIcon('refresh')}`) : "מנותק";
       syncStatusBadge.style.color = statusColor;
     }
 
@@ -932,6 +945,7 @@ export function initPremiumSettings() {
 
   if (goToSyncBtn && settingsMainView && syncView) {
     goToSyncBtn.addEventListener('click', () => {
+      resetSettingsViews();
       settingsMainView.classList.add('hide');
       syncView.classList.remove('hide');
       updateSyncUI();
@@ -974,7 +988,7 @@ export function initPremiumSettings() {
       } finally {
         syncActionNow.style.pointerEvents = 'auto';
         syncActionNow.style.opacity = '1';
-        syncActionNow.textContent = "🔄 סנכרן כעת ורענן נתונים";
+        syncActionNow.innerHTML = `${getCustomIcon('refresh')} סנכרן כעת ורענן נתונים`;
         updateSyncUI();
       }
     });
@@ -1010,14 +1024,14 @@ export function initPremiumSettings() {
         const nowTs = Date.now().toString();
         SafeStorage.setItem(`aura-last-sync-time_${state.currentUser.uid}`, nowTs);
         SafeStorage.setItem(`aura-last-sync_${state.currentUser.uid}`, nowTs);
-        showPremiumToast("הסנכרון לענן הופעל והנתונים הועלו בהצלחה! ⚡", "success");
+        showPremiumToast("הסנכרון לענן הופעל והנתונים הועלו בהצלחה!", "success");
       } catch (err) {
         console.error("Reconnecting sync failed:", err);
         showPremiumToast("חיבור הגיבוי נכשל. ודא שחיבור האינטרנט פעיל.", "error");
       } finally {
         syncActionConnect.style.pointerEvents = 'auto';
         syncActionConnect.style.opacity = '1';
-        syncActionConnect.textContent = "⚡ הפעל סנכרון ענן והעלה נתונים";
+        syncActionConnect.innerHTML = `${getCustomIcon('sync')} הפעל סנכרון ענן והעלה נתונים`;
         updateSyncUI();
       }
     });
@@ -1043,7 +1057,7 @@ export function initPremiumSettings() {
         } finally {
           syncActionDelete.style.pointerEvents = 'auto';
           syncActionDelete.style.opacity = '1';
-          syncActionDelete.textContent = "🗑️ מחק את כל הנתונים השמורים בענן";
+          syncActionDelete.innerHTML = `${getCustomIcon('trash')} מחק את כל הנתונים השמורים בענן`;
           updateSyncUI();
         }
       }
@@ -1061,14 +1075,14 @@ export function initPremiumSettings() {
         try {
           const { deleteSpecificCloudCategory } = await import("../utils/db.js");
           await deleteSpecificCloudCategory(state.currentUser.uid, 'workoutHistory');
-          showPremiumToast("היסטוריית האימונים נמחקה מהענן בהצלחה! 🗑️", "success");
+          showPremiumToast("היסטוריית האימונים נמחקה מהענן בהצלחה!", "success");
         } catch (err) {
           console.error("Deleting workout history from cloud failed:", err);
           showPremiumToast("מחיקת ההיסטוריה מהענן נכשלה.", "error");
         } finally {
           syncActionDeleteHistory.style.pointerEvents = 'auto';
           syncActionDeleteHistory.style.opacity = '1';
-          syncActionDeleteHistory.textContent = "🗑️ מחק היסטוריה מהענן בלבד";
+          syncActionDeleteHistory.innerHTML = `${getCustomIcon('trash')} מחק היסטוריה מהענן בלבד`;
           updateSyncUI();
         }
       }
@@ -1111,11 +1125,11 @@ export function initPremiumSettings() {
       }
 
       const categoriesMap = [
-        { key: 'customExercises', title: '✨ תרגילים מותאמים אישית', labelKey: 'name' },
-        { key: 'customLocations', title: '📍 מיקומים מותאמים אישית', labelKey: 'name' },
-        { key: 'workoutHistory', title: '📋 היסטוריית אימונים', labelKey: 'locationName' },
-        { key: 'futureWorkouts', title: '📅 אימונים מתוכננים', labelKey: 'location' },
-        { key: 'favoriteExercises', title: '⭐ תרגילים מועדפים', isStringArray: true }
+        { key: 'customExercises', title: `${getCustomIcon('sparkles')} תרגילים מותאמים אישית`, labelKey: 'name' },
+        { key: 'customLocations', title: `${getCustomIcon('location')} מיקומים מותאמים אישית`, labelKey: 'name' },
+        { key: 'workoutHistory', title: `${getCustomIcon('analytics')} היסטוריית אימונים`, labelKey: 'locationName' },
+        { key: 'futureWorkouts', title: `${getCustomIcon('calendar')} אימונים מתוכננים`, labelKey: 'location' },
+        { key: 'favoriteExercises', title: `${getCustomIcon('star')} תרגילים מועדפים`, isStringArray: true }
       ];
 
       let hasAnyItems = false;
@@ -1136,7 +1150,7 @@ export function initPremiumSettings() {
             return `
               <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.06);">
                 <button class="delete-cloud-item-btn" data-cat="${escapeHTML(cat.key)}" data-itemid="${escapeHTML(itemId)}" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
-                  🗑️ מחק בענן
+                  ${getCustomIcon('trash')} מחק בענן
                 </button>
                 <div style="text-align: right;">
                   <div style="font-weight: 700; font-size: 0.88rem; color: #fff;">${escapeHTML(displayTitle)}</div>
@@ -1173,7 +1187,7 @@ export function initPremiumSettings() {
             try {
               const { deleteSpecificCloudItem } = await import("../utils/db.js");
               await deleteSpecificCloudItem(state.currentUser.uid, categoryKey, itemKey);
-              showPremiumToast("הפריט נמחק בהצלחה מהענן! 🗑️", "success");
+              showPremiumToast("הפריט נמחק בהצלחה מהענן!", "success");
               openCloudInspector();
             } catch (err) {
               console.error("Failed to delete item from cloud:", err);
